@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   });
 
   if (!course) {
-    return NextResponse.json({ error: "Course is not seeded in the database." }, { status: 404 });
+    return NextResponse.json({ error: "Course is not available yet." }, { status: 404 });
   }
 
   const existing = await prisma.progress.findFirst({

@@ -1,4 +1,5 @@
 import { CheckCircle2, ExternalLink, LockKeyhole } from "lucide-react";
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { QuizPreview } from "@/components/course/quiz-preview";
@@ -90,8 +91,17 @@ export default async function CoursePage({ params }: CoursePageProps) {
             <h2 className="text-lg font-black text-white">{dictionary.course.prerequisites}</h2>
             <ul className="mt-4 space-y-3">
               {course.prerequisites[locale].map((item) => (
-                <li className="text-sm leading-6 text-slate-300" key={item}>
-                  {item}
+                <li className="text-sm leading-6 text-slate-300" key={`${item.label}-${item.courseSlug ?? "plain"}`}>
+                  {item.courseSlug ? (
+                    <Link
+                      className="focus-ring inline-flex items-center gap-2 rounded-sm text-slate-100 underline decoration-mint/45 underline-offset-4 transition hover:text-mint"
+                      href={`/courses/${item.courseSlug}`}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    item.label
+                  )}
                 </li>
               ))}
             </ul>
@@ -128,7 +138,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         <section className="mt-8">
           <h2 className="text-2xl font-black text-white">{dictionary.course.quiz}</h2>
           <div className="mt-4">
-            <QuizPreview questions={course.quiz[locale]} />
+            <QuizPreview locale={locale} questions={course.quiz[locale]} />
           </div>
         </section>
 
@@ -151,7 +161,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </section>
 
         <div className="mt-8">
-          <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} />
+          <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} locale={locale} />
         </div>
         </div>
       </article>

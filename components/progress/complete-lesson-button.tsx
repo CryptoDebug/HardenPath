@@ -2,17 +2,33 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import type { Locale } from "@/lib/i18n-client";
 
 type CompleteLessonButtonProps = {
   label: string;
   courseSlug: string;
   initialCompleted: boolean;
+  locale: Locale;
 };
 
-export function CompleteLessonButton({ label, courseSlug, initialCompleted }: CompleteLessonButtonProps) {
+const copy = {
+  fr: {
+    completed: "Terminé",
+    error: "Validation indisponible.",
+    saving: "Validation..."
+  },
+  en: {
+    completed: "Completed",
+    error: "Validation unavailable.",
+    saving: "Saving..."
+  }
+} satisfies Record<Locale, Record<string, string>>;
+
+export function CompleteLessonButton({ label, courseSlug, initialCompleted, locale }: CompleteLessonButtonProps) {
   const [done, setDone] = useState(initialCompleted);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
+  const labels = copy[locale];
 
   async function completeCourse() {
     setIsSaving(true);
@@ -27,7 +43,7 @@ export function CompleteLessonButton({ label, courseSlug, initialCompleted }: Co
     setIsSaving(false);
 
     if (!response.ok) {
-      setError("Validation unavailable.");
+      setError(labels.error);
       return;
     }
 
@@ -36,16 +52,16 @@ export function CompleteLessonButton({ label, courseSlug, initialCompleted }: Co
 
   return (
     <div>
-    <button
-      className="hp-button-primary disabled:cursor-default disabled:bg-paper/65"
-      disabled={done || isSaving}
-      onClick={completeCourse}
-      type="button"
-    >
-      <CheckCircle2 aria-hidden className="h-4 w-4" />
-      {done ? "Completed" : isSaving ? "Saving..." : label}
-    </button>
-    {error ? <p className="mt-3 text-sm font-bold text-coral">{error}</p> : null}
+      <button
+        className="hp-button-primary disabled:cursor-default disabled:bg-paper/65"
+        disabled={done || isSaving}
+        onClick={completeCourse}
+        type="button"
+      >
+        <CheckCircle2 aria-hidden className="h-4 w-4" />
+        {done ? labels.completed : isSaving ? labels.saving : label}
+      </button>
+      {error ? <p className="mt-3 text-sm font-bold text-coral">{error}</p> : null}
     </div>
   );
 }
