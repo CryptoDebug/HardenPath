@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-hardenpath}
+      POSTGRES_USER: ${POSTGRES_USER:-hardenpath}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hardenpath_dev_password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hardenpath} -d ${POSTGRES_DB:-hardenpath}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-hardenpath}:${POSTGRES_PASSWORD:-hardenpath_dev_password}@db:5432/${POSTGRES_DB:-hardenpath}?schema=public
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-with-openssl-rand-base64-32}
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres-data:

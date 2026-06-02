@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "categories": "Categories",
+    "ethics": "Ethics charter",
+    "account": "Account",
+    "switchLabel": "Switch to French"
+  },
+  "home": {
+    "eyebrow": "Progressive cyber path",
+    "title": "Learn cybersecurity through structure, evidence, and practice.",
+    "body": "HardenPath organizes fundamentals, controlled labs, quizzes, and badges into a readable path. The goal is to build useful, legal, and verifiable skills.",
+    "continue": "Continue path",
+    "ethics": "Read charter",
+    "progress": "Overall progress",
+    "weekly": "Weekly target",
+    "free": "Free",
+    "premium": "Premium",
+    "featured": "Recommended modules",
+    "categories": "Cyber categories",
+    "badges": "Badges to unlock",
+    "viewCategory": "View category"
+  },
+  "category": {
+    "levelFilter": "Filter by level",
+    "all": "All",
+    "modules": "Modules",
+    "freeOnly": "Free access",
+    "premiumIncluded": "Premium included"
+  },
+  "course": {
+    "objectives": "Objectives",
+    "prerequisites": "Prerequisites",
+    "content": "Content",
+    "resources": "Official resources",
+    "exercises": "Exercises",
+    "quiz": "Validation quiz",
+    "complete": "Mark complete",
+    "premiumNotice": "This module includes premium exercises or validation."
+  },
+  "account": {
+    "title": "Account and progress",
+    "body": "Create a local account to keep progress, quiz attempts, badges, and premium access.",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "signin": "Sign in",
+    "register": "Create account",
+    "signout": "Sign out",
+    "localAuth": "Local authentication"
+  },
+  "ethics": {
+    "title": "HardenPath ethics charter",
+    "body": "The platform teaches cybersecurity within a legal, defensive, and responsible framework.",
+    "principles": [
+      "Only run offensive tests on systems you own or have explicit permission to assess.",
+      "Prefer labs, CTFs, and isolated environments.",
+      "Document risk carefully and respect confidentiality.",
+      "Do not publish sensitive data, credentials, real exploitation evidence, or workflows aimed at unauthorized targets."
+    ]
+  }
+}

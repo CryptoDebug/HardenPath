@@ -1,0 +1,11 @@
+.next
+.gitdata
+node_modules
+.npm-cache
+dist
+coverage
+.env
+.env.local
+.env.*.local
+*.log
+postgres-data
