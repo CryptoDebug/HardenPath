@@ -29,6 +29,13 @@ Contributions are welcome when they preserve the legal, ethical, and educational
 
 ## Getting Started
 
+### Requirements
+
+- Node.js 22 or newer
+- npm
+- Docker Desktop or another Docker Compose compatible runtime
+- Git
+
 ```bash
 npm install
 cp .env.example .env
@@ -49,6 +56,70 @@ node -e "console.log(crypto.randomBytes(32).toString('base64'))"
 
 Put the generated value in `.env`.
 
+On Windows PowerShell, use this command instead of `cp`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+### Environment Variables
+
+Docker Compose reads `.env` automatically. The same file is also used by Prisma and Next.js when running locally.
+
+Required variables:
+
+- `DATABASE_URL`: PostgreSQL connection string used by Prisma and the app.
+- `POSTGRES_DB`: database name created by Docker Compose.
+- `POSTGRES_USER`: PostgreSQL user created by Docker Compose.
+- `POSTGRES_PASSWORD`: PostgreSQL password. Change it for production.
+- `NEXTAUTH_URL`: public URL of the app, usually `http://localhost:3000` locally.
+- `NEXTAUTH_SECRET`: random secret used by NextAuth. Generate a strong one before real use.
+
+### Daily Development
+
+After the first setup, you usually only need:
+
+```bash
+docker compose up -d db
+npm run dev
+```
+
+Run migrations only when the Prisma schema changes:
+
+```bash
+npm run db:migrate
+```
+
+Run the seed again only when catalog seed data changes or when using a fresh database:
+
+```bash
+npm run db:seed
+```
+
+### Useful Checks
+
+```bash
+npm run lint
+npm run build
+```
+
+### Cleanup
+
+These folders are generated and can be removed safely:
+
+```bash
+rm -rf .next node_modules
+```
+
+On Windows PowerShell:
+
+```powershell
+Remove-Item .next -Recurse -Force
+Remove-Item node_modules -Recurse -Force
+```
+
+Reinstall dependencies with `npm install`.
+
 ## Self-Hosting
 
 For a full local stack:
@@ -57,7 +128,9 @@ For a full local stack:
 docker compose up --build
 ```
 
-Docker Compose reads `.env` automatically. For production, replace `NEXTAUTH_SECRET`, use strong PostgreSQL credentials, and put the app behind HTTPS.
+For production, replace `NEXTAUTH_SECRET`, use strong PostgreSQL credentials, and put the app behind HTTPS.
+
+The app service in `docker-compose.yml` connects to PostgreSQL through the internal Docker hostname `db`. Local Prisma commands connect to `localhost:5432` through `DATABASE_URL`.
 
 ## Content Model
 

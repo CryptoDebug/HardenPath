@@ -34,6 +34,27 @@ docs(contributing): add contribution workflow
 - Add database fields through Prisma migrations.
 - Keep user data in PostgreSQL and public learning content in versioned files.
 
+## Local Verification
+
+Before opening a pull request, run:
+
+```bash
+npm run lint
+npm run build
+```
+
+If you changed `prisma/schema.prisma`, also run:
+
+```bash
+npm run db:migrate
+```
+
+Commit the generated folder under `prisma/migrations/`.
+
+## Environment
+
+Do not commit `.env`. Use `.env.example` as the public template and document any new variable there.
+
 ## Attribution
 
 HardenPath is an original project by CryptoDebug. Public forks and deployments should keep visible attribution to the original project.
