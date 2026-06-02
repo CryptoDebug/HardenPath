@@ -5,7 +5,7 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "HardenPath",
-  description: "Bilingual open source cybersecurity learning platform."
+  description: "Cybersecurity training paths, labs, validation, and badges."
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

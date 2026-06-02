@@ -7,10 +7,10 @@ type BadgeProps = {
 
 export function Badge({ children, tone = "muted" }: BadgeProps) {
   const tones = {
-    mint: "border-mint/45 bg-mint/10 text-mint",
-    amber: "border-amber/45 bg-amber/10 text-amber",
-    coral: "border-coral/45 bg-coral/10 text-coral",
-    muted: "border-white/12 bg-white/6 text-paper/85"
+    mint: "border-mint/35 bg-mint/10 text-mint",
+    amber: "border-amber/35 bg-amber/10 text-amber",
+    coral: "border-coral/35 bg-coral/10 text-coral",
+    muted: "border-white/10 bg-white/5 text-steel"
   };
 
   return (

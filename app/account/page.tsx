@@ -29,19 +29,19 @@ export default async function AccountPage() {
         <div className="grid gap-4">
           <div className="hp-panel rounded-md p-5">
             <ChartNoAxesColumnIncreasing aria-hidden className="h-6 w-6 text-mint" />
-            <h2 className="mt-4 text-xl font-black text-white">Learning state</h2>
+            <h2 className="mt-4 text-xl font-black text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
             {session ? (
               <div className="mt-5 space-y-4">
                 <div>
                   <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
-                    <span>{locale === "fr" ? "Progression globale" : "Overall progress"}</span>
+                    <span>{locale === "fr" ? "Maîtrise globale" : "Overall mastery"}</span>
                     <span>{stats.totalPercent}%</span>
                   </div>
                   <ProgressBar value={stats.totalPercent} />
                 </div>
                 <div>
                   <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
-                    <span>{locale === "fr" ? "Modules terminés" : "Completed modules"}</span>
+                    <span>{locale === "fr" ? "Modules validés" : "Validated modules"}</span>
                     <span>
                       {stats.completedCourses}/{stats.totalCourses}
                     </span>
@@ -52,8 +52,8 @@ export default async function AccountPage() {
             ) : (
               <p className="mt-5 rounded-md border border-white/10 bg-ink/55 p-4 text-sm leading-6 text-slate-300">
                 {locale === "fr"
-                  ? "Aucune donnée de progression n'est affichée tant que tu n'es pas connecté."
-                  : "No progress data is displayed until you are signed in."}
+                  ? "Connecte-toi pour afficher tes jalons, validations et badges."
+                  : "Sign in to display milestones, validations, and badges."}
               </p>
             )}
           </div>
@@ -68,17 +68,17 @@ export default async function AccountPage() {
                     ? `${stats.badgeCount} badge(s) débloqué(s).`
                     : `${stats.badgeCount} badge(s) unlocked.`
                   : locale === "fr"
-                    ? "Connecte-toi pour débloquer des badges."
-                    : "Sign in to unlock badges."}
+                    ? "Valide des modules pour débloquer des badges."
+                    : "Validate modules to unlock badges."}
               </p>
             </div>
             <div className="hp-panel rounded-md p-5">
-              <CreditCard aria-hidden className="h-6 w-6 text-coral" />
-              <h2 className="mt-4 text-xl font-black text-white">Freemium</h2>
+              <CreditCard aria-hidden className="h-6 w-6 text-steel" />
+              <h2 className="mt-4 text-xl font-black text-white">{locale === "fr" ? "Niveaux d'accès" : "Access levels"}</h2>
               <p className="mt-2 text-sm leading-6 text-slate-300">
                 {locale === "fr"
-                  ? "Les plans et abonnements sont prêts en base, sans valeur fictive affichée."
-                  : "Plans and subscriptions are ready in the database, with no fake value displayed."}
+                  ? "Des parcours gratuits et des validations avancées peuvent être distingués selon le niveau d'accès."
+                  : "Free paths and advanced validations can be separated by access level."}
               </p>
             </div>
           </div>

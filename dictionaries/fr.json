@@ -1,24 +1,24 @@
 {
   "nav": {
-    "categories": "Catégories",
-    "ethics": "Charte éthique",
+    "categories": "Parcours",
+    "ethics": "Règles d'engagement",
     "account": "Compte",
     "switchLabel": "Basculer en anglais"
   },
   "home": {
-    "eyebrow": "Parcours cyber progressif",
-    "title": "Apprends la cybersécurité avec méthode, preuves et pratique.",
-    "body": "HardenPath organise les fondamentaux, les labs contrôlés, les QCM et les badges dans une progression lisible. L'objectif est de construire des compétences utiles, légales et vérifiables.",
-    "continue": "Continuer le parcours",
-    "ethics": "Lire la charte",
+    "eyebrow": "Centre d'entraînement cyber",
+    "title": "Construis ta maîtrise cyber par niveaux, pratique et validations.",
+    "body": "HardenPath organise l'apprentissage en parcours lisibles : fondamentaux, laboratoires autorisés, QCM, jalons et badges. Chaque étape vise une compétence claire.",
+    "continue": "Commencer l'entraînement",
+    "ethics": "Voir les règles",
     "progress": "Progression globale",
     "weekly": "Objectif de semaine",
     "free": "Gratuit",
     "premium": "Premium",
     "featured": "Modules recommandés",
-    "categories": "Catégories cyber",
+    "categories": "Parcours cyber",
     "badges": "Badges à débloquer",
-    "viewCategory": "Voir la catégorie"
+    "viewCategory": "Ouvrir le parcours"
   },
   "category": {
     "levelFilter": "Filtrer par niveau",
@@ -29,31 +29,31 @@
   },
   "course": {
     "objectives": "Objectifs",
-    "prerequisites": "Prérequis",
-    "content": "Contenu",
+    "prerequisites": "Pré requis",
+    "content": "Briefing",
     "resources": "Ressources officielles",
     "exercises": "Exercices",
     "quiz": "QCM de validation",
-    "complete": "Marquer comme terminé",
+    "complete": "Valider le module",
     "premiumNotice": "Ce module contient des exercices ou validations premium."
   },
   "account": {
-    "title": "Compte et progression",
-    "body": "Crée un compte local pour conserver progression, tentatives de quiz, badges et droits premium.",
+    "title": "Espace d'entraînement",
+    "body": "Connecte-toi pour suivre tes validations, reprendre tes parcours et débloquer tes badges.",
     "email": "Email",
     "password": "Mot de passe",
     "name": "Nom",
     "signin": "Se connecter",
     "register": "Créer le compte",
     "signout": "Se déconnecter",
-    "localAuth": "Authentification locale"
+    "localAuth": "Accès apprenant"
   },
   "ethics": {
-    "title": "Charte éthique HardenPath",
-    "body": "La plateforme enseigne la cybersécurité dans un cadre légal, défensif et responsable.",
+    "title": "Règles d'engagement HardenPath",
+    "body": "L'entraînement se fait dans un cadre légal, défensif et responsable.",
     "principles": [
       "N'exécute des tests offensifs que sur des systèmes qui t'appartiennent ou pour lesquels tu as une autorisation explicite.",
-      "Privilégie les labs, CTF et environnements isolés.",
+      "Privilégie les laboratoires, CTF et environnements isolés.",
       "Documente les risques avec sobriété et respecte la confidentialité.",
       "Ne publie pas de données sensibles, d'identifiants, de preuves d'exploitation réelles ou de workflows visant des cibles non autorisées."
     ]

@@ -37,7 +37,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         <AccessGate
-          body={locale === "fr" ? "Les cours, exercices, QCM et validations sont réservés aux comptes afin que la progression soit enregistrée proprement en base." : "Courses, exercises, quizzes, and validations require an account so progress is stored properly in the database."}
+          body={locale === "fr" ? "Les cours, exercices, QCM et validations demandent un compte afin de suivre ton parcours et tes jalons." : "Courses, exercises, quizzes, and validations require an account so your path and milestones can follow you."}
           cta={dictionary.account.signin}
           title={locale === "fr" ? "Connexion requise pour ouvrir ce cours" : "Sign in required to open this course"}
         />
@@ -49,9 +49,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         <AccessGate
-          body={locale === "fr" ? "Ce module est marqué premium. La structure d'abonnement est prête en base ; l'activation du paiement pourra être branchée ensuite." : "This module is marked as premium. The subscription structure is ready in the database; payment activation can be connected later."}
+          body={locale === "fr" ? "Ce module fait partie des validations avancées. Reviens-y quand ton niveau d'accès le permet." : "This module belongs to advanced validations. Return when your access level allows it."}
           cta={dictionary.account.title}
-          title={locale === "fr" ? "Module premium verrouillé" : "Premium module locked"}
+          title={locale === "fr" ? "Validation avancée verrouillée" : "Advanced validation locked"}
         />
       </div>
     );

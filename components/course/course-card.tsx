@@ -21,7 +21,7 @@ type CourseCardProps = {
 export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = false }: CourseCardProps) {
   return (
     <Link
-      className="focus-ring hp-panel group flex h-full flex-col rounded-md p-5 transition hover:-translate-y-0.5 hover:border-amber/45 hover:bg-white/8"
+      className="focus-ring hp-panel group flex h-full flex-col rounded-md p-5 transition duration-200 hover:-translate-y-0.5 hover:border-steel/35 hover:bg-white/7"
       href={locked ? "/account" : `/courses/${course.slug}`}
     >
       <div className="flex flex-wrap items-center gap-2">
@@ -33,12 +33,12 @@ export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = f
       <div className="my-5 h-px bg-white/10" />
       <div className="flex items-center justify-between text-sm text-slate-300">
         <span className="inline-flex items-center gap-2">
-          <Clock aria-hidden className="h-4 w-4 text-mint" />
+          <Clock aria-hidden className="h-4 w-4 text-steel" />
           {course.estimatedMinutes} min
         </span>
-        <span className="inline-flex items-center gap-2 font-black uppercase tracking-[0.14em] text-paper">
-          {course.isPremium || locked ? <LockKeyhole aria-hidden className="h-4 w-4 text-amber" /> : <PlayCircle aria-hidden className="h-4 w-4 text-mint" />}
-          {locked ? (locale === "fr" ? "Compte" : "Account") : "Start"}
+        <span className="inline-flex items-center gap-2 font-black uppercase tracking-[0.14em] text-steel">
+          {course.isPremium || locked ? <LockKeyhole aria-hidden className="h-4 w-4" /> : <PlayCircle aria-hidden className="h-4 w-4 text-mint" />}
+          {locked ? (locale === "fr" ? "Accès" : "Access") : locale === "fr" ? "Démarrer" : "Start"}
         </span>
       </div>
     </Link>

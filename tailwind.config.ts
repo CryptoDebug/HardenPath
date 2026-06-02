@@ -9,19 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0b1118",
-        panel: "#121a22",
-        field: "#18222b",
-        line: "#2a3642",
-        paper: "#d9d1bd",
-        mint: "#6ee7d8",
-        amber: "#f0b35a",
-        coral: "#e86f5c",
-        steel: "#8fa3b7"
+        ink: "#070b10",
+        panel: "#0e141b",
+        field: "#121a23",
+        line: "#253241",
+        paper: "#d7dde5",
+        mint: "#67d8bd",
+        amber: "#c8a45f",
+        coral: "#c76d63",
+        steel: "#8d9aaa"
       },
       boxShadow: {
         soft: "0 18px 60px rgba(0, 0, 0, 0.24)",
-        panel: "0 20px 80px rgba(2, 8, 16, 0.34)"
+        panel: "0 24px 70px rgba(0, 0, 0, 0.38)"
       }
     }
   },

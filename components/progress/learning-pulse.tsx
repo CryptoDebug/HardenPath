@@ -23,19 +23,19 @@ export function LearningPulse({
 }: LearningPulseProps) {
   const labels = {
     fr: {
-      title: "Tableau de progression",
-      body: "Connecte-toi pour suivre une progression stockée en base.",
-      authenticatedBody: "Progression réelle liée à ton compte.",
-      global: "Progression globale",
+      title: "Progression",
+      body: "Connecte-toi pour suivre tes jalons, validations et badges.",
+      authenticatedBody: "Tes jalons de parcours et validations.",
+      global: "Maîtrise globale",
       streak: "Série",
       badges: "Badges",
       target: "Modules"
     },
     en: {
-      title: "Progress board",
-      body: "Sign in to track progress stored in the database.",
-      authenticatedBody: "Real progress linked to your account.",
-      global: "Overall progress",
+      title: "Progression",
+      body: "Sign in to follow milestones, validations, and badges.",
+      authenticatedBody: "Your path milestones and validations.",
+      global: "Overall mastery",
       streak: "Streak",
       badges: "Badges",
       target: "Modules"
@@ -45,7 +45,7 @@ export function LearningPulse({
   return (
     <aside className="hp-shell rounded-md p-5">
       <div className="hp-inner">
-        <p className="hp-kicker">live dossier</p>
+        <p className="hp-kicker">training status</p>
         <h2 className="mt-2 text-lg font-black text-white">{labels.title}</h2>
         <p className="mt-2 text-sm leading-6 text-slate-300">{isAuthenticated ? labels.authenticatedBody : labels.body}</p>
         <div className="mt-5 space-y-2">
@@ -56,17 +56,17 @@ export function LearningPulse({
           <ProgressBar value={totalPercent} label={labels.global} />
         </div>
         <div className="mt-5 grid grid-cols-3 gap-3">
-          <div className="rounded-md border border-white/10 bg-ink/55 p-3">
-            <Flame aria-hidden className="h-5 w-5 text-coral" />
+          <div className="rounded-md border border-white/10 bg-ink/60 p-3">
+            <Flame aria-hidden className="h-5 w-5 text-steel" />
             <p className="mt-3 text-xl font-bold text-white">{streakDays}</p>
             <p className="text-xs text-slate-400">{labels.streak}</p>
           </div>
-          <div className="rounded-md border border-white/10 bg-ink/55 p-3">
+          <div className="rounded-md border border-white/10 bg-ink/60 p-3">
             <Award aria-hidden className="h-5 w-5 text-amber" />
             <p className="mt-3 text-xl font-bold text-white">{badgeCount}</p>
             <p className="text-xs text-slate-400">{labels.badges}</p>
           </div>
-          <div className="rounded-md border border-white/10 bg-ink/55 p-3">
+          <div className="rounded-md border border-white/10 bg-ink/60 p-3">
             <Target aria-hidden className="h-5 w-5 text-mint" />
             <p className="mt-3 text-xl font-bold text-white">
               {completedCourses}/{totalCourses}

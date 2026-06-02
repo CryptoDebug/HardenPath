@@ -40,7 +40,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
       });
 
       if (!response.ok) {
-        setMessage("Registration failed.");
+        setMessage("Account creation failed.");
         return;
       }
     }
@@ -51,16 +51,16 @@ function AuthForms({ dictionary }: AuthPanelProps) {
       redirect: false
     });
 
-    setMessage(result?.ok ? "Authenticated." : "Authentication failed.");
+    setMessage(result?.ok ? "Session active." : "Access failed.");
   }
 
   if (status === "authenticated") {
     return (
       <div className="rounded-md border border-white/10 bg-ink/55 p-5">
-        <p className="text-sm text-slate-300">Signed in as</p>
+        <p className="hp-kicker">session active</p>
         <p className="mt-1 text-lg font-semibold text-white">{session.user?.email}</p>
         <button
-          className="focus-ring mt-5 inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/8 px-4 py-3 text-sm font-black text-white transition hover:border-coral/45 hover:bg-coral/10"
+          className="focus-ring mt-5 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/7 px-4 py-3 text-sm font-black text-white transition hover:border-steel/40 hover:bg-white/10"
           onClick={() => signOut({ callbackUrl: "/account" })}
           type="button"
         >
@@ -86,7 +86,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         </button>
         <button
           className={`focus-ring inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-black ${
-            mode === "register" ? "bg-amber text-ink" : "bg-white/8 text-white"
+            mode === "register" ? "bg-steel text-ink" : "bg-white/8 text-white"
           }`}
           onClick={() => setMode("register")}
           type="button"

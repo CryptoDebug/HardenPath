@@ -27,7 +27,7 @@ export function CompleteLessonButton({ label, courseSlug, initialCompleted }: Co
     setIsSaving(false);
 
     if (!response.ok) {
-      setError("Progress could not be saved.");
+      setError("Validation unavailable.");
       return;
     }
 

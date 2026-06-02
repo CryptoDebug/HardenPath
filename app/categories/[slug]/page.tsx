@@ -44,8 +44,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           {!session ? (
             <p className="mt-4 max-w-3xl rounded-md border border-amber/35 bg-amber/10 p-4 text-sm font-bold leading-6 text-amber">
               {locale === "fr"
-                ? "Connecte-toi pour ouvrir les cours, enregistrer les validations et suivre une progression réelle."
-                : "Sign in to open lessons, save validations, and track real progress."}
+                ? "Connecte-toi pour ouvrir les modules, valider les jalons et reprendre ton parcours."
+                : "Sign in to open modules, validate milestones, and resume your path."}
             </p>
           ) : null}
           <div className="mt-7 border-t border-white/10 pt-5">

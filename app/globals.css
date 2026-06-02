@@ -18,11 +18,11 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(rgba(217, 209, 189, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(217, 209, 189, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 18% 8%, rgba(110, 231, 216, 0.11), transparent 28rem),
-    radial-gradient(circle at 86% 18%, rgba(240, 179, 90, 0.1), transparent 25rem),
-    linear-gradient(135deg, #071018 0%, #0b1118 45%, #151a1d 100%);
+    linear-gradient(rgba(141, 154, 170, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(141, 154, 170, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 18% 6%, rgba(44, 76, 112, 0.22), transparent 34rem),
+    radial-gradient(circle at 84% 18%, rgba(103, 216, 189, 0.055), transparent 26rem),
+    linear-gradient(135deg, #05080c 0%, #080d13 42%, #111820 100%);
   background-attachment: fixed;
   background-size: 42px 42px, 42px 42px, auto, auto, auto;
   color: #f3f4f6;
@@ -37,7 +37,7 @@ a {
 }
 
 ::selection {
-  background: rgba(94, 234, 212, 0.35);
+  background: rgba(103, 216, 189, 0.28);
 }
 
 .focus-ring {
@@ -47,9 +47,9 @@ a {
 .hp-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(18, 26, 34, 0.88);
-  box-shadow: 0 20px 80px rgba(2, 8, 16, 0.34);
+  border: 1px solid rgba(141, 154, 170, 0.18);
+  background: linear-gradient(180deg, rgba(18, 26, 35, 0.94), rgba(10, 15, 21, 0.94));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
 }
 
 .hp-shell::before {
@@ -58,9 +58,9 @@ a {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(217, 209, 189, 0.08), transparent 18%, transparent 82%, rgba(217, 209, 189, 0.05)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 32%);
-  opacity: 0.72;
+    linear-gradient(90deg, rgba(141, 154, 170, 0.08), transparent 18%, transparent 82%, rgba(141, 154, 170, 0.04)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 34%);
+  opacity: 0.75;
 }
 
 .hp-inner {
@@ -68,23 +68,56 @@ a {
 }
 
 .hp-panel {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(24, 34, 43, 0.72);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(141, 154, 170, 0.16);
+  background: linear-gradient(180deg, rgba(18, 26, 35, 0.82), rgba(9, 14, 20, 0.82));
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.26);
 }
 
 .hp-rule {
-  background-image: linear-gradient(90deg, rgba(110, 231, 216, 0.7), rgba(240, 179, 90, 0.55), transparent);
+  background-image: linear-gradient(90deg, rgba(103, 216, 189, 0.72), rgba(141, 154, 170, 0.35), transparent);
 }
 
 .hp-kicker {
-  @apply text-xs font-bold uppercase tracking-[0.22em] text-paper/70;
+  @apply text-xs font-bold uppercase tracking-[0.2em] text-steel;
 }
 
 .hp-button-primary {
-  @apply focus-ring inline-flex items-center gap-2 rounded-md bg-paper px-4 py-3 text-sm font-black text-ink transition hover:bg-white;
+  @apply focus-ring inline-flex items-center gap-2 rounded-md bg-paper px-4 py-3 text-sm font-black text-ink transition hover:bg-white hover:shadow-[0_0_0_4px_rgba(103,216,189,0.08)];
 }
 
 .hp-button-secondary {
-  @apply focus-ring inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition hover:border-mint/40 hover:bg-mint/10;
+  @apply focus-ring inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition hover:border-steel/40 hover:bg-white/10;
+}
+
+.hp-skill-map {
+  position: relative;
+  min-height: 240px;
+  border: 1px solid rgba(141, 154, 170, 0.14);
+  background:
+    linear-gradient(90deg, rgba(141, 154, 170, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(141, 154, 170, 0.04) 1px, transparent 1px),
+    rgba(5, 8, 12, 0.42);
+  background-size: 32px 32px;
+}
+
+.hp-skill-map::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(103, 216, 189, 0.5), rgba(141, 154, 170, 0.28), transparent);
+}
+
+.hp-node {
+  @apply relative rounded-md border border-white/10 bg-ink/80 px-3 py-2 text-xs font-black uppercase tracking-[0.16em] text-paper shadow-soft;
+}
+
+.hp-node-done {
+  @apply border-mint/35 text-mint;
+}
+
+.hp-node-locked {
+  @apply border-white/10 text-steel/75;
 }

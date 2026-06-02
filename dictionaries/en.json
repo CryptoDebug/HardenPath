@@ -1,24 +1,24 @@
 {
   "nav": {
-    "categories": "Categories",
-    "ethics": "Ethics charter",
+    "categories": "Paths",
+    "ethics": "Rules of engagement",
     "account": "Account",
     "switchLabel": "Switch to French"
   },
   "home": {
-    "eyebrow": "Progressive cyber path",
-    "title": "Learn cybersecurity through structure, evidence, and practice.",
-    "body": "HardenPath organizes fundamentals, controlled labs, quizzes, and badges into a readable path. The goal is to build useful, legal, and verifiable skills.",
-    "continue": "Continue path",
-    "ethics": "Read charter",
+    "eyebrow": "Cyber training center",
+    "title": "Build cybersecurity mastery through levels, practice, and validation.",
+    "body": "HardenPath organizes learning into clear paths: fundamentals, authorized labs, quizzes, milestones, and badges. Each step targets a concrete skill.",
+    "continue": "Start training",
+    "ethics": "View rules",
     "progress": "Overall progress",
     "weekly": "Weekly target",
     "free": "Free",
     "premium": "Premium",
     "featured": "Recommended modules",
-    "categories": "Cyber categories",
+    "categories": "Cyber paths",
     "badges": "Badges to unlock",
-    "viewCategory": "View category"
+    "viewCategory": "Open path"
   },
   "category": {
     "levelFilter": "Filter by level",
@@ -29,28 +29,28 @@
   },
   "course": {
     "objectives": "Objectives",
-    "prerequisites": "Prerequisites",
-    "content": "Content",
+    "prerequisites": "Requirements",
+    "content": "Briefing",
     "resources": "Official resources",
     "exercises": "Exercises",
     "quiz": "Validation quiz",
-    "complete": "Mark complete",
+    "complete": "Validate module",
     "premiumNotice": "This module includes premium exercises or validation."
   },
   "account": {
-    "title": "Account and progress",
-    "body": "Create a local account to keep progress, quiz attempts, badges, and premium access.",
+    "title": "Training profile",
+    "body": "Sign in to follow validations, resume paths, and unlock badges.",
     "email": "Email",
     "password": "Password",
     "name": "Name",
     "signin": "Sign in",
     "register": "Create account",
     "signout": "Sign out",
-    "localAuth": "Local authentication"
+    "localAuth": "Learner access"
   },
   "ethics": {
-    "title": "HardenPath ethics charter",
-    "body": "The platform teaches cybersecurity within a legal, defensive, and responsible framework.",
+    "title": "HardenPath rules of engagement",
+    "body": "Training happens within a legal, defensive, and responsible framework.",
     "principles": [
       "Only run offensive tests on systems you own or have explicit permission to assess.",
       "Prefer labs, CTFs, and isolated environments.",
