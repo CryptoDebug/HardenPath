@@ -84,6 +84,10 @@ docker compose up -d db
 npm run dev
 ```
 
+Open `http://localhost:3000`.
+
+In development mode, the first request to a page can be slow because Next.js compiles that route on demand. This is expected and does not represent production performance.
+
 Run migrations only when the Prisma schema changes:
 
 ```bash
@@ -102,6 +106,20 @@ npm run db:seed
 npm run lint
 npm run build
 ```
+
+### Local Production Mode
+
+To test the app closer to a deployed environment:
+
+```bash
+docker compose up -d db
+npm run build
+npm run start
+```
+
+Open `http://localhost:3000`.
+
+In production mode, pages are compiled during `npm run build`, so requests should not pay the same first-page compilation cost as `npm run dev`.
 
 ### Cleanup
 
@@ -128,7 +146,7 @@ For a full local stack:
 docker compose up --build
 ```
 
-For production, replace `NEXTAUTH_SECRET`, use strong PostgreSQL credentials, and put the app behind HTTPS.
+For production deployment, replace `NEXTAUTH_SECRET`, use strong PostgreSQL credentials, run a production build, and put the app behind HTTPS.
 
 The app service in `docker-compose.yml` connects to PostgreSQL through the internal Docker hostname `db`. Local Prisma commands connect to `localhost:5432` through `DATABASE_URL`.
 
