@@ -8,20 +8,23 @@ export default async function AccountPage() {
   const dictionary = await getDictionary(locale);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
       <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <h1 className="text-4xl font-bold text-white">{dictionary.account.title}</h1>
+        <div className="hp-shell rounded-md p-6">
+          <div className="hp-inner">
+          <p className="hp-kicker">{dictionary.account.localAuth}</p>
+          <h1 className="mt-3 text-4xl font-black text-white">{dictionary.account.title}</h1>
           <p className="mt-4 text-base leading-7 text-slate-300">{dictionary.account.body}</p>
           <div className="mt-6">
             <AuthPanel dictionary={dictionary.account} />
           </div>
+          </div>
         </div>
 
         <div className="grid gap-4">
-          <div className="rounded-lg border border-white/10 bg-white/8 p-5 shadow-soft">
+          <div className="hp-panel rounded-md p-5">
             <ChartNoAxesColumnIncreasing aria-hidden className="h-6 w-6 text-mint" />
-            <h2 className="mt-4 text-xl font-semibold text-white">Learning state</h2>
+            <h2 className="mt-4 text-xl font-black text-white">Learning state</h2>
             <div className="mt-5 space-y-4">
               <div>
                 <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
@@ -41,16 +44,16 @@ export default async function AccountPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-lg border border-white/10 bg-white/7 p-5">
+            <div className="hp-panel rounded-md p-5">
               <Award aria-hidden className="h-6 w-6 text-amber" />
-              <h2 className="mt-4 text-xl font-semibold text-white">Badges</h2>
+              <h2 className="mt-4 text-xl font-black text-white">Badges</h2>
               <p className="mt-2 text-sm leading-6 text-slate-300">
                 {locale === "fr" ? "Les badges gagnés seront persistés dans userBadges." : "Earned badges will be persisted in userBadges."}
               </p>
             </div>
-            <div className="rounded-lg border border-white/10 bg-white/7 p-5">
+            <div className="hp-panel rounded-md p-5">
               <CreditCard aria-hidden className="h-6 w-6 text-coral" />
-              <h2 className="mt-4 text-xl font-semibold text-white">Freemium</h2>
+              <h2 className="mt-4 text-xl font-black text-white">Freemium</h2>
               <p className="mt-2 text-sm leading-6 text-slate-300">
                 {locale === "fr" ? "Les plans et abonnements sont prêts en base." : "Plans and subscriptions are ready in the database."}
               </p>

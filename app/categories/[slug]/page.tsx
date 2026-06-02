@@ -32,14 +32,16 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const categoryCourses = getCoursesByCategory(category.slug).filter((course) => activeLevel === "all" || course.level === activeLevel);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="rounded-lg border border-white/10 bg-white/8 p-6 shadow-soft sm:p-8">
-        <Badge tone={category.color}>{dictionary.category.modules}</Badge>
-        <h1 className="mt-5 text-4xl font-bold text-white">{category.title[locale]}</h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
-        <div className="mt-7">
-          <p className="mb-3 text-sm font-semibold text-slate-200">{dictionary.category.levelFilter}</p>
-          <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="hp-shell rounded-md p-6 sm:p-8">
+        <div className="hp-inner">
+          <Badge tone={category.color}>{dictionary.category.modules}</Badge>
+          <h1 className="mt-5 text-4xl font-black text-white">{category.title[locale]}</h1>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
+          <div className="mt-7 border-t border-white/10 pt-5">
+            <p className="hp-kicker mb-3">{dictionary.category.levelFilter}</p>
+            <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
+          </div>
         </div>
       </section>
 

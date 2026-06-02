@@ -12,7 +12,7 @@ export function CompleteLessonButton({ label }: CompleteLessonButtonProps) {
 
   return (
     <button
-      className="focus-ring inline-flex items-center gap-2 rounded-md bg-mint px-4 py-3 text-sm font-bold text-ink transition hover:bg-teal-200 disabled:cursor-default disabled:bg-mint/70"
+      className="hp-button-primary disabled:cursor-default disabled:bg-paper/65"
       disabled={done}
       onClick={() => setDone(true)}
       type="button"

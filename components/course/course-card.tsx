@@ -20,21 +20,22 @@ type CourseCardProps = {
 export function CourseCard({ course, locale, freeLabel, premiumLabel }: CourseCardProps) {
   return (
     <Link
-      className="focus-ring group flex h-full flex-col rounded-lg border border-white/10 bg-panel/80 p-5 transition hover:-translate-y-0.5 hover:border-amber/45 hover:bg-white/9"
+      className="focus-ring hp-panel group flex h-full flex-col rounded-md p-5 transition hover:-translate-y-0.5 hover:border-amber/45 hover:bg-white/8"
       href={`/courses/${course.slug}`}
     >
       <div className="flex flex-wrap items-center gap-2">
         <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? premiumLabel : freeLabel}</Badge>
         <Badge>{levelLabels[course.level][locale]}</Badge>
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-white">{course.title[locale]}</h3>
+      <h3 className="mt-4 text-lg font-black text-white">{course.title[locale]}</h3>
       <p className="mt-2 flex-1 text-sm leading-6 text-slate-300">{course.summary[locale]}</p>
-      <div className="mt-5 flex items-center justify-between text-sm text-slate-300">
+      <div className="my-5 h-px bg-white/10" />
+      <div className="flex items-center justify-between text-sm text-slate-300">
         <span className="inline-flex items-center gap-2">
           <Clock aria-hidden className="h-4 w-4 text-mint" />
           {course.estimatedMinutes} min
         </span>
-        <span className="inline-flex items-center gap-2 font-semibold text-white">
+        <span className="inline-flex items-center gap-2 font-black uppercase tracking-[0.14em] text-paper">
           {course.isPremium ? <LockKeyhole aria-hidden className="h-4 w-4 text-amber" /> : <PlayCircle aria-hidden className="h-4 w-4 text-mint" />}
           Start
         </span>

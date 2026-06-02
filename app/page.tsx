@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, BookOpenCheck, ChevronRight, LockKeyhole, Sparkles } from "lucide-react";
+import { Award, BookOpenCheck, ChevronRight, Flame, LockKeyhole, Map, ShieldCheck } from "lucide-react";
 import { CategoryCard } from "@/components/course/category-card";
 import { CourseCard } from "@/components/course/course-card";
 import { LearningPulse } from "@/components/progress/learning-pulse";
@@ -12,31 +12,49 @@ export default async function HomePage() {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
   const featuredCourses = courses.slice(0, 3);
+  const pathSteps = locale === "fr"
+    ? ["Cadre éthique", "Fondations", "Lab contrôlé", "Validation", "Badge"]
+    : ["Ethical scope", "Foundations", "Controlled lab", "Validation", "Badge"];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-        <div className="rounded-lg border border-white/10 bg-white/8 p-6 shadow-soft sm:p-8">
-          <Badge tone="mint">{dictionary.home.eyebrow}</Badge>
-          <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-tight text-white sm:text-5xl">
-            {dictionary.home.title}
-          </h1>
-          <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">{dictionary.home.body}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              className="focus-ring inline-flex items-center gap-2 rounded-md bg-mint px-4 py-3 text-sm font-bold text-ink transition hover:bg-teal-200"
-              href="/categories/network"
-            >
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <section className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+        <div className="hp-shell rounded-md p-6 sm:p-8">
+          <div className="hp-inner">
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge tone="mint">{dictionary.home.eyebrow}</Badge>
+              <span className="hp-kicker">open source / self-hosted</span>
+            </div>
+            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
+              {dictionary.home.title}
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">{dictionary.home.body}</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link className="hp-button-primary" href="/categories/network">
               <BookOpenCheck aria-hidden className="h-4 w-4" />
               {dictionary.home.continue}
             </Link>
-            <Link
-              className="focus-ring inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/7 px-4 py-3 text-sm font-bold text-white transition hover:border-amber/45 hover:bg-amber/10"
-              href="/ethics"
-            >
+              <Link className="hp-button-secondary" href="/ethics">
               <ChevronRight aria-hidden className="h-4 w-4" />
               {dictionary.home.ethics}
             </Link>
+            </div>
+
+            <div className="mt-8 rounded-md border border-white/10 bg-ink/45 p-4">
+              <div className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-[0.16em] text-paper">
+                <Map aria-hidden className="h-4 w-4 text-mint" />
+                {locale === "fr" ? "Parcours actif" : "Active path"}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-5">
+                {pathSteps.map((step, index) => (
+                  <div className="relative rounded-[4px] border border-white/10 bg-white/6 p-3" key={step}>
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-mint">0{index + 1}</span>
+                    <p className="mt-2 text-sm font-bold leading-5 text-white">{step}</p>
+                    {index < 3 ? <div className="mt-3 h-1 rounded-[2px] bg-mint/55" /> : <div className="mt-3 h-1 rounded-[2px] bg-white/10" />}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <LearningPulse locale={locale} />
@@ -68,6 +86,7 @@ export default async function HomePage() {
               locale={locale}
               moduleCount={getCoursesByCategory(category.slug).length}
               progress={[42, 15, 9, 28, 18, 5, 11, 33, 4, 22][index]}
+              index={index}
             />
           ))}
         </div>
@@ -76,12 +95,15 @@ export default async function HomePage() {
       <section className="mt-12 grid gap-4 md:grid-cols-3">
         {[
           { icon: Award, value: "10", label: dictionary.home.badges, tone: "amber" as const },
-          { icon: Sparkles, value: "3", label: dictionary.home.weekly, tone: "mint" as const },
+          { icon: Flame, value: "4", label: dictionary.home.weekly, tone: "mint" as const },
           { icon: LockKeyhole, value: "Freemium", label: dictionary.home.premium, tone: "coral" as const }
         ].map((item) => (
-          <div className="rounded-lg border border-white/10 bg-white/7 p-5" key={item.label}>
-            <item.icon aria-hidden className="h-6 w-6 text-mint" />
-            <p className="mt-4 text-2xl font-bold text-white">{item.value}</p>
+          <div className="hp-panel rounded-md p-5" key={item.label}>
+            <div className="flex items-center justify-between">
+              <item.icon aria-hidden className="h-6 w-6 text-mint" />
+              <ShieldCheck aria-hidden className="h-4 w-4 text-paper/45" />
+            </div>
+            <p className="mt-4 text-2xl font-black text-white">{item.value}</p>
             <p className="mt-1 text-sm text-slate-300">{item.label}</p>
           </div>
         ))}

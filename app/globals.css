@@ -18,9 +18,13 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 15% 0%, rgba(94, 234, 212, 0.14), transparent 32rem),
-    radial-gradient(circle at 88% 12%, rgba(248, 198, 109, 0.12), transparent 26rem),
-    linear-gradient(135deg, #111827 0%, #151922 48%, #1c1d25 100%);
+    linear-gradient(rgba(217, 209, 189, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 209, 189, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 18% 8%, rgba(110, 231, 216, 0.11), transparent 28rem),
+    radial-gradient(circle at 86% 18%, rgba(240, 179, 90, 0.1), transparent 25rem),
+    linear-gradient(135deg, #071018 0%, #0b1118 45%, #151a1d 100%);
+  background-attachment: fixed;
+  background-size: 42px 42px, 42px 42px, auto, auto, auto;
   color: #f3f4f6;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -38,4 +42,49 @@ a {
 
 .focus-ring {
   @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint;
+}
+
+.hp-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 26, 34, 0.88);
+  box-shadow: 0 20px 80px rgba(2, 8, 16, 0.34);
+}
+
+.hp-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(217, 209, 189, 0.08), transparent 18%, transparent 82%, rgba(217, 209, 189, 0.05)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 32%);
+  opacity: 0.72;
+}
+
+.hp-inner {
+  @apply relative;
+}
+
+.hp-panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 34, 43, 0.72);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+}
+
+.hp-rule {
+  background-image: linear-gradient(90deg, rgba(110, 231, 216, 0.7), rgba(240, 179, 90, 0.55), transparent);
+}
+
+.hp-kicker {
+  @apply text-xs font-bold uppercase tracking-[0.22em] text-paper/70;
+}
+
+.hp-button-primary {
+  @apply focus-ring inline-flex items-center gap-2 rounded-md bg-paper px-4 py-3 text-sm font-black text-ink transition hover:bg-white;
+}
+
+.hp-button-secondary {
+  @apply focus-ring inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition hover:border-mint/40 hover:bg-mint/10;
 }

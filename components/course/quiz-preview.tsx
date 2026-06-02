@@ -14,12 +14,12 @@ export function QuizPreview({ questions }: QuizPreviewProps) {
   return (
     <div className="space-y-5">
       {questions.map((question, index) => (
-        <fieldset className="rounded-lg border border-white/10 bg-white/6 p-4" key={question.question}>
-          <legend className="px-1 text-sm font-semibold text-white">{question.question}</legend>
+        <fieldset className="rounded-md border border-white/10 bg-ink/55 p-4" key={question.question}>
+          <legend className="px-1 text-sm font-black text-white">{question.question}</legend>
           <div className="mt-3 grid gap-2">
             {question.options.map((option, optionIndex) => (
               <label
-                className="flex cursor-pointer items-center gap-3 rounded-md border border-white/10 bg-ink/45 px-3 py-2 text-sm text-slate-200 transition hover:border-mint/35"
+                className="flex cursor-pointer items-center gap-3 rounded-md border border-white/10 bg-white/6 px-3 py-2 text-sm text-slate-200 transition hover:border-mint/35"
                 key={option}
               >
                 <input
@@ -35,7 +35,7 @@ export function QuizPreview({ questions }: QuizPreviewProps) {
           </div>
         </fieldset>
       ))}
-      <p className="text-sm font-semibold text-mint">
+      <p className="text-sm font-black uppercase tracking-[0.14em] text-mint">
         Score: {score}/{questions.length}
       </p>
     </div>

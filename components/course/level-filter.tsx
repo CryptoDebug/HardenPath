@@ -25,7 +25,7 @@ export function LevelFilter({ locale, active, basePath }: LevelFilterProps) {
           className={`focus-ring rounded-md border px-3 py-2 text-sm font-semibold transition ${
             active === level
               ? "border-mint/50 bg-mint/15 text-mint"
-              : "border-white/12 bg-white/7 text-slate-200 hover:border-white/25 hover:bg-white/10"
+              : "border-white/12 bg-ink/55 text-slate-200 hover:border-white/25 hover:bg-white/10"
           }`}
           href={level === "all" ? basePath : `${basePath}?level=${level}`}
           key={level}
