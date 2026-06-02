@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth";
 import { CourseCard } from "@/components/course/course-card";
 import { LevelFilter } from "@/components/course/level-filter";
 import { Badge } from "@/components/ui/badge";
 import { categories, getCategory, getCoursesByCategory, type Level } from "@/content/catalog";
+import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
 
 export function generateStaticParams() {
@@ -17,6 +19,7 @@ type CategoryPageProps = {
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
+  const session = await getServerSession(authOptions);
   const { slug } = await params;
   const query = searchParams ? await searchParams : {};
   const category = getCategory(slug);
@@ -38,6 +41,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           <Badge tone={category.color}>{dictionary.category.modules}</Badge>
           <h1 className="mt-5 text-4xl font-black text-white">{category.title[locale]}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
+          {!session ? (
+            <p className="mt-4 max-w-3xl rounded-md border border-amber/35 bg-amber/10 p-4 text-sm font-bold leading-6 text-amber">
+              {locale === "fr"
+                ? "Connecte-toi pour ouvrir les cours, enregistrer les validations et suivre une progression réelle."
+                : "Sign in to open lessons, save validations, and track real progress."}
+            </p>
+          ) : null}
           <div className="mt-7 border-t border-white/10 pt-5">
             <p className="hp-kicker mb-3">{dictionary.category.levelFilter}</p>
             <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
@@ -53,6 +63,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             key={course.slug}
             locale={locale}
             premiumLabel={dictionary.home.premium}
+            locked={!session}
           />
         ))}
       </section>

@@ -1,10 +1,14 @@
 import { CheckCircle2, ExternalLink, LockKeyhole } from "lucide-react";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { QuizPreview } from "@/components/course/quiz-preview";
 import { CompleteLessonButton } from "@/components/progress/complete-lesson-button";
+import { AccessGate } from "@/components/ui/access-gate";
 import { Badge } from "@/components/ui/badge";
 import { courses, getCategory, getCourse } from "@/content/catalog";
+import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { getCourseCompletion, userHasPremium } from "@/lib/learning";
 
 export function generateStaticParams() {
   return courses.map((course) => ({ slug: course.slug }));
@@ -17,6 +21,7 @@ type CoursePageProps = {
 export default async function CoursePage({ params }: CoursePageProps) {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
+  const session = await getServerSession(authOptions);
   const { slug } = await params;
   const course = getCourse(slug);
 
@@ -25,6 +30,32 @@ export default async function CoursePage({ params }: CoursePageProps) {
   }
 
   const category = getCategory(course.categorySlug);
+  const completion = session?.user?.id ? await getCourseCompletion(session.user.id, course.slug) : { completed: false, percent: 0 };
+  const hasPremium = session?.user?.id ? await userHasPremium(session.user.id) : false;
+
+  if (!session?.user?.id) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <AccessGate
+          body={locale === "fr" ? "Les cours, exercices, QCM et validations sont réservés aux comptes afin que la progression soit enregistrée proprement en base." : "Courses, exercises, quizzes, and validations require an account so progress is stored properly in the database."}
+          cta={dictionary.account.signin}
+          title={locale === "fr" ? "Connexion requise pour ouvrir ce cours" : "Sign in required to open this course"}
+        />
+      </div>
+    );
+  }
+
+  if (course.isPremium && !hasPremium) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+        <AccessGate
+          body={locale === "fr" ? "Ce module est marqué premium. La structure d'abonnement est prête en base ; l'activation du paiement pourra être branchée ensuite." : "This module is marked as premium. The subscription structure is ready in the database; payment activation can be connected later."}
+          cta={dictionary.account.title}
+          title={locale === "fr" ? "Module premium verrouillé" : "Premium module locked"}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
@@ -120,7 +151,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </section>
 
         <div className="mt-8">
-          <CompleteLessonButton label={dictionary.course.complete} />
+          <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} />
         </div>
         </div>
       </article>

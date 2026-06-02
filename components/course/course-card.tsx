@@ -15,13 +15,14 @@ type CourseCardProps = {
   locale: Locale;
   freeLabel: string;
   premiumLabel: string;
+  locked?: boolean;
 };
 
-export function CourseCard({ course, locale, freeLabel, premiumLabel }: CourseCardProps) {
+export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = false }: CourseCardProps) {
   return (
     <Link
       className="focus-ring hp-panel group flex h-full flex-col rounded-md p-5 transition hover:-translate-y-0.5 hover:border-amber/45 hover:bg-white/8"
-      href={`/courses/${course.slug}`}
+      href={locked ? "/account" : `/courses/${course.slug}`}
     >
       <div className="flex flex-wrap items-center gap-2">
         <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? premiumLabel : freeLabel}</Badge>
@@ -36,8 +37,8 @@ export function CourseCard({ course, locale, freeLabel, premiumLabel }: CourseCa
           {course.estimatedMinutes} min
         </span>
         <span className="inline-flex items-center gap-2 font-black uppercase tracking-[0.14em] text-paper">
-          {course.isPremium ? <LockKeyhole aria-hidden className="h-4 w-4 text-amber" /> : <PlayCircle aria-hidden className="h-4 w-4 text-mint" />}
-          Start
+          {course.isPremium || locked ? <LockKeyhole aria-hidden className="h-4 w-4 text-amber" /> : <PlayCircle aria-hidden className="h-4 w-4 text-mint" />}
+          {locked ? (locale === "fr" ? "Compte" : "Account") : "Start"}
         </span>
       </div>
     </Link>

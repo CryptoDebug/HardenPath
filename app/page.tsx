@@ -1,20 +1,34 @@
 import Link from "next/link";
 import { Award, BookOpenCheck, ChevronRight, Flame, LockKeyhole, Map, ShieldCheck } from "lucide-react";
+import { getServerSession } from "next-auth";
 import { CategoryCard } from "@/components/course/category-card";
-import { CourseCard } from "@/components/course/course-card";
 import { LearningPulse } from "@/components/progress/learning-pulse";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { categories, courses, getCoursesByCategory } from "@/content/catalog";
+import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { getLearningStats } from "@/lib/learning";
 
 export default async function HomePage() {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
-  const featuredCourses = courses.slice(0, 3);
+  const session = await getServerSession(authOptions);
+  const stats = await getLearningStats(session?.user?.id);
   const pathSteps = locale === "fr"
     ? ["Cadre éthique", "Fondations", "Lab contrôlé", "Validation", "Badge"]
     : ["Ethical scope", "Foundations", "Controlled lab", "Validation", "Badge"];
+  const platformItems = locale === "fr"
+    ? [
+        "Cours structurés par domaine cyber",
+        "Exercices et QCM dans des labs autorisés",
+        "Progression, badges et freemium stockés en base"
+      ]
+    : [
+        "Structured courses by cybersecurity domain",
+        "Exercises and quizzes in authorized labs",
+        "Progress, badges, and freemium state stored in the database"
+      ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -57,26 +71,28 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <LearningPulse locale={locale} />
+        <LearningPulse
+          badgeCount={stats.badgeCount}
+          completedCourses={stats.completedCourses}
+          isAuthenticated={Boolean(session)}
+          locale={locale}
+          streakDays={stats.streakDays}
+          totalCourses={stats.totalCourses}
+          totalPercent={stats.totalPercent}
+        />
       </section>
 
-      <section className="mt-10">
-        <SectionHeading eyebrow={dictionary.home.featured} title={dictionary.home.continue} />
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          {featuredCourses.map((course) => (
-            <CourseCard
-              course={course}
-              freeLabel={dictionary.home.free}
-              key={course.slug}
-              locale={locale}
-              premiumLabel={dictionary.home.premium}
-            />
-          ))}
-        </div>
+      <section className="mt-10 grid gap-4 md:grid-cols-3">
+        {platformItems.map((item, index) => (
+          <div className="hp-panel rounded-md p-5" key={item}>
+            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-mint">0{index + 1}</span>
+            <p className="mt-3 text-base font-black leading-6 text-white">{item}</p>
+          </div>
+        ))}
       </section>
 
       <section className="mt-12" id="categories">
-        <SectionHeading title={dictionary.home.categories} body={locale === "fr" ? "Choisis une zone, filtre par niveau, puis valide ta progression avec des preuves de lab." : "Choose an area, filter by level, then validate progress with lab evidence."} />
+        <SectionHeading title={dictionary.home.categories} body={locale === "fr" ? "Aperçu des domaines disponibles. Les cours détaillés et validations demandent un compte afin de stocker une progression réelle." : "Overview of available domains. Detailed lessons and validations require an account so progress can be stored for real."} />
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category, index) => (
             <CategoryCard
@@ -85,8 +101,9 @@ export default async function HomePage() {
               key={category.slug}
               locale={locale}
               moduleCount={getCoursesByCategory(category.slug).length}
-              progress={[42, 15, 9, 28, 18, 5, 11, 33, 4, 22][index]}
+              progress={session ? stats.categoryProgress[category.slug] ?? 0 : undefined}
               index={index}
+              locked={!session}
             />
           ))}
         </div>
@@ -94,9 +111,9 @@ export default async function HomePage() {
 
       <section className="mt-12 grid gap-4 md:grid-cols-3">
         {[
-          { icon: Award, value: "10", label: dictionary.home.badges, tone: "amber" as const },
-          { icon: Flame, value: "4", label: dictionary.home.weekly, tone: "mint" as const },
-          { icon: LockKeyhole, value: "Freemium", label: dictionary.home.premium, tone: "coral" as const }
+          { icon: Award, value: String(categories.length), label: dictionary.home.categories },
+          { icon: Flame, value: String(courses.length), label: locale === "fr" ? "Modules disponibles" : "Available modules" },
+          { icon: LockKeyhole, value: String(stats.completedCourses), label: locale === "fr" ? "Modules terminés" : "Completed modules" }
         ].map((item) => (
           <div className="hp-panel rounded-md p-5" key={item.label}>
             <div className="flex items-center justify-between">

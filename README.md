@@ -100,6 +100,8 @@ Run the seed again only when catalog seed data changes or when using a fresh dat
 npm run db:seed
 ```
 
+Course pages require a user account so progress, quiz attempts, and completions can be stored in PostgreSQL instead of being simulated in the UI.
+
 ### Useful Checks
 
 ```bash

@@ -13,7 +13,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const dictionary = await getDictionary(locale);
 
   return (
-    <html lang={locale}>
+    <html data-scroll-behavior="smooth" lang={locale}>
       <body>
         <Navbar locale={locale} dictionary={dictionary.nav} />
         <main>{children}</main>

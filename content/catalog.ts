@@ -381,6 +381,222 @@ export const courses: Course[] = [
         }
       ]
     }
+  },
+  {
+    slug: "infrastructure-asset-baseline",
+    categorySlug: "hardware-infrastructure",
+    level: "beginner",
+    isPremium: false,
+    estimatedMinutes: 40,
+    title: { fr: "Inventaire d'infrastructure utile", en: "Useful infrastructure inventory" },
+    summary: {
+      fr: "Construire un inventaire simple des machines, services, sauvegardes et dépendances.",
+      en: "Build a simple inventory of machines, services, backups, and dependencies."
+    },
+    objectives: {
+      fr: ["Identifier les actifs critiques", "Relier services et dépendances", "Préparer une fiche de durcissement"],
+      en: ["Identify critical assets", "Map services to dependencies", "Prepare a hardening sheet"]
+    },
+    prerequisites: {
+      fr: ["Accès à un lab ou à une infrastructure personnelle", "Notions de services réseau"],
+      en: ["Access to a lab or personal infrastructure", "Basic service knowledge"]
+    },
+    sections: {
+      fr: [{ title: "Inventaire exploitable", body: "Un inventaire utile ne liste pas seulement des machines. Il explique le rôle, l'exposition, les sauvegardes et les dépendances de chaque service." }],
+      en: [{ title: "Actionable inventory", body: "A useful inventory does not only list machines. It explains each service role, exposure, backups, and dependencies." }]
+    },
+    resources: {
+      fr: [{ label: "CIS Controls - Inventory and Control of Enterprise Assets", url: "https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets" }],
+      en: [{ label: "CIS Controls - Inventory and Control of Enterprise Assets", url: "https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets" }]
+    },
+    exercises: {
+      fr: [{ title: "Fiche actif", body: "Rédige une fiche pour une machine de lab avec rôle, ports attendus, sauvegarde et propriétaire." }],
+      en: [{ title: "Asset sheet", body: "Write an asset sheet for a lab machine with role, expected ports, backup, and owner." }]
+    },
+    quiz: {
+      fr: [{ question: "Quelle information rend un inventaire plus défendable ?", options: ["Le rôle du service", "Une couleur de serveur", "Un surnom interne"], correctOption: 0 }],
+      en: [{ question: "Which information makes an inventory more defensible?", options: ["The service role", "A server color", "An internal nickname"], correctOption: 0 }]
+    }
+  },
+  {
+    slug: "opsec-public-footprint-review",
+    categorySlug: "opsec",
+    level: "beginner",
+    isPremium: false,
+    estimatedMinutes: 35,
+    title: { fr: "Revue d'empreinte publique", en: "Public footprint review" },
+    summary: {
+      fr: "Auditer légalement ses propres traces publiques et réduire les expositions inutiles.",
+      en: "Legally audit your own public traces and reduce unnecessary exposure."
+    },
+    objectives: {
+      fr: ["Lister les sources publiques personnelles", "Classer les risques", "Choisir des actions de réduction"],
+      en: ["List personal public sources", "Classify risks", "Choose reduction actions"]
+    },
+    prerequisites: {
+      fr: ["Compte personnel de test ou identité volontaire", "Cadre de confidentialité"],
+      en: ["A personal test account or voluntary identity", "Privacy scope"]
+    },
+    sections: {
+      fr: [{ title: "Réduire sans paniquer", body: "L'OpSec utile commence par ce que tu contrôles : profils, réutilisation d'identifiants, métadonnées et informations de récupération." }],
+      en: [{ title: "Reduce without panic", body: "Useful OpSec starts with what you control: profiles, identifier reuse, metadata, and recovery information." }]
+    },
+    resources: {
+      fr: [{ label: "CNIL - Protéger sa vie privée en ligne", url: "https://www.cnil.fr/fr/maitriser-mes-donnees" }],
+      en: [{ label: "EFF - Surveillance Self-Defense", url: "https://ssd.eff.org/" }]
+    },
+    exercises: {
+      fr: [{ title: "Journal d'exposition", body: "Note trois informations publiques volontaires et décide si chacune doit rester visible." }],
+      en: [{ title: "Exposure journal", body: "Write three voluntary public data points and decide whether each should remain visible." }]
+    },
+    quiz: {
+      fr: [{ question: "Quel est le meilleur périmètre pour commencer une revue OpSec ?", options: ["Ses propres comptes", "Les comptes d'inconnus", "Une entreprise non autorisée"], correctOption: 0 }],
+      en: [{ question: "What is the best scope to start an OpSec review?", options: ["Your own accounts", "Strangers' accounts", "An unauthorized company"], correctOption: 0 }]
+    }
+  },
+  {
+    slug: "crypto-hashing-and-passwords",
+    categorySlug: "cryptography",
+    level: "beginner",
+    isPremium: false,
+    estimatedMinutes: 45,
+    title: { fr: "Hachage, mots de passe et limites", en: "Hashing, passwords, and limits" },
+    summary: {
+      fr: "Comprendre ce qu'un hash protège, ce qu'il ne protège pas, et pourquoi le salage compte.",
+      en: "Understand what a hash protects, what it does not protect, and why salting matters."
+    },
+    objectives: {
+      fr: ["Distinguer hash et chiffrement", "Expliquer le salage", "Choisir une stratégie défensive"],
+      en: ["Separate hashing from encryption", "Explain salting", "Choose a defensive strategy"]
+    },
+    prerequisites: {
+      fr: ["Bases applicatives", "Aucun outil offensif requis"],
+      en: ["Application basics", "No offensive tooling required"]
+    },
+    sections: {
+      fr: [{ title: "Preuve sans secret réversible", body: "Un hash ne chiffre pas un mot de passe. Il sert à vérifier une valeur sans stocker directement cette valeur." }],
+      en: [{ title: "Proof without reversible secret", body: "A hash does not encrypt a password. It verifies a value without directly storing that value." }]
+    },
+    resources: {
+      fr: [{ label: "OWASP Password Storage Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" }],
+      en: [{ label: "OWASP Password Storage Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" }]
+    },
+    exercises: {
+      fr: [{ title: "Choix défensif", body: "Compare hash rapide, bcrypt, scrypt et Argon2 pour un stockage de mots de passe." }],
+      en: [{ title: "Defensive choice", body: "Compare fast hashes, bcrypt, scrypt, and Argon2 for password storage." }]
+    },
+    quiz: {
+      fr: [{ question: "Pourquoi utiliser un algorithme lent pour les mots de passe ?", options: ["Pour ralentir les essais hors ligne", "Pour rendre le site joli", "Pour éviter HTTPS"], correctOption: 0 }],
+      en: [{ question: "Why use a slow password algorithm?", options: ["To slow offline guessing", "To make the site pretty", "To avoid HTTPS"], correctOption: 0 }]
+    }
+  },
+  {
+    slug: "forensics-timeline-first-pass",
+    categorySlug: "forensics",
+    level: "beginner",
+    isPremium: false,
+    estimatedMinutes: 50,
+    title: { fr: "Première chronologie forensics", en: "First forensics timeline" },
+    summary: {
+      fr: "Organiser des observations en chronologie sans altérer les preuves du lab.",
+      en: "Organize observations into a timeline without altering lab evidence."
+    },
+    objectives: {
+      fr: ["Séparer collecte et analyse", "Construire une timeline", "Noter les incertitudes"],
+      en: ["Separate collection from analysis", "Build a timeline", "Record uncertainty"]
+    },
+    prerequisites: {
+      fr: ["Lab isolé", "Notions de journaux système"],
+      en: ["Isolated lab", "Basic system log knowledge"]
+    },
+    sections: {
+      fr: [{ title: "Ordre et prudence", body: "Une chronologie fiable indique la source, l'heure, le fuseau et le niveau de confiance pour chaque observation." }],
+      en: [{ title: "Order and care", body: "A reliable timeline states the source, time, timezone, and confidence level for each observation." }]
+    },
+    resources: {
+      fr: [{ label: "NIST SP 800-86", url: "https://csrc.nist.gov/publications/detail/sp/800-86/final" }],
+      en: [{ label: "NIST SP 800-86", url: "https://csrc.nist.gov/publications/detail/sp/800-86/final" }]
+    },
+    exercises: {
+      fr: [{ title: "Timeline minimale", body: "Crée cinq lignes de timeline à partir de journaux de lab, avec source et confiance." }],
+      en: [{ title: "Minimal timeline", body: "Create five timeline rows from lab logs, with source and confidence." }]
+    },
+    quiz: {
+      fr: [{ question: "Que doit contenir une entrée de timeline ?", options: ["Source et heure", "Opinion seule", "Capture non datée"], correctOption: 0 }],
+      en: [{ question: "What should a timeline entry contain?", options: ["Source and time", "Opinion only", "Undated screenshot"], correctOption: 0 }]
+    }
+  },
+  {
+    slug: "blue-team-alert-triage",
+    categorySlug: "blue-team",
+    level: "intermediate",
+    isPremium: false,
+    estimatedMinutes: 55,
+    title: { fr: "Trier une alerte sans sur-réagir", en: "Triage an alert without overreacting" },
+    summary: {
+      fr: "Prioriser une alerte, poser les bonnes questions et documenter une réponse sobre.",
+      en: "Prioritize an alert, ask the right questions, and document a measured response."
+    },
+    objectives: {
+      fr: ["Classer sévérité et confiance", "Identifier les données manquantes", "Proposer une action proportionnée"],
+      en: ["Classify severity and confidence", "Identify missing data", "Propose a proportionate action"]
+    },
+    prerequisites: {
+      fr: ["Bases logs", "Notions réseau ou système"],
+      en: ["Log basics", "Network or system basics"]
+    },
+    sections: {
+      fr: [{ title: "Triage", body: "Une alerte n'est pas une preuve complète. Le triage transforme un signal en hypothèse, puis en action vérifiable." }],
+      en: [{ title: "Triage", body: "An alert is not complete proof. Triage turns a signal into a hypothesis, then into a verifiable action." }]
+    },
+    resources: {
+      fr: [{ label: "NIST Computer Security Incident Handling Guide", url: "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" }],
+      en: [{ label: "NIST Computer Security Incident Handling Guide", url: "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" }]
+    },
+    exercises: {
+      fr: [{ title: "Fiche d'alerte", body: "Rédige une fiche avec signal, impact possible, données manquantes et prochaine action." }],
+      en: [{ title: "Alert sheet", body: "Write a sheet with signal, possible impact, missing data, and next action." }]
+    },
+    quiz: {
+      fr: [{ question: "Pourquoi noter la confiance d'une alerte ?", options: ["Pour éviter les décisions aveugles", "Pour ignorer les logs", "Pour masquer l'incident"], correctOption: 0 }],
+      en: [{ question: "Why record alert confidence?", options: ["To avoid blind decisions", "To ignore logs", "To hide the incident"], correctOption: 0 }]
+    }
+  },
+  {
+    slug: "ethical-red-team-scope-and-reporting",
+    categorySlug: "ethical-red-team",
+    level: "intermediate",
+    isPremium: true,
+    estimatedMinutes: 65,
+    title: { fr: "Cadrage et reporting Red Team éthique", en: "Ethical Red Team scope and reporting" },
+    summary: {
+      fr: "Définir autorisation, limites, preuves attendues et restitution responsable.",
+      en: "Define authorization, limits, expected evidence, and responsible reporting."
+    },
+    objectives: {
+      fr: ["Rédiger un périmètre", "Limiter les actions à un lab autorisé", "Structurer un rapport utile"],
+      en: ["Write scope", "Limit actions to an authorized lab", "Structure a useful report"]
+    },
+    prerequisites: {
+      fr: ["Charte éthique lue", "Lab contrôlé uniquement"],
+      en: ["Ethics charter read", "Controlled lab only"]
+    },
+    sections: {
+      fr: [{ title: "Autorisation avant méthode", body: "La compétence Red Team commence par le mandat. Sans autorisation explicite, le bon choix est de ne pas tester." }],
+      en: [{ title: "Authorization before method", body: "Red Team skill starts with mandate. Without explicit authorization, the right choice is not to test." }]
+    },
+    resources: {
+      fr: [{ label: "FIRST - Vulnerability Disclosure Guidelines", url: "https://www.first.org/global/sigs/vulnerability-coordination/multiparty/guidelines-v1.1" }],
+      en: [{ label: "FIRST - Vulnerability Disclosure Guidelines", url: "https://www.first.org/global/sigs/vulnerability-coordination/multiparty/guidelines-v1.1" }]
+    },
+    exercises: {
+      fr: [{ title: "Mandat de lab", body: "Rédige un périmètre de test fictif pour un lab, avec limites, preuves et arrêt d'urgence.", premium: true }],
+      en: [{ title: "Lab mandate", body: "Write a fictional test scope for a lab, with limits, evidence, and emergency stop.", premium: true }]
+    },
+    quiz: {
+      fr: [{ question: "Quel document passe avant toute action offensive ?", options: ["Autorisation explicite", "Capture d'écran", "Post public"], correctOption: 0 }],
+      en: [{ question: "Which document comes before any offensive action?", options: ["Explicit authorization", "Screenshot", "Public post"], correctOption: 0 }]
+    }
   }
 ];
 

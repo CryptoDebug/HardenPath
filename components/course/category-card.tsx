@@ -9,12 +9,13 @@ type CategoryCardProps = {
   category: Category;
   locale: Locale;
   moduleCount: number;
-  progress: number;
+  progress?: number;
   cta: string;
   index?: number;
+  locked?: boolean;
 };
 
-export function CategoryCard({ category, locale, moduleCount, progress, cta, index = 0 }: CategoryCardProps) {
+export function CategoryCard({ category, locale, moduleCount, progress, cta, index = 0, locked = false }: CategoryCardProps) {
   return (
     <Link
       className="focus-ring hp-panel group relative overflow-hidden rounded-md p-5 transition hover:-translate-y-0.5 hover:border-mint/40 hover:bg-white/8"
@@ -31,15 +32,17 @@ export function CategoryCard({ category, locale, moduleCount, progress, cta, ind
         </span>
       </div>
       <p className="mt-3 min-h-14 text-sm leading-6 text-slate-300">{category.description[locale]}</p>
+      {typeof progress === "number" ? (
       <div className="mt-5 space-y-2">
         <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
-          <span>{cta}</span>
+          <span>{locale === "fr" ? "Progression réelle" : "Real progress"}</span>
           <span>{progress}%</span>
         </div>
         <ProgressBar value={progress} label={`${category.title[locale]} progress`} />
       </div>
+      ) : null}
       <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs font-black uppercase tracking-[0.16em] text-paper/70">
-        <span>{cta}</span>
+        <span>{locked ? (locale === "fr" ? "Connexion requise" : "Sign in required") : cta}</span>
         <ArrowRight aria-hidden className="h-4 w-4 transition group-hover:translate-x-1 group-hover:text-mint" />
       </div>
     </Link>
