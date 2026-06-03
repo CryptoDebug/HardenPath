@@ -343,6 +343,42 @@ a {
   background-size: 3rem 3rem;
 }
 
+.hp-flip-card {
+  position: relative;
+  display: block;
+  min-height: 320px;
+  width: 100%;
+  border-radius: 0.125rem;
+  perspective: 1200px;
+  vertical-align: top;
+}
+
+.hp-flip-card-inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: rotateY(0deg);
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  transition: transform 500ms ease;
+  will-change: transform;
+}
+
+.hp-flip-card[aria-pressed="true"] .hp-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.hp-flip-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  transform: rotateY(0deg) translateZ(0);
+}
+
+.hp-flip-card-back {
+  transform: rotateY(180deg) translateZ(0);
+}
+
 @media (max-width: 1023px) {
   .hp-hero-grid {
     grid-template-columns: minmax(0, 1fr);

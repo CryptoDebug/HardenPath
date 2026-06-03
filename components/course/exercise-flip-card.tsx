@@ -34,16 +34,12 @@ export function ExerciseFlipCard({ body, locale, premium = false, premiumLabel, 
     <button
       aria-label={isFlipped ? `${labels.back} ${title}` : `${labels.show} ${title}`}
       aria-pressed={isFlipped}
-      className="focus-ring group block h-full min-h-[320px] w-full rounded-sm text-left [perspective:1200px]"
+      className="focus-ring hp-flip-card group text-left"
       onClick={() => setIsFlipped((current) => !current)}
       type="button"
     >
-      <span
-        className={`relative block h-full min-h-[320px] transition-transform duration-500 [transform-style:preserve-3d] ${
-          isFlipped ? "[transform:rotateY(180deg)]" : ""
-        }`}
-      >
-        <span className="hp-panel hp-route-card absolute inset-0 flex flex-col overflow-y-auto rounded-sm p-5 [backface-visibility:hidden]">
+      <span className="hp-flip-card-inner">
+        <span className="hp-flip-card-face hp-panel hp-route-card flex flex-col overflow-y-auto rounded-sm p-5">
           <span className="relative flex flex-wrap items-center justify-between gap-3">
             <span className="min-w-0">
               <span className="hp-wrap block text-base font-black text-white">{title}</span>
@@ -57,7 +53,7 @@ export function ExerciseFlipCard({ body, locale, premium = false, premiumLabel, 
           <span aria-hidden className="relative mt-5 h-2 w-12 rounded-full bg-[linear-gradient(90deg,#67d8bd,#c8a45f)]" />
         </span>
 
-        <span className="hp-panel hp-path-card absolute inset-0 flex flex-col overflow-y-auto rounded-sm border-mint/25 p-5 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <span className="hp-flip-card-face hp-flip-card-back hp-panel hp-path-card flex flex-col overflow-y-auto rounded-sm border-mint/25 p-5">
           <span className="relative flex items-start justify-between gap-3">
             <span className="min-w-0">
               <span className="hp-kicker">{labels.correction}</span>
