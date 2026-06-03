@@ -41,7 +41,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         <div className="hp-inner">
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={category.color}>{dictionary.category.modules}</Badge>
-            <span className="hp-brand-chip">Sector / {category.slug}</span>
+            <Badge>{categoryCourses.length} modules</Badge>
           </div>
           <h1 className="hp-wrap mt-5 text-4xl font-black leading-tight text-white">{category.title[locale]}</h1>
           <p className="hp-wrap mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>

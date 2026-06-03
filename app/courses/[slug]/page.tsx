@@ -74,7 +74,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
           <div className="flex flex-wrap items-center gap-2">
             {category ? <Badge tone={category.color}>{category.title[locale]}</Badge> : null}
             <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? dictionary.home.premium : dictionary.home.free}</Badge>
-            <span className="hp-brand-chip">Mission / {course.slug}</span>
+            <Badge>{course.estimatedMinutes} min</Badge>
           </div>
           <h1 className="hp-wrap mt-5 text-4xl font-black leading-tight text-white">{course.title[locale]}</h1>
           <p className="hp-wrap mt-4 text-lg leading-8 text-slate-300">{course.summary[locale]}</p>

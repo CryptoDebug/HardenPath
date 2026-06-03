@@ -34,10 +34,11 @@ export function CategoryCard({ category, locale, moduleCount, progress, cta, ind
 
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <div className="flex flex-wrap gap-2">
-              <Badge tone={category.color}>{locale === "fr" ? "Secteur" : "Sector"}</Badge>
-              {isComplete ? <Badge tone="mint">{locale === "fr" ? "Terminé" : "Complete"}</Badge> : null}
-            </div>
+            {isComplete ? (
+              <div className="flex flex-wrap gap-2">
+                <Badge tone="mint">{locale === "fr" ? "Terminé" : "Complete"}</Badge>
+              </div>
+            ) : null}
             <h3 className="hp-wrap mt-4 text-xl font-black leading-7 text-white">{category.title[locale]}</h3>
           </div>
           <span className="hp-checkpoint">

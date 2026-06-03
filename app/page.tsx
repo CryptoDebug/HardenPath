@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Award,
   BookOpenCheck,
@@ -35,14 +35,14 @@ export default async function HomePage() {
   const platformItems =
     locale === "fr"
       ? [
-          "Des parcours courts, ordonnés par niveau",
+          "Des modules courts, ordonnés par niveau",
           "Des exercices cadrés pour progresser sans flou",
-          "Des badges et validations pour voir l'avancée"
+          "Des validations qui transforment l'effort en preuve"
         ]
       : [
-          "Short paths organized by level",
+          "Short modules organized by level",
           "Scoped exercises that keep progress clear",
-          "Badges and validations that make progress visible"
+          "Validations that turn effort into proof"
         ];
 
   return (
@@ -69,6 +69,10 @@ export default async function HomePage() {
               <Link className="hp-button-primary" href="/categories/network">
                 <BookOpenCheck aria-hidden className="h-4 w-4" />
                 {dictionary.home.continue}
+              </Link>
+              <Link className="hp-button-secondary" href="/badges">
+                <Award aria-hidden className="h-4 w-4" />
+                Badges
               </Link>
               <Link className="hp-button-secondary" href="/ethics">
                 <ChevronRight aria-hidden className="h-4 w-4" />
@@ -119,15 +123,15 @@ export default async function HomePage() {
           <div className="hp-inner">
             <span className="hp-brand-chip">
               <Compass aria-hidden className="h-3.5 w-3.5 text-mint" />
-              {locale === "fr" ? "Doctrine HardenPath" : "HardenPath doctrine"}
+              {locale === "fr" ? "Méthode HardenPath" : "HardenPath method"}
             </span>
             <h2 className="hp-wrap mt-4 text-2xl font-black leading-8 text-white">
               {locale === "fr" ? "Un parcours qui se voit, se valide, se reprend." : "A route you can see, validate, and resume."}
             </h2>
             <p className="hp-wrap mt-3 text-sm leading-7 text-slate-300">
               {locale === "fr"
-                ? "Chaque secteur avance par jalons courts : comprendre, pratiquer, confirmer. La progression devient une preuve, pas une promesse."
-                : "Each sector moves through short milestones: understand, practice, confirm. Progress becomes proof, not a promise."}
+                ? "Chaque parcours avance par jalons courts : comprendre, pratiquer, confirmer. La progression devient une preuve, pas une promesse."
+                : "Each path moves through short milestones: understand, practice, confirm. Progress becomes proof, not a promise."}
             </p>
           </div>
         </div>
@@ -148,38 +152,28 @@ export default async function HomePage() {
 
       <section className="mt-12" id="categories">
         <div className="hp-ledger rounded-sm p-5 sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <SectionHeading
-          title={dictionary.home.categories}
-          body={
-            locale === "fr"
-              ? "Choisis un parcours, travaille les modules par niveau, puis valide les compétences dans des exercices cadrés."
-              : "Choose a path, work through modules by level, then validate skills through scoped exercises."
-          }
-        />
-            <div className="grid grid-cols-3 gap-2 sm:min-w-[22rem]">
-              {[dictionary.home.free, dictionary.home.premium, locale === "fr" ? "Badges" : "Badges"].map((item, index) => (
-                <div className="hp-status-tile text-center" key={item}>
-                  <p className="text-[0.68rem] font-black uppercase text-steel">0{index + 1}</p>
-                  <p className="hp-wrap mt-1 text-xs font-black text-paper">{item}</p>
-                </div>
-              ))}
-            </div>
+          <SectionHeading
+            title={dictionary.home.categories}
+            body={
+              locale === "fr"
+                ? "Choisis un parcours, travaille les modules par niveau, puis valide les compétences dans des exercices cadrés."
+                : "Choose a path, work through modules by level, then validate skills through scoped exercises."
+            }
+          />
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map((category, index) => (
+              <CategoryCard
+                category={category}
+                cta={dictionary.home.viewCategory}
+                index={index}
+                key={category.slug}
+                locale={locale}
+                locked={!session}
+                moduleCount={getCoursesByCategory(category.slug).length}
+                progress={session ? stats.categoryProgress[category.slug] ?? 0 : undefined}
+              />
+            ))}
           </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((category, index) => (
-            <CategoryCard
-              category={category}
-              cta={dictionary.home.viewCategory}
-              index={index}
-              key={category.slug}
-              locale={locale}
-              locked={!session}
-              moduleCount={getCoursesByCategory(category.slug).length}
-              progress={session ? stats.categoryProgress[category.slug] ?? 0 : undefined}
-            />
-          ))}
-        </div>
         </div>
       </section>
 
@@ -191,12 +185,12 @@ export default async function HomePage() {
         ].map((item) => (
           <div className="hp-panel hp-path-card rounded-sm p-5" key={item.label}>
             <div className="relative">
-            <div className="flex items-center justify-between gap-3">
-              <item.icon aria-hidden className="h-6 w-6 text-paper" />
-              <ShieldCheck aria-hidden className="h-4 w-4 text-mint/70" />
-            </div>
-            <p className="hp-wrap mt-4 text-2xl font-black text-white">{item.value}</p>
-            <p className="hp-wrap mt-1 text-sm text-slate-300">{item.label}</p>
+              <div className="flex items-center justify-between gap-3">
+                <item.icon aria-hidden className="h-6 w-6 text-paper" />
+                <ShieldCheck aria-hidden className="h-4 w-4 text-mint/70" />
+              </div>
+              <p className="hp-wrap mt-4 text-2xl font-black text-white">{item.value}</p>
+              <p className="hp-wrap mt-1 text-sm text-slate-300">{item.label}</p>
             </div>
           </div>
         ))}

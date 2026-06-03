@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   const course = await prisma.course.findUnique({
     where: { slug: parsed.data.courseSlug },
-    select: { id: true }
+    select: { categorySlug: true, id: true, slug: true }
   });
 
   if (!course) {
@@ -68,5 +68,39 @@ export async function POST(request: Request) {
         }
       });
 
-  return NextResponse.json({ progress });
+  const starterBadge = await prisma.badge.findUnique({
+    where: { slug: `${course.categorySlug}-starter` },
+    select: { id: true, slug: true, titleEn: true, titleFr: true }
+  });
+
+  const awardedBadge = starterBadge
+    ? await prisma.userBadge.upsert({
+        where: {
+          userId_badgeId: {
+            badgeId: starterBadge.id,
+            userId: session.user.id
+          }
+        },
+        update: {},
+        create: {
+          badgeId: starterBadge.id,
+          evidence: {
+            courseSlug: course.slug,
+            reason: "first_category_module_completed"
+          },
+          userId: session.user.id
+        },
+        select: {
+          badge: {
+            select: {
+              slug: true,
+              titleEn: true,
+              titleFr: true
+            }
+          }
+        }
+      })
+    : null;
+
+  return NextResponse.json({ awardedBadge: awardedBadge?.badge ?? null, progress });
 }
