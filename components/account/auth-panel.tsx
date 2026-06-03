@@ -56,11 +56,11 @@ function AuthForms({ dictionary }: AuthPanelProps) {
 
   if (status === "authenticated") {
     return (
-      <div className="rounded-md border border-white/10 bg-ink/55 p-5">
+      <div className="rounded-md border border-white/10 bg-white/[0.055] p-5">
         <p className="hp-kicker">session active</p>
-        <p className="mt-1 text-lg font-semibold text-white">{session.user?.email}</p>
+        <p className="hp-wrap mt-1 text-lg font-semibold text-white">{session.user?.email}</p>
         <button
-          className="focus-ring mt-5 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/7 px-4 py-3 text-sm font-black text-white transition hover:border-steel/40 hover:bg-white/10"
+          className="focus-ring mt-5 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.07] px-4 py-3 text-sm font-extrabold text-white transition hover:border-steel/40 hover:bg-white/10"
           onClick={() => signOut({ callbackUrl: "/account" })}
           type="button"
         >
@@ -72,11 +72,11 @@ function AuthForms({ dictionary }: AuthPanelProps) {
   }
 
   return (
-    <div className="rounded-md border border-white/10 bg-ink/55 p-5">
-      <div className="flex gap-2">
+    <div className="rounded-md border border-white/10 bg-white/[0.055] p-5">
+      <div className="flex flex-wrap gap-2">
         <button
           className={`focus-ring inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-black ${
-            mode === "signin" ? "bg-paper text-ink" : "bg-white/8 text-white"
+            mode === "signin" ? "bg-mint text-ink" : "bg-white/[0.08] text-white"
           }`}
           onClick={() => setMode("signin")}
           type="button"
@@ -86,7 +86,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         </button>
         <button
           className={`focus-ring inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-black ${
-            mode === "register" ? "bg-steel text-ink" : "bg-white/8 text-white"
+            mode === "register" ? "bg-amber text-ink" : "bg-white/[0.08] text-white"
           }`}
           onClick={() => setMode("register")}
           type="button"
@@ -101,7 +101,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
           <label className="grid gap-2 text-sm font-semibold text-slate-200">
             {dictionary.name}
             <input
-              className="focus-ring rounded-md border border-white/12 bg-ink/70 px-3 py-3 text-white"
+              className="focus-ring rounded-md border border-white/10 bg-black/20 px-3 py-3 text-white"
               name="name"
               required
               type="text"
@@ -111,7 +111,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         <label className="grid gap-2 text-sm font-semibold text-slate-200">
           {dictionary.email}
           <input
-            className="focus-ring rounded-md border border-white/12 bg-ink/70 px-3 py-3 text-white"
+            className="focus-ring rounded-md border border-white/10 bg-black/20 px-3 py-3 text-white"
             name="email"
             required
             type="email"
@@ -120,7 +120,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         <label className="grid gap-2 text-sm font-semibold text-slate-200">
           {dictionary.password}
           <input
-            className="focus-ring rounded-md border border-white/12 bg-ink/70 px-3 py-3 text-white"
+            className="focus-ring rounded-md border border-white/10 bg-black/20 px-3 py-3 text-white"
             minLength={8}
             name="password"
             required
@@ -130,7 +130,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         <button className="hp-button-primary justify-center" type="submit">
           {mode === "signin" ? dictionary.signin : dictionary.register}
         </button>
-        {message ? <p className="text-sm font-semibold text-amber">{message}</p> : null}
+        {message ? <p className="hp-wrap text-sm font-semibold text-amber">{message}</p> : null}
       </form>
     </div>
   );

@@ -38,7 +38,11 @@ export default async function CoursePage({ params }: CoursePageProps) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         <AccessGate
-          body={locale === "fr" ? "Les cours, exercices, QCM et validations demandent un compte afin de suivre ton parcours et tes jalons." : "Courses, exercises, quizzes, and validations require an account so your path and milestones can follow you."}
+          body={
+            locale === "fr"
+              ? "Les cours, exercices, QCM et validations demandent un compte afin de suivre ton parcours et tes jalons."
+              : "Courses, exercises, quizzes, and validations require an account so your path and milestones can follow you."
+          }
           cta={dictionary.account.signin}
           title={locale === "fr" ? "Connexion requise pour ouvrir ce cours" : "Sign in required to open this course"}
         />
@@ -50,7 +54,11 @@ export default async function CoursePage({ params }: CoursePageProps) {
     return (
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
         <AccessGate
-          body={locale === "fr" ? "Ce module fait partie des validations avancées. Reviens-y quand ton niveau d'accès le permet." : "This module belongs to advanced validations. Return when your access level allows it."}
+          body={
+            locale === "fr"
+              ? "Ce module fait partie des validations avancées. Reviens-y quand ton niveau d'accès le permet."
+              : "This module belongs to advanced validations. Return when your access level allows it."
+          }
           cta={dictionary.account.title}
           title={locale === "fr" ? "Validation avancée verrouillée" : "Advanced validation locked"}
         />
@@ -62,107 +70,107 @@ export default async function CoursePage({ params }: CoursePageProps) {
     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
       <article className="hp-shell rounded-md p-6 sm:p-8">
         <div className="hp-inner">
-        <div className="flex flex-wrap items-center gap-2">
-          {category ? <Badge tone={category.color}>{category.title[locale]}</Badge> : null}
-          <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? dictionary.home.premium : dictionary.home.free}</Badge>
-        </div>
-        <h1 className="mt-5 text-4xl font-black leading-tight text-white">{course.title[locale]}</h1>
-        <p className="mt-4 text-lg leading-8 text-slate-300">{course.summary[locale]}</p>
-        {course.isPremium ? (
-          <div className="mt-6 flex items-start gap-3 rounded-md border border-amber/35 bg-amber/10 p-4 text-sm leading-6 text-amber">
-            <LockKeyhole aria-hidden className="mt-0.5 h-5 w-5 shrink-0" />
-            {dictionary.course.premiumNotice}
+          <div className="flex flex-wrap items-center gap-2">
+            {category ? <Badge tone={category.color}>{category.title[locale]}</Badge> : null}
+            <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? dictionary.home.premium : dictionary.home.free}</Badge>
           </div>
-        ) : null}
+          <h1 className="hp-wrap mt-5 text-4xl font-extrabold leading-tight text-white">{course.title[locale]}</h1>
+          <p className="hp-wrap mt-4 text-lg leading-8 text-slate-300">{course.summary[locale]}</p>
+          {course.isPremium ? (
+            <div className="hp-wrap mt-6 flex items-start gap-3 rounded-md border border-amber/30 bg-amber/[0.09] p-4 text-sm leading-6 text-amber">
+              <LockKeyhole aria-hidden className="mt-0.5 h-5 w-5 shrink-0" />
+              <span className="min-w-0">{dictionary.course.premiumNotice}</span>
+            </div>
+          ) : null}
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          <section className="rounded-md border border-white/10 bg-ink/55 p-5">
-            <h2 className="text-lg font-black text-white">{dictionary.course.objectives}</h2>
-            <ul className="mt-4 space-y-3">
-              {course.objectives[locale].map((item) => (
-                <li className="flex gap-3 text-sm leading-6 text-slate-300" key={item}>
-                  <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-mint" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-          <section className="rounded-md border border-white/10 bg-ink/55 p-5">
-            <h2 className="text-lg font-black text-white">{dictionary.course.prerequisites}</h2>
-            <ul className="mt-4 space-y-3">
-              {course.prerequisites[locale].map((item) => (
-                <li className="text-sm leading-6 text-slate-300" key={`${item.label}-${item.courseSlug ?? "plain"}`}>
-                  {item.courseSlug ? (
-                    <Link
-                      className="focus-ring inline-flex items-center gap-2 rounded-sm text-slate-100 underline decoration-mint/45 underline-offset-4 transition hover:text-mint"
-                      href={`/courses/${item.courseSlug}`}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    item.label
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        <section className="mt-8">
-          <h2 className="text-2xl font-black text-white">{dictionary.course.content}</h2>
-          <div className="mt-4 space-y-4">
-            {course.sections[locale].map((section) => (
-              <div className="rounded-md border border-white/10 bg-white/6 p-5" key={section.title}>
-                <h3 className="text-lg font-black text-white">{section.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-slate-300">{section.body}</p>
-              </div>
-            ))}
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <section className="rounded-md border border-white/10 bg-white/[0.055] p-5">
+              <h2 className="hp-wrap text-lg font-extrabold text-white">{dictionary.course.objectives}</h2>
+              <ul className="mt-4 space-y-3">
+                {course.objectives[locale].map((item) => (
+                  <li className="flex gap-3 text-sm leading-6 text-slate-300" key={item}>
+                    <CheckCircle2 aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-mint" />
+                    <span className="hp-wrap min-w-0">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section className="rounded-md border border-white/10 bg-white/[0.055] p-5">
+              <h2 className="hp-wrap text-lg font-extrabold text-white">{dictionary.course.prerequisites}</h2>
+              <ul className="mt-4 space-y-3">
+                {course.prerequisites[locale].map((item) => (
+                  <li className="hp-wrap text-sm leading-6 text-slate-300" key={`${item.label}-${item.courseSlug ?? "plain"}`}>
+                    {item.courseSlug ? (
+                      <Link
+                        className="focus-ring inline-flex max-w-full items-center gap-2 rounded-sm text-slate-100 underline decoration-mint/45 underline-offset-4 transition hover:text-mint"
+                        href={`/courses/${item.courseSlug}`}
+                      >
+                        <span className="hp-wrap min-w-0">{item.label}</span>
+                      </Link>
+                    ) : (
+                      item.label
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
           </div>
-        </section>
 
-        <section className="mt-8">
-          <h2 className="text-2xl font-black text-white">{dictionary.course.exercises}</h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {course.exercises[locale].map((exercise) => (
-              <div className="rounded-md border border-white/10 bg-white/6 p-5" key={exercise.title}>
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-base font-black text-white">{exercise.title}</h3>
-                  {exercise.premium ? <Badge tone="amber">{dictionary.home.premium}</Badge> : null}
+          <section className="mt-8">
+            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.content}</h2>
+            <div className="mt-4 space-y-4">
+              {course.sections[locale].map((section) => (
+                <div className="rounded-md border border-white/10 bg-white/[0.055] p-5" key={section.title}>
+                  <h3 className="hp-wrap text-lg font-extrabold text-white">{section.title}</h3>
+                  <p className="hp-wrap mt-2 text-sm leading-7 text-slate-300">{section.body}</p>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{exercise.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
 
-        <section className="mt-8">
-          <h2 className="text-2xl font-black text-white">{dictionary.course.quiz}</h2>
-          <div className="mt-4">
-            <QuizPreview locale={locale} questions={course.quiz[locale]} />
-          </div>
-        </section>
+          <section className="mt-8">
+            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.exercises}</h2>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              {course.exercises[locale].map((exercise) => (
+                <div className="rounded-md border border-white/10 bg-white/[0.055] p-5" key={exercise.title}>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <h3 className="hp-wrap min-w-0 text-base font-extrabold text-white">{exercise.title}</h3>
+                    {exercise.premium ? <Badge tone="amber">{dictionary.home.premium}</Badge> : null}
+                  </div>
+                  <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{exercise.body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <section className="mt-8">
-          <h2 className="text-2xl font-black text-white">{dictionary.course.resources}</h2>
-          <div className="mt-4 grid gap-3">
-            {course.resources[locale].map((resource) => (
-              <a
-                className="focus-ring inline-flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/6 p-4 text-sm font-bold text-slate-100 transition hover:border-mint/40 hover:bg-mint/10"
-                href={resource.url}
-                key={resource.url}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {resource.label}
-                <ExternalLink aria-hidden className="h-4 w-4 text-mint" />
-              </a>
-            ))}
-          </div>
-        </section>
+          <section className="mt-8">
+            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.quiz}</h2>
+            <div className="mt-4">
+              <QuizPreview locale={locale} questions={course.quiz[locale]} />
+            </div>
+          </section>
 
-        <div className="mt-8">
-          <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} locale={locale} />
-        </div>
+          <section className="mt-8">
+            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.resources}</h2>
+            <div className="mt-4 grid gap-3">
+              {course.resources[locale].map((resource) => (
+                <a
+                  className="focus-ring inline-flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.055] p-4 text-sm font-bold text-slate-100 transition hover:border-mint/40 hover:bg-mint/10"
+                  href={resource.url}
+                  key={resource.url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <span className="hp-wrap min-w-0">{resource.label}</span>
+                  <ExternalLink aria-hidden className="h-4 w-4 shrink-0 text-mint" />
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-8">
+            <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} locale={locale} />
+          </div>
         </div>
       </article>
     </div>

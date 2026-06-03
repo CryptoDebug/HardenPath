@@ -18,8 +18,8 @@ export default async function AccountPage() {
         <div className="hp-shell rounded-md p-6">
           <div className="hp-inner">
             <p className="hp-kicker">{dictionary.account.localAuth}</p>
-            <h1 className="mt-3 text-4xl font-black text-white">{dictionary.account.title}</h1>
-            <p className="mt-4 text-base leading-7 text-slate-300">{dictionary.account.body}</p>
+            <h1 className="hp-wrap mt-3 text-4xl font-extrabold leading-tight text-white">{dictionary.account.title}</h1>
+            <p className="hp-wrap mt-4 text-base leading-7 text-slate-300">{dictionary.account.body}</p>
             <div className="mt-6">
               <AuthPanel dictionary={dictionary.account} />
             </div>
@@ -29,19 +29,19 @@ export default async function AccountPage() {
         <div className="grid gap-4">
           <div className="hp-panel rounded-md p-5">
             <ChartNoAxesColumnIncreasing aria-hidden className="h-6 w-6 text-mint" />
-            <h2 className="mt-4 text-xl font-black text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
+            <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
             {session ? (
               <div className="mt-5 space-y-4">
                 <div>
-                  <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
-                    <span>{locale === "fr" ? "Maîtrise globale" : "Overall mastery"}</span>
+                  <div className="mb-2 flex items-center justify-between gap-3 text-sm font-semibold text-slate-200">
+                    <span className="hp-wrap">{locale === "fr" ? "Maîtrise globale" : "Overall mastery"}</span>
                     <span>{stats.totalPercent}%</span>
                   </div>
                   <ProgressBar value={stats.totalPercent} />
                 </div>
                 <div>
-                  <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-200">
-                    <span>{locale === "fr" ? "Modules validés" : "Validated modules"}</span>
+                  <div className="mb-2 flex items-center justify-between gap-3 text-sm font-semibold text-slate-200">
+                    <span className="hp-wrap">{locale === "fr" ? "Modules validés" : "Validated modules"}</span>
                     <span>
                       {stats.completedCourses}/{stats.totalCourses}
                     </span>
@@ -50,7 +50,7 @@ export default async function AccountPage() {
                 </div>
               </div>
             ) : (
-              <p className="mt-5 rounded-md border border-white/10 bg-ink/55 p-4 text-sm leading-6 text-slate-300">
+              <p className="hp-wrap mt-5 rounded-md border border-white/10 bg-white/[0.055] p-4 text-sm leading-6 text-slate-300">
                 {locale === "fr"
                   ? "Connecte-toi pour afficher tes jalons, validations et badges."
                   : "Sign in to display milestones, validations, and badges."}
@@ -61,8 +61,8 @@ export default async function AccountPage() {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="hp-panel rounded-md p-5">
               <Award aria-hidden className="h-6 w-6 text-amber" />
-              <h2 className="mt-4 text-xl font-black text-white">Badges</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
+              <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">Badges</h2>
+              <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">
                 {session
                   ? locale === "fr"
                     ? `${stats.badgeCount} badge(s) débloqué(s).`
@@ -74,8 +74,8 @@ export default async function AccountPage() {
             </div>
             <div className="hp-panel rounded-md p-5">
               <CreditCard aria-hidden className="h-6 w-6 text-steel" />
-              <h2 className="mt-4 text-xl font-black text-white">{locale === "fr" ? "Niveaux d'accès" : "Access levels"}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
+              <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">{locale === "fr" ? "Niveaux d'accès" : "Access levels"}</h2>
+              <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">
                 {locale === "fr"
                   ? "Des parcours gratuits et des validations avancées peuvent être distingués selon le niveau d'accès."
                   : "Free paths and advanced validations can be separated by access level."}

@@ -28,7 +28,7 @@ export function LanguageSwitch({ locale, label }: LanguageSwitchProps) {
   return (
     <button
       aria-label={label}
-      className="focus-ring inline-flex h-10 items-center gap-2 rounded-md border border-white/12 bg-ink/70 px-3 text-sm font-black text-paper transition hover:border-mint/50 hover:bg-mint/10"
+      className="focus-ring inline-flex h-10 items-center gap-2 rounded-md border border-white/10 bg-white/[0.06] px-3 text-sm font-extrabold text-paper transition hover:border-mint/40 hover:bg-mint/10"
       onClick={() => {
         persistLocale(nextLocale);
         router.refresh();

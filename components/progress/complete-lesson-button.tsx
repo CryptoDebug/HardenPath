@@ -53,7 +53,7 @@ export function CompleteLessonButton({ label, courseSlug, initialCompleted, loca
   return (
     <div>
       <button
-        className="hp-button-primary disabled:cursor-default disabled:bg-paper/65"
+        className="hp-button-primary disabled:cursor-default disabled:bg-mint/60"
         disabled={done || isSaving}
         onClick={completeCourse}
         type="button"

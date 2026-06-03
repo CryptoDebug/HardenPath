@@ -39,10 +39,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       <section className="hp-shell rounded-md p-6 sm:p-8">
         <div className="hp-inner">
           <Badge tone={category.color}>{dictionary.category.modules}</Badge>
-          <h1 className="mt-5 text-4xl font-black text-white">{category.title[locale]}</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
+          <h1 className="hp-wrap mt-5 text-4xl font-extrabold leading-tight text-white">{category.title[locale]}</h1>
+          <p className="hp-wrap mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
           {!session ? (
-            <p className="mt-4 max-w-3xl rounded-md border border-amber/35 bg-amber/10 p-4 text-sm font-bold leading-6 text-amber">
+            <p className="hp-wrap mt-4 max-w-3xl rounded-md border border-amber/30 bg-amber/[0.09] p-4 text-sm font-bold leading-6 text-amber">
               {locale === "fr"
                 ? "Connecte-toi pour ouvrir les modules, valider les jalons et reprendre ton parcours."
                 : "Sign in to open modules, validate milestones, and resume your path."}

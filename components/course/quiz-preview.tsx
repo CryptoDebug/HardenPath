@@ -46,27 +46,27 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
   const labels = copy[locale];
 
   return (
-    <div className="overflow-hidden rounded-md border border-white/10 bg-[#0f151b]">
-      <div className="border-b border-white/10 bg-white/[0.035] p-4 sm:p-5">
+    <div className="overflow-hidden rounded-md border border-white/10 bg-[#191e24]">
+      <div className="border-b border-white/10 bg-white/[0.045] p-4 sm:p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-md border border-mint/25 bg-mint/10 text-mint">
               <Target aria-hidden className="h-5 w-5" />
             </span>
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-steel-300">{labels.drill}</p>
-              <h3 className="mt-1 text-lg font-black text-white">{isComplete ? labels.statusComplete : labels.statusProgress}</h3>
+            <div className="min-w-0">
+              <p className="hp-wrap text-xs font-extrabold uppercase tracking-[0.06em] text-steel">{labels.drill}</p>
+              <h3 className="hp-wrap mt-1 text-lg font-extrabold text-white">{isComplete ? labels.statusComplete : labels.statusProgress}</h3>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="rounded-md border border-white/10 bg-ink/70 px-3 py-2 text-right">
-              <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-steel-300">{labels.score}</p>
+            <div className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-right">
+              <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.06em] text-steel">{labels.score}</p>
               <p className="font-black text-white">
                 {score}/{questions.length}
               </p>
             </div>
             <button
-              className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-steel-200 transition hover:border-mint/30 hover:text-white"
+              className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 bg-white/[0.055] text-steel transition hover:border-mint/30 hover:text-white"
               onClick={() => setAnswers({})}
               type="button"
             >
@@ -78,7 +78,7 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
         <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-black/35">
           <div className="h-full rounded-full bg-mint transition-all duration-500" style={{ width: `${progress}%` }} />
         </div>
-        <div className="mt-2 flex items-center justify-between text-xs font-bold text-steel-300">
+        <div className="mt-2 flex items-center justify-between gap-3 text-xs font-bold text-steel">
           <span>
             {answeredCount}/{questions.length} {labels.answered}
           </span>
@@ -93,10 +93,10 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
         <fieldset className="p-4 sm:p-5" key={question.question}>
           <legend className="float-left w-full">
             <div className="flex items-start gap-3">
-              <span className="mt-0.5 rounded border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[0.7rem] font-bold text-steel-200">
+              <span className="mt-0.5 shrink-0 rounded border border-white/10 bg-white/[0.055] px-2 py-1 font-mono text-[0.7rem] font-bold text-steel">
                 Q{String(index + 1).padStart(2, "0")}
               </span>
-              <span className="text-base font-black leading-6 text-white">{question.question}</span>
+              <span className="hp-wrap min-w-0 text-base font-extrabold leading-6 text-white">{question.question}</span>
             </div>
           </legend>
           <div className="clear-both mt-4 grid gap-2">
@@ -165,7 +165,7 @@ function QuizOption({ checked, correct, name, onSelect, option, revealed, select
       : "border-mint/45 bg-mint/10 text-white"
     : revealed && correct
       ? "border-mint/25 bg-mint/[0.06] text-slate-100"
-      : "border-white/10 bg-white/[0.035] text-slate-300 hover:border-steel-500 hover:bg-white/[0.055]";
+      : "border-white/10 bg-white/[0.045] text-slate-300 hover:border-steel hover:bg-white/[0.065]";
 
   return (
     <label className={`flex cursor-pointer items-center gap-3 rounded-md border px-3 py-3 text-sm transition ${stateClass}`}>
@@ -173,7 +173,7 @@ function QuizOption({ checked, correct, name, onSelect, option, revealed, select
       <span aria-hidden className="grid h-5 w-5 shrink-0 place-items-center rounded-full border border-current/35">
         {checked ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-3 w-3" />}
       </span>
-      <span className="leading-6">{option}</span>
+      <span className="hp-wrap min-w-0 leading-6">{option}</span>
       <span className="sr-only">{selectLabel}</span>
     </label>
   );

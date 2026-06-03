@@ -8,9 +8,9 @@ export function ProgressBar({ value, label }: ProgressBarProps) {
 
   return (
     <div aria-label={label} aria-valuemax={100} aria-valuemin={0} aria-valuenow={clamped} role="progressbar">
-      <div className="h-2 overflow-hidden rounded-[3px] border border-white/10 bg-ink/85">
+      <div className="h-2.5 overflow-hidden rounded-full border border-white/10 bg-black/30">
         <div
-          className="h-full rounded-[2px] bg-[linear-gradient(90deg,#67d8bd,#8d9aaa)] transition-all duration-500"
+          className="h-full rounded-full bg-[linear-gradient(90deg,#67d8bd,#c8a45f)] transition-all duration-500"
           style={{ width: `${clamped}%` }}
         />
       </div>

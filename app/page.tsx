@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { Award, BookOpenCheck, ChevronRight, Flame, LockKeyhole, Map, ShieldCheck } from "lucide-react";
+import {
+  Award,
+  BookOpenCheck,
+  CheckCircle2,
+  ChevronRight,
+  Flame,
+  LockKeyhole,
+  Map,
+  ShieldCheck,
+  Sparkles
+} from "lucide-react";
 import { getServerSession } from "next-auth";
 import { CategoryCard } from "@/components/course/category-card";
 import { LearningPulse } from "@/components/progress/learning-pulse";
@@ -15,21 +25,22 @@ export default async function HomePage() {
   const dictionary = await getDictionary(locale);
   const session = await getServerSession(authOptions);
   const stats = await getLearningStats(session?.user?.id);
+  const completedSteps = session ? Math.min(stats.completedCourses, 5) : 0;
   const pathSteps =
     locale === "fr"
-      ? ["Cadre", "Fondations", "Laboratoire", "Validation", "Badge"]
-      : ["Scope", "Foundations", "Lab", "Validation", "Badge"];
+      ? ["Cadre", "Fondations", "Pratique", "Validation", "Badge"]
+      : ["Scope", "Foundations", "Practice", "Validation", "Badge"];
   const platformItems =
     locale === "fr"
       ? [
-          "Parcours structurés par domaine et niveau",
-          "Exercices guidés dans des environnements autorisés",
-          "Jalons, badges et validations pour mesurer la maîtrise"
+          "Des parcours courts, ordonnés par niveau",
+          "Des exercices cadrés pour progresser sans flou",
+          "Des badges et validations pour voir l'avancée"
         ]
       : [
-          "Structured paths by domain and level",
-          "Guided practice in authorized environments",
-          "Milestones, badges, and validations to measure mastery"
+          "Short paths organized by level",
+          "Scoped exercises that keep progress clear",
+          "Badges and validations that make progress visible"
         ];
 
   return (
@@ -39,12 +50,15 @@ export default async function HomePage() {
           <div className="hp-inner">
             <div className="flex flex-wrap items-center gap-3">
               <Badge tone="mint">{dictionary.home.eyebrow}</Badge>
-              <span className="hp-kicker">paths / labs / validation</span>
+              <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-bold text-paper">
+                <Sparkles aria-hidden className="h-3.5 w-3.5 text-amber" />
+                {locale === "fr" ? "Progression visible" : "Visible progress"}
+              </span>
             </div>
-            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
+            <h1 className="hp-wrap mt-5 max-w-4xl text-4xl font-extrabold leading-tight text-white sm:text-5xl">
               {dictionary.home.title}
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">{dictionary.home.body}</p>
+            <p className="hp-wrap mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">{dictionary.home.body}</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link className="hp-button-primary" href="/categories/network">
                 <BookOpenCheck aria-hidden className="h-4 w-4" />
@@ -57,22 +71,25 @@ export default async function HomePage() {
             </div>
 
             <div className="hp-skill-map mt-8 rounded-md p-4">
-              <div className="mb-5 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.16em] text-paper">
-                  <Map aria-hidden className="h-4 w-4 text-mint" />
-                  {locale === "fr" ? "Carte de progression" : "Progression map"}
+              <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex min-w-0 items-center gap-2 text-sm font-extrabold text-paper">
+                  <Map aria-hidden className="h-4 w-4 shrink-0 text-mint" />
+                  <span className="hp-wrap">{locale === "fr" ? "Carte de progression" : "Progression map"}</span>
                 </div>
-                <span className="text-xs font-bold text-steel">
+                <span className="hp-wrap text-xs font-bold text-steel">
                   {stats.completedCourses}/{stats.totalCourses} {locale === "fr" ? "modules validés" : "modules validated"}
                 </span>
               </div>
               <div className="relative grid gap-3 sm:grid-cols-5">
                 {pathSteps.map((step, index) => {
-                  const isDone = session ? index < Math.min(stats.completedCourses, pathSteps.length) : false;
+                  const isDone = index < completedSteps;
                   return (
                     <div className={`hp-node ${isDone ? "hp-node-done" : "hp-node-locked"}`} key={step}>
-                      <span className="block text-[10px] text-steel">0{index + 1}</span>
-                      <span className="mt-1 block">{step}</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[11px] text-steel">0{index + 1}</span>
+                        {isDone ? <CheckCircle2 aria-hidden className="h-4 w-4 text-mint" /> : null}
+                      </div>
+                      <span className="mt-2 block">{step}</span>
                     </div>
                   );
                 })}
@@ -94,8 +111,13 @@ export default async function HomePage() {
       <section className="mt-10 grid gap-4 md:grid-cols-3">
         {platformItems.map((item, index) => (
           <div className="hp-panel rounded-md p-5" key={item}>
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-steel">0{index + 1}</span>
-            <p className="mt-3 text-base font-black leading-6 text-white">{item}</p>
+            <div className="flex items-center justify-between gap-3">
+              <span className="grid h-9 w-9 place-items-center rounded-md border border-white/10 bg-white/[0.06] text-sm font-extrabold text-mint">
+                0{index + 1}
+              </span>
+              <CheckCircle2 aria-hidden className="h-5 w-5 text-amber" />
+            </div>
+            <p className="hp-wrap mt-4 text-base font-extrabold leading-6 text-white">{item}</p>
           </div>
         ))}
       </section>
@@ -132,12 +154,12 @@ export default async function HomePage() {
           { icon: LockKeyhole, value: String(stats.completedCourses), label: locale === "fr" ? "Modules validés" : "Validated modules" }
         ].map((item) => (
           <div className="hp-panel rounded-md p-5" key={item.label}>
-            <div className="flex items-center justify-between">
-              <item.icon aria-hidden className="h-6 w-6 text-steel" />
+            <div className="flex items-center justify-between gap-3">
+              <item.icon aria-hidden className="h-6 w-6 text-paper" />
               <ShieldCheck aria-hidden className="h-4 w-4 text-mint/70" />
             </div>
-            <p className="mt-4 text-2xl font-black text-white">{item.value}</p>
-            <p className="mt-1 text-sm text-slate-300">{item.label}</p>
+            <p className="hp-wrap mt-4 text-2xl font-extrabold text-white">{item.value}</p>
+            <p className="hp-wrap mt-1 text-sm text-slate-300">{item.label}</p>
           </div>
         ))}
       </section>
