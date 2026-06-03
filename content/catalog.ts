@@ -884,6 +884,548 @@ export const courses: Course[] = [
   }
 ];
 
+type CourseEnhancement = {
+  sections: Record<Locale, { title: string; body: string }[]>;
+  exercises: Record<Locale, { title: string; body: string; premium?: boolean }[]>;
+  quiz: Record<Locale, QuizQuestion[]>;
+};
+
+const courseEnhancements = {
+  "tcpip-basics": {
+    sections: {
+      fr: [
+        {
+          title: "Définitions utiles",
+          body: "Une adresse IP identifie une interface sur un réseau. Un masque découpe cette adresse entre partie réseau et partie hôte. Un port identifie une application ou un service attendu sur une machine. Un protocole définit les règles de l'échange : TCP privilégie la fiabilité, UDP la simplicité, ICMP le diagnostic."
+        },
+        {
+          title: "Mise en situation",
+          body: "Tu arrives sur un petit réseau de lab. Un poste 192.168.10.25 n'atteint plus l'intranet 192.168.20.10. Avant de conclure à une panne, tu vérifies le masque, la passerelle, le port demandé et le protocole. Cette lecture évite de confondre problème d'adressage, filtrage réseau et service indisponible."
+        }
+      ],
+      en: [
+        {
+          title: "Useful definitions",
+          body: "An IP address identifies an interface on a network. A mask splits that address between network and host parts. A port identifies an expected application or service on a machine. A protocol defines exchange rules: TCP favors reliability, UDP favors simplicity, and ICMP supports diagnostics."
+        },
+        {
+          title: "Scenario",
+          body: "You enter a small lab network. A workstation at 192.168.10.25 can no longer reach the intranet at 192.168.20.10. Before calling it an outage, you check the mask, gateway, requested port, and protocol. That reading avoids confusing addressing, filtering, and unavailable service."
+        }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Diagnostic d'un poste isolé", body: "On te donne 192.168.10.25/24, passerelle 192.168.10.1, service attendu 192.168.20.10:443. Écris les 5 vérifications à faire dans l'ordre, puis précise ce que chaque résultat te permet de conclure ou non." },
+        { title: "Mini glossaire réseau", body: "Définis IP, masque, passerelle, port, protocole et service avec une phrase simple et un exemple de lab pour chacun." }
+      ],
+      en: [
+        { title: "Isolated workstation diagnostic", body: "Given 192.168.10.25/24, gateway 192.168.10.1, expected service 192.168.20.10:443. Write the 5 checks to perform in order, then state what each result lets you conclude or not." },
+        { title: "Network mini glossary", body: "Define IP, mask, gateway, port, protocol, and service with one plain sentence and one lab example for each." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Un poste en /24 essaie de joindre une adresse dans un autre /24. Quelle vérification vient en premier ?", options: ["La passerelle configurée et joignable", "La couleur du câble", "Le nom commercial du service"], correctOption: 0 },
+        { question: "Tu vois du trafic vers 10.0.0.8:53 en UDP. Quelle phrase est la plus prudente ?", options: ["Le poste interroge probablement un service DNS, à confirmer", "Le poste est forcément compromis", "Le port 53 prouve un serveur web"], correctOption: 0 },
+        { question: "Un port ouvert répond, mais la bannière ne correspond pas au service attendu. Que fais-tu ?", options: ["Tu notes une hypothèse et tu vérifies avec le contexte", "Tu ignores la différence", "Tu déclares le service identifié avec certitude"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A /24 workstation tries to reach an address in another /24. Which check comes first?", options: ["The configured and reachable gateway", "The cable color", "The service brand name"], correctOption: 0 },
+        { question: "You see traffic to 10.0.0.8:53 over UDP. Which statement is most careful?", options: ["The host is likely querying DNS, to confirm", "The host is certainly compromised", "Port 53 proves a web server"], correctOption: 0 },
+        { question: "An open port responds, but its banner does not match the expected service. What do you do?", options: ["Record a hypothesis and verify with context", "Ignore the difference", "Declare the service identified with certainty"], correctOption: 0 }
+      ]
+    }
+  },
+  "local-lab-vm-setup": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un périmètre décrit ce qui est autorisé. L'isolation limite les effets d'une erreur. Un snapshot est un point de retour. Un journal de lab garde les décisions, les observations et les limites de l'exercice." },
+        { title: "Mise en situation", body: "Tu veux tester un service vulnérable volontairement. Si tu l'ouvres sur ton réseau principal, tu mélanges apprentissage et risque réel. Dans un lab propre, la VM est isolée, les règles sont écrites, le snapshot existe et tu sais comment revenir à l'état initial." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "Scope describes what is allowed. Isolation limits mistake impact. A snapshot is a return point. A lab journal keeps decisions, observations, and exercise limits." },
+        { title: "Scenario", body: "You want to test an intentionally vulnerable service. If you expose it on your main network, you mix learning with real risk. In a clean lab, the VM is isolated, rules are written, a snapshot exists, and you know how to return to baseline." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Plan de lab avant démarrage", body: "Rédige une fiche pour deux VM : rôle, réseau, accès autorisés, interdits, snapshot de départ, méthode de reset et critère d'arrêt." },
+        { title: "Incident de lab simulé", body: "Imagine qu'une VM de test communique avec une machine personnelle. Écris ce que tu vérifies, ce que tu coupes, et comment tu modifies ton lab pour éviter la répétition." }
+      ],
+      en: [
+        { title: "Lab plan before launch", body: "Write a sheet for two VMs: role, network, allowed access, forbidden actions, initial snapshot, reset method, and stop criterion." },
+        { title: "Simulated lab incident", body: "Imagine a test VM communicates with a personal machine. Write what you check, what you cut off, and how you change the lab to prevent recurrence." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Tu télécharges une VM vulnérable pour t'entraîner. Quel choix est le plus sûr ?", options: ["La lancer dans un réseau isolé avec snapshot", "La connecter au Wi-Fi familial", "La publier sur Internet pour tester plus vite"], correctOption: 0 },
+        { question: "Ton exercice n'a pas de règle d'arrêt. Quel risque principal ?", options: ["Continuer hors périmètre sans t'en rendre compte", "Avoir trop de notes", "Rendre le lab trop lisible"], correctOption: 0 },
+        { question: "Après un changement de configuration, le lab ne démarre plus. Qu'est-ce qui aide le plus ?", options: ["Un snapshot et un journal des actions", "Un souvenir approximatif", "Changer de sujet"], correctOption: 0 }
+      ],
+      en: [
+        { question: "You download a vulnerable VM for training. What is the safest choice?", options: ["Run it on an isolated network with a snapshot", "Connect it to the family Wi-Fi", "Publish it online to test faster"], correctOption: 0 },
+        { question: "Your exercise has no stop rule. What is the main risk?", options: ["Continuing outside scope without noticing", "Having too many notes", "Making the lab too readable"], correctOption: 0 },
+        { question: "After a configuration change, the lab no longer starts. What helps most?", options: ["A snapshot and action journal", "A rough memory", "Changing topic"], correctOption: 0 }
+      ]
+    }
+  },
+  "network-map-first-steps": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un actif est un élément qui porte une fonction. Un flux est une communication observée ou attendue. Une zone regroupe des machines avec un niveau d'exposition ou de confiance similaire. Une inconnue est une information à vérifier, pas une faiblesse à inventer." },
+        { title: "Mise en situation", body: "On te demande pourquoi un serveur de fichiers reçoit des connexions depuis un poste invité. Au lieu de scanner au hasard, tu construis une carte : source, destination, protocole, port, fréquence, rôle supposé et niveau de confiance. La carte révèle si le flux est attendu ou à investiguer." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "An asset carries a function. A flow is observed or expected communication. A zone groups machines with similar exposure or trust. An unknown is information to verify, not a weakness to invent." },
+        { title: "Scenario", body: "You are asked why a file server receives connections from a guest workstation. Instead of scanning randomly, you build a map: source, destination, protocol, port, frequency, expected role, and confidence. The map shows whether the flow is expected or worth investigating." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Carte orientée décision", body: "À partir de 5 machines fictives, crée une carte avec zones, rôles, flux attendus, flux douteux et prochaine action. Ajoute un niveau de confiance pour chaque rôle." },
+        { title: "Flux à expliquer", body: "Choisis trois flux de lab. Pour chacun, écris une phrase : 'qui parle à qui, sur quoi, pourquoi probablement, et comment vérifier'." }
+      ],
+      en: [
+        { title: "Decision-oriented map", body: "From 5 fictional machines, create a map with zones, roles, expected flows, doubtful flows, and next action. Add a confidence level for each role." },
+        { title: "Explain the flow", body: "Choose three lab flows. For each, write: 'who talks to whom, over what, likely why, and how to verify'." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Une machine inconnue parle au serveur DNS. Quelle note est la plus utile ?", options: ["Source, destination, port, fréquence, rôle supposé et confiance", "Seulement 'trafic suspect'", "Uniquement l'adresse IP"], correctOption: 0 },
+        { question: "Tu n'es pas sûr du rôle d'un hôte. Que fais-tu sur la carte ?", options: ["Tu marques l'hypothèse et le niveau de confiance", "Tu inventes un rôle définitif", "Tu retires l'hôte"], correctOption: 0 },
+        { question: "Un flux est inattendu mais faible. Quelle décision est proportionnée ?", options: ["Le documenter et définir une vérification", "Tout bloquer sans contexte", "L'ignorer car il est faible"], correctOption: 0 }
+      ],
+      en: [
+        { question: "An unknown machine talks to the DNS server. Which note is most useful?", options: ["Source, destination, port, frequency, expected role, and confidence", "Only 'suspicious traffic'", "Only the IP address"], correctOption: 0 },
+        { question: "You are unsure about a host role. What do you put on the map?", options: ["The hypothesis and confidence level", "A final invented role", "Remove the host"], correctOption: 0 },
+        { question: "A flow is unexpected but low volume. What is proportionate?", options: ["Document it and define a verification", "Block everything without context", "Ignore it because it is low volume"], correctOption: 0 }
+      ]
+    }
+  },
+  "http-basics": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Une requête décrit ce que le client demande. Une réponse décrit ce que le serveur renvoie. Un code 2xx indique généralement une réussite, 3xx une redirection, 4xx un problème côté demande, 5xx un problème côté serveur. Un en-tête ajoute du contexte à l'échange." },
+        { title: "Mise en situation", body: "Un utilisateur dit que 'le site est cassé'. Tu captures une transaction : POST /login, réponse 302, cookie de session, redirection vers /dashboard. Ce n'est pas cassé : c'est peut-être une connexion réussie. Lire HTTP évite de juger seulement à l'écran." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "A request describes what the client asks for. A response describes what the server returns. 2xx usually means success, 3xx redirection, 4xx a request-side issue, 5xx a server-side issue. A header adds exchange context." },
+        { title: "Scenario", body: "A user says 'the site is broken'. You capture: POST /login, 302 response, session cookie, redirect to /dashboard. That may not be broken: it may be a successful sign-in. Reading HTTP prevents judging only by the screen." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Lecture d'une connexion", body: "Décris une transaction de connexion fictive avec méthode, chemin, statut, cookie, redirection et conclusion. Sépare ce qui est observé de ce qui est supposé." },
+        { title: "Glossaire HTTP terrain", body: "Définis méthode, chemin, statut, en-tête, cookie et corps de requête avec un exemple d'usage défensif." }
+      ],
+      en: [
+        { title: "Read a sign-in transaction", body: "Describe a fictional sign-in transaction with method, path, status, cookie, redirect, and conclusion. Separate observation from assumption." },
+        { title: "Field HTTP glossary", body: "Define method, path, status, header, cookie, and request body with one defensive use example." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "POST /login renvoie 302 puis un cookie de session. Quelle interprétation est la plus prudente ?", options: ["La connexion a peut-être réussi et redirige", "Le serveur est forcément en erreur", "Le cookie prouve une faille"], correctOption: 0 },
+        { question: "Une API renvoie 403 sur une action admin. Que signifie le plus probablement ce statut ?", options: ["La demande est comprise mais non autorisée", "Le serveur n'existe pas", "Le navigateur est trop lent"], correctOption: 0 },
+        { question: "Un cookie de session est transmis sans protection suffisante. Quel risque défensif notes-tu ?", options: ["Vol ou réutilisation de session", "Augmentation du débit", "Erreur de typographie"], correctOption: 0 }
+      ],
+      en: [
+        { question: "POST /login returns 302 and a session cookie. What is the most careful interpretation?", options: ["Sign-in may have succeeded and redirected", "The server is certainly failing", "The cookie proves a vulnerability"], correctOption: 0 },
+        { question: "An API returns 403 for an admin action. What does that most likely mean?", options: ["The request is understood but not authorized", "The server does not exist", "The browser is too slow"], correctOption: 0 },
+        { question: "A session cookie is sent without sufficient protection. What defensive risk do you note?", options: ["Session theft or reuse", "Higher bandwidth", "A typo"], correctOption: 0 }
+      ]
+    }
+  },
+  "web-form-basics": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "La validation client aide l'utilisateur avant l'envoi. La validation serveur décide ce qui est accepté. Une contrainte vérifie type, longueur, format, valeur autorisée ou droit. Un message d'erreur utile corrige sans révéler d'information sensible." },
+        { title: "Mise en situation", body: "Un champ 'quantité' accepte seulement 1 à 10 dans l'interface. Un test envoie 999 directement au serveur. Si le serveur accepte, le problème n'est pas l'interface : c'est l'absence de validation côté serveur." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "Client validation helps the user before sending. Server validation decides what is accepted. A constraint checks type, length, format, allowed value, or rights. A useful error helps correction without revealing sensitive information." },
+        { title: "Scenario", body: "A 'quantity' field allows only 1 to 10 in the interface. A test sends 999 directly to the server. If the server accepts it, the issue is not the interface: it is missing server-side validation." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Contrat de formulaire", body: "Pour un formulaire d'inscription, écris le contrat serveur : champs, types, longueurs, erreurs, droits, cas limites et données à ne jamais accepter." },
+        { title: "Cas limite", body: "Imagine trois entrées problématiques : email très long, nom vide, rôle 'admin' ajouté dans la requête. Explique la réponse serveur attendue." }
+      ],
+      en: [
+        { title: "Form contract", body: "For a registration form, write the server contract: fields, types, lengths, errors, rights, edge cases, and data that must never be accepted." },
+        { title: "Edge case", body: "Imagine three problematic inputs: very long email, empty name, role 'admin' added to the request. Explain the expected server response." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Le navigateur bloque un champ vide, mais une requête directe l'envoie quand même. Où doit se trouver la protection décisive ?", options: ["Côté serveur", "Uniquement dans le HTML", "Dans la couleur du bouton"], correctOption: 0 },
+        { question: "Un utilisateur ajoute role=admin dans la soumission. Quelle réponse est saine ?", options: ["Ignorer ou rejeter ce champ non autorisé", "Créer un compte admin", "Masquer l'erreur sans journal"], correctOption: 0 },
+        { question: "Une erreur dit 'email déjà utilisé par alice@example.com'. Quel problème ?", options: ["Elle révèle trop d'information", "Elle est trop courte", "Elle utilise HTTP"], correctOption: 0 }
+      ],
+      en: [
+        { question: "The browser blocks an empty field, but a direct request sends it anyway. Where must the decisive protection live?", options: ["On the server", "Only in HTML", "In the button color"], correctOption: 0 },
+        { question: "A user adds role=admin to submission. What is a healthy response?", options: ["Ignore or reject the unauthorized field", "Create an admin account", "Hide the error without logs"], correctOption: 0 },
+        { question: "An error says 'email already used by alice@example.com'. What is the issue?", options: ["It reveals too much information", "It is too short", "It uses HTTP"], correctOption: 0 }
+      ]
+    }
+  },
+  "web-auth-foundations": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Authentification : prouver une identité. Session : conserver temporairement cet état. Autorisation : décider ce que cette identité peut faire. MFA : demander un facteur supplémentaire quand le risque le justifie." },
+        { title: "Mise en situation", body: "Un utilisateur standard modifie l'URL /users/12 en /users/13 et voit un autre profil. Le mot de passe n'est pas en cause : l'utilisateur est authentifié, mais l'autorisation de l'action n'est pas correctement vérifiée." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "Authentication proves identity. Session keeps that state temporarily. Authorization decides what that identity can do. MFA asks for an extra factor when risk justifies it." },
+        { title: "Scenario", body: "A standard user changes /users/12 to /users/13 and sees another profile. The password is not the issue: the user is authenticated, but action authorization is not properly checked." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Scénario de droits", body: "Décris un flux où l'utilisateur est connecté mais ne doit pas accéder à une ressource. Écris les contrôles serveur attendus et les journaux utiles." },
+        { title: "Table auth/session/autorisation", body: "Pour connexion, changement d'email, suppression de compte et accès admin, indique le contrôle principal, le risque et la réponse en cas d'échec." }
+      ],
+      en: [
+        { title: "Rights scenario", body: "Describe a flow where the user is signed in but must not access a resource. Write expected server checks and useful logs." },
+        { title: "Auth/session/authorization table", body: "For sign-in, email change, account deletion, and admin access, list the main check, risk, and failure response." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Un utilisateur connecté accède à une facture qui ne lui appartient pas. Quelle famille de problème ?", options: ["Autorisation", "Authentification uniquement", "Compression HTTP"], correctOption: 0 },
+        { question: "Après déconnexion, l'ancien cookie fonctionne encore. Quel contrôle manque ?", options: ["Invalidation ou révocation de session", "Validation du nom", "Changement de police"], correctOption: 0 },
+        { question: "MFA doit être demandé pour quelle action en priorité ?", options: ["Action sensible comme changer l'email ou retirer des fonds", "Lire une page publique", "Afficher le logo"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A signed-in user accesses an invoice they do not own. What problem family is this?", options: ["Authorization", "Authentication only", "HTTP compression"], correctOption: 0 },
+        { question: "After sign-out, the old cookie still works. What check is missing?", options: ["Session invalidation or revocation", "Name validation", "Font change"], correctOption: 0 },
+        { question: "MFA should be prioritized for which action?", options: ["Sensitive action like changing email or withdrawing funds", "Reading a public page", "Displaying the logo"], correctOption: 0 }
+      ]
+    }
+  },
+  "linux-shell-basics": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un chemin absolu part de /. Un chemin relatif part de l'endroit où tu te trouves. Les permissions se lisent pour propriétaire, groupe et autres. Un journal est une source d'événements, pas une conclusion." },
+        { title: "Mise en situation", body: "Un service ne démarre plus. Tu ne modifies rien au départ : tu localises le fichier, lis les permissions, observes les derniers journaux, puis formules une hypothèse. Cette discipline évite d'ajouter une panne à la panne." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "An absolute path starts at /. A relative path starts where you are. Permissions are read for owner, group, and others. A log is a source of events, not a conclusion." },
+        { title: "Scenario", body: "A service no longer starts. You change nothing at first: locate the file, read permissions, observe recent logs, then form a hypothesis. This discipline avoids adding a failure to the failure." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Enquête sans modification", body: "Écris une procédure de 8 commandes maximum pour comprendre un fichier suspect : emplacement, type, taille, propriétaire, permissions, dernières lignes associées." },
+        { title: "Lecture de permissions", body: "Pour trois exemples de droits fictifs, explique qui peut lire, écrire, exécuter, et quel risque cela crée pour un service." }
+      ],
+      en: [
+        { title: "Investigation without modification", body: "Write a procedure of up to 8 commands to understand a suspicious file: location, type, size, owner, permissions, related recent lines." },
+        { title: "Permission reading", body: "For three fictional permission examples, explain who can read, write, execute, and what risk that creates for a service." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Tu analyses un fichier inconnu sur un serveur. Quel réflexe vient avant suppression ?", options: ["Observer type, chemin, propriétaire et contexte", "Supprimer pour gagner du temps", "Changer toutes les permissions"], correctOption: 0 },
+        { question: "Un journal montre une erreur à 10:42. Quelle conclusion est correcte ?", options: ["C'est un indice à corréler", "C'est forcément la cause racine", "Il faut ignorer l'heure"], correctOption: 0 },
+        { question: "Un fichier de configuration est modifiable par 'others'. Quel risque ?", options: ["Modification non prévue par un utilisateur non autorisé", "Lecture plus rapide", "Moins de logs"], correctOption: 0 }
+      ],
+      en: [
+        { question: "You analyze an unknown file on a server. What comes before deletion?", options: ["Observe type, path, owner, and context", "Delete it to save time", "Change all permissions"], correctOption: 0 },
+        { question: "A log shows an error at 10:42. What conclusion is correct?", options: ["It is a clue to correlate", "It is certainly the root cause", "The time should be ignored"], correctOption: 0 },
+        { question: "A configuration file is writable by 'others'. What is the risk?", options: ["Unexpected modification by an unauthorized user", "Faster reading", "Fewer logs"], correctOption: 0 }
+      ]
+    }
+  },
+  "linux-service-hardening": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Le moindre privilège donne seulement les droits nécessaires. La surface d'exposition regroupe ports, fichiers, comptes et actions accessibles. Un rollback est une méthode de retour arrière testable." },
+        { title: "Mise en situation", body: "Un service de lab tourne en root alors qu'il lit seulement un dossier et écoute localement. Tu crées un utilisateur dédié, limites les fichiers accessibles, vérifies le port exposé et gardes un plan de retour arrière avant de changer la configuration." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "Least privilege gives only necessary rights. Exposure surface includes ports, files, accounts, and available actions. A rollback is a testable return method." },
+        { title: "Scenario", body: "A lab service runs as root while it only reads a directory and listens locally. You create a dedicated user, limit accessible files, verify exposed port, and keep a rollback plan before changing configuration." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Plan de durcissement progressif", body: "Pour un service fictif, écris l'état initial, les droits nécessaires, les droits à retirer, la vérification après changement et le rollback." },
+        { title: "Analyse d'exposition", body: "Liste port, utilisateur, fichiers lus, fichiers écrits, journaux et dépendances. Pour chaque élément, indique 'nécessaire', 'à vérifier' ou 'à retirer'." }
+      ],
+      en: [
+        { title: "Progressive hardening plan", body: "For a fictional service, write initial state, required rights, rights to remove, post-change verification, and rollback." },
+        { title: "Exposure analysis", body: "List port, user, read files, written files, logs, and dependencies. For each, mark 'necessary', 'to verify', or 'to remove'." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Un service web local tourne en root sans besoin clair. Quelle action est la plus saine ?", options: ["Créer un utilisateur dédié et tester", "Laisser ainsi par confort", "Supprimer les journaux"], correctOption: 0 },
+        { question: "Avant de durcir un service en production, que prépares-tu ?", options: ["État initial, test et rollback", "Seulement une intention", "Un changement irréversible"], correctOption: 0 },
+        { question: "Après changement, le service démarre mais n'écrit plus ses logs. Quelle lecture ?", options: ["Un droit nécessaire a peut-être été retiré", "Le durcissement est forcément parfait", "Les logs ne servent jamais"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A local web service runs as root without a clear need. What is the healthiest action?", options: ["Create a dedicated user and test", "Leave it for comfort", "Delete logs"], correctOption: 0 },
+        { question: "Before hardening a production service, what do you prepare?", options: ["Initial state, test, and rollback", "Only an intention", "An irreversible change"], correctOption: 0 },
+        { question: "After change, the service starts but no longer writes logs. What does that suggest?", options: ["A necessary right may have been removed", "Hardening is certainly perfect", "Logs are never useful"], correctOption: 0 }
+      ]
+    }
+  },
+  "ctf-evidence-notes": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Une hypothèse explique ce que tu penses tester. Une observation décrit ce que tu vois. Une preuve relie une observation à un contexte. Une conclusion dit ce qui est validé, réfuté ou encore incertain." },
+        { title: "Mise en situation", body: "Tu réussis un défi CTF, mais tu n'as gardé que la commande finale. Une semaine plus tard, impossible d'expliquer ta méthode. Avec une note exploitable, tu gardes le contexte, les essais ratés, la preuve et la décision qui t'a fait avancer." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "A hypothesis explains what you think you are testing. An observation describes what you see. Evidence connects an observation to context. A conclusion states what is validated, refuted, or still uncertain." },
+        { title: "Scenario", body: "You complete a CTF challenge, but only kept the final command. A week later, you cannot explain your method. With a useful note, you keep context, failed attempts, evidence, and the decision that moved you forward." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Note complète en 6 blocs", body: "Rédige une note de lab avec contexte, objectif, hypothèse, action, observation, conclusion. Ajoute une capture ou sortie fictive et son interprétation." },
+        { title: "Transformer un résultat en méthode", body: "Prends une commande finale de lab et reconstruis les étapes qui auraient dû être notées pour rendre la méthode réutilisable." }
+      ],
+      en: [
+        { title: "Complete 6-block note", body: "Write a lab note with context, goal, hypothesis, action, observation, conclusion. Add a fictional screenshot or output and its interpretation." },
+        { title: "Turn result into method", body: "Take a final lab command and reconstruct the steps that should have been noted to make the method reusable." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Tu as une capture sans date ni contexte. Quel est le problème ?", options: ["La preuve est fragile et difficile à vérifier", "La capture devient automatiquement meilleure", "Le contexte est inutile"], correctOption: 0 },
+        { question: "Une hypothèse échoue pendant un lab. Quelle note est utile ?", options: ["Ce qui a été testé, observé et pourquoi c'est rejeté", "Rien, seuls les succès comptent", "Effacer les essais"], correctOption: 0 },
+        { question: "Une bonne conclusion de lab doit inclure quoi ?", options: ["Appris, incertain, prochaine action", "Seulement 'réussi'", "Un score sans explication"], correctOption: 0 }
+      ],
+      en: [
+        { question: "You have a screenshot without date or context. What is the issue?", options: ["The evidence is fragile and hard to verify", "The screenshot automatically becomes better", "Context is useless"], correctOption: 0 },
+        { question: "A hypothesis fails during a lab. What note is useful?", options: ["What was tested, observed, and why it is rejected", "Nothing, only successes count", "Erase attempts"], correctOption: 0 },
+        { question: "A good lab conclusion should include what?", options: ["Learned, uncertain, next action", "Only 'success'", "A score without explanation"], correctOption: 0 }
+      ]
+    }
+  },
+  "infrastructure-asset-baseline": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un actif porte une fonction. Une dépendance est ce dont il a besoin pour fonctionner. Une exposition décrit qui peut l'atteindre. Une priorité combine criticité, exposition, fragilité et incertitude." },
+        { title: "Mise en situation", body: "Une petite équipe possède un serveur web, une base de données, un NAS et un compte d'administration partagé. L'inventaire utile ne liste pas seulement des noms : il montre que le NAS dépend du compte admin et que la base n'a pas de sauvegarde vérifiée." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "An asset carries a function. A dependency is what it needs to operate. Exposure describes who can reach it. Priority combines criticality, exposure, fragility, and uncertainty." },
+        { title: "Scenario", body: "A small team has a web server, database, NAS, and shared admin account. A useful inventory does not only list names: it shows the NAS depends on the admin account and the database has no verified backup." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Inventaire en contexte", body: "Crée une fiche pour 4 actifs : rôle, propriétaire, dépendances, exposition, sauvegarde, priorité et inconnue la plus dangereuse." },
+        { title: "Décision de protection", body: "À partir de ton inventaire, choisis l'actif à traiter en premier et justifie avec exposition, impact et incertitude." }
+      ],
+      en: [
+        { title: "Context inventory", body: "Create a sheet for 4 assets: role, owner, dependencies, exposure, backup, priority, and most dangerous unknown." },
+        { title: "Protection decision", body: "From your inventory, choose the first asset to handle and justify with exposure, impact, and uncertainty." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Un serveur peu critique est exposé à Internet et mal compris. Pourquoi peut-il être prioritaire ?", options: ["Son exposition et l'incertitude augmentent le risque", "Son nom est court", "Il a peu d'utilisateurs"], correctOption: 0 },
+        { question: "Une sauvegarde existe mais n'a jamais été restaurée. Comment la noter ?", options: ["Dépendance incertaine à vérifier", "Protection prouvée", "Information inutile"], correctOption: 0 },
+        { question: "Un compte admin partagé apparaît dans l'inventaire. Quel risque principal ?", options: ["Responsabilité et révocation difficiles", "Connexion plus rapide", "Moins de dépendances"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A low-criticality server is internet-exposed and poorly understood. Why can it be priority?", options: ["Exposure and uncertainty increase risk", "Its name is short", "It has few users"], correctOption: 0 },
+        { question: "A backup exists but has never been restored. How do you record it?", options: ["Uncertain dependency to verify", "Proven protection", "Useless information"], correctOption: 0 },
+        { question: "A shared admin account appears in inventory. What is the main risk?", options: ["Accountability and revocation are difficult", "Faster sign-in", "Fewer dependencies"], correctOption: 0 }
+      ]
+    }
+  },
+  "opsec-public-footprint-review": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Une empreinte publique est l'ensemble des informations accessibles sans intrusion. Une corrélation relie plusieurs détails faibles. Une réduction de risque supprime, limite ou sépare une information exploitable." },
+        { title: "Mise en situation", body: "Un profil public affiche ville, employeur, technologies, horaires de publication et photos de badge floutées. Pris séparément, chaque détail semble banal. Ensemble, ils peuvent aider à cibler une personne ou deviner un processus interne." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "A public footprint is the set of information reachable without intrusion. Correlation links several weak details. Risk reduction removes, limits, or separates exploitable information." },
+        { title: "Scenario", body: "A public profile shows city, employer, technologies, posting schedule, and blurred badge photos. Separately, each detail seems ordinary. Together, they can help target a person or infer an internal process." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Revue par corrélation", body: "Analyse un profil de test : note 10 informations, puis regroupe celles qui deviennent sensibles quand elles sont combinées." },
+        { title: "Plan de réduction", body: "Pour chaque information risquée, propose une action : retirer, généraliser, séparer l'identité, limiter l'audience ou surveiller." }
+      ],
+      en: [
+        { title: "Correlation review", body: "Analyze a test profile: record 10 pieces of information, then group those that become sensitive when combined." },
+        { title: "Reduction plan", body: "For each risky piece of information, propose an action: remove, generalize, separate identity, limit audience, or monitor." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Une bio publique mentionne ville, outil interne et horaires. Quel risque réaliste ?", options: ["Corrélation utile pour ciblage ou usurpation", "Aucun, chaque détail est banal", "Uniquement un problème esthétique"], correctOption: 0 },
+        { question: "Tu veux réduire ton empreinte sans disparaître. Quelle action est saine ?", options: ["Généraliser les détails inutiles et séparer les identités", "Tout publier puis espérer", "Supprimer seulement les anciennes photos"], correctOption: 0 },
+        { question: "Une information devient sensible surtout quand...", options: ["Elle aide une déduction ou une action contre toi", "Elle contient moins de 5 mots", "Elle est en français"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A public bio mentions city, internal tool, and schedule. What realistic risk appears?", options: ["Useful correlation for targeting or impersonation", "None, each detail is ordinary", "Only an aesthetic issue"], correctOption: 0 },
+        { question: "You want to reduce footprint without disappearing. What is healthy?", options: ["Generalize unnecessary details and separate identities", "Publish everything and hope", "Only delete old photos"], correctOption: 0 },
+        { question: "Information becomes sensitive especially when...", options: ["It helps an inference or action against you", "It has fewer than 5 words", "It is in French"], correctOption: 0 }
+      ]
+    }
+  },
+  "crypto-hashing-and-passwords": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un hash produit une empreinte. Un sel rend deux empreintes différentes même si deux mots de passe sont identiques. Une fonction de dérivation de mot de passe est volontairement coûteuse. Le chiffrement est réversible avec une clé, contrairement au hash." },
+        { title: "Mise en situation", body: "Deux utilisateurs ont le même mot de passe. Sans sel, leurs empreintes se ressemblent et facilitent les comparaisons. Avec un sel unique et une fonction adaptée, chaque stockage devient plus difficile à attaquer massivement." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "A hash produces a fingerprint. A salt makes two fingerprints different even if two passwords are identical. A password derivation function is deliberately costly. Encryption is reversible with a key, unlike hashing." },
+        { title: "Scenario", body: "Two users have the same password. Without salt, their fingerprints match and comparisons are easier. With unique salt and a suitable function, each stored value becomes harder to attack at scale." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Analyse de stockage", body: "Compare trois stockages fictifs : mot de passe clair, SHA rapide sans sel, fonction lente avec sel. Pour chacun, note le risque et la correction." },
+        { title: "Expliquer sans jargon", body: "Explique à un collègue non technique la différence entre hash, chiffrement, sel et fonction lente avec une analogie prudente." }
+      ],
+      en: [
+        { title: "Storage analysis", body: "Compare three fictional storage choices: clear password, fast SHA without salt, slow function with salt. For each, record risk and correction." },
+        { title: "Explain without jargon", body: "Explain to a non-technical colleague the difference between hash, encryption, salt, and slow function using a careful analogy." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Deux utilisateurs ont la même empreinte de mot de passe. Quelle hypothèse défensive ?", options: ["Sel absent ou mal utilisé", "Chiffrement parfait", "MFA activé"], correctOption: 0 },
+        { question: "Une équipe veut 'déchiffrer' un hash pour récupérer le mot de passe. Que réponds-tu ?", options: ["Un hash ne se déchiffre pas ; on vérifie par comparaison contrôlée", "Il suffit de demander la clé", "Il faut changer le port"], correctOption: 0 },
+        { question: "Pourquoi une fonction lente aide contre les attaques de mots de passe ?", options: ["Elle rend chaque essai plus coûteux", "Elle raccourcit le mot de passe", "Elle supprime le besoin de sel"], correctOption: 0 }
+      ],
+      en: [
+        { question: "Two users have the same password fingerprint. What defensive hypothesis appears?", options: ["Salt is missing or misused", "Perfect encryption", "MFA enabled"], correctOption: 0 },
+        { question: "A team wants to 'decrypt' a hash to recover the password. What do you say?", options: ["A hash is not decrypted; it is verified by controlled comparison", "Just ask for the key", "Change the port"], correctOption: 0 },
+        { question: "Why does a slow function help against password attacks?", options: ["It makes each attempt more costly", "It shortens the password", "It removes the need for salt"], correctOption: 0 }
+      ]
+    }
+  },
+  "forensics-timeline-first-pass": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Un artefact est une trace observable. Une chronologie ordonne les traces. Une hypothèse explique une séquence possible. Le niveau de confiance indique si l'information est observée, déduite, probable ou incertaine." },
+        { title: "Mise en situation", body: "Trois journaux donnent des heures différentes autour d'une connexion suspecte. Avant de raconter une histoire, tu notes source, fuseau, précision et incertitude. La chronologie devient fiable parce qu'elle montre aussi ses limites." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "An artifact is an observable trace. A timeline orders traces. A hypothesis explains a possible sequence. Confidence level shows whether information is observed, inferred, probable, or uncertain." },
+        { title: "Scenario", body: "Three logs show different times around a suspicious sign-in. Before telling a story, you record source, time zone, precision, and uncertainty. The timeline becomes reliable because it also shows its limits." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Chronologie avec incertitude", body: "Crée 8 événements fictifs avec heure, source, fait observé, hypothèse, confiance et question ouverte. Ajoute un cas où le fuseau horaire change la lecture." },
+        { title: "Fait vs hypothèse", body: "Réécris 5 phrases trop affirmatives en séparant ce qui est observé de ce qui est seulement probable." }
+      ],
+      en: [
+        { title: "Timeline with uncertainty", body: "Create 8 fictional events with time, source, observed fact, hypothesis, confidence, and open question. Add one case where time zone changes interpretation." },
+        { title: "Fact vs hypothesis", body: "Rewrite 5 overly assertive sentences by separating observed facts from what is only probable." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Deux logs semblent inverser l'ordre des événements. Quel réflexe ?", options: ["Vérifier fuseau, source de temps et précision", "Choisir celui qui arrange l'histoire", "Supprimer un log"], correctOption: 0 },
+        { question: "Une ligne indique 'probable exécution'. Comment la noter ?", options: ["Comme hypothèse avec niveau de confiance", "Comme fait certain", "Comme donnée inutile"], correctOption: 0 },
+        { question: "Pourquoi une chronologie ne doit-elle pas devenir trop vite un récit ?", options: ["Le récit peut masquer les incertitudes", "Les récits sont interdits", "Les heures suffisent toujours"], correctOption: 0 }
+      ],
+      en: [
+        { question: "Two logs seem to reverse event order. What is the reflex?", options: ["Check time zone, time source, and precision", "Choose the one that fits the story", "Delete one log"], correctOption: 0 },
+        { question: "A line says 'probable execution'. How do you record it?", options: ["As a hypothesis with confidence level", "As a certain fact", "As useless data"], correctOption: 0 },
+        { question: "Why should a timeline not become a story too quickly?", options: ["The story can hide uncertainty", "Stories are forbidden", "Times are always enough"], correctOption: 0 }
+      ]
+    }
+  },
+  "blue-team-alert-triage": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Une alerte est un signal. Un faux positif est une alerte expliquée sans incident. L'escalade transmet un cas avec preuves suffisantes. Un critère de sortie dit quand arrêter la surveillance ou changer d'action." },
+        { title: "Mise en situation", body: "Une alerte signale une connexion admin à 02:13. Avant de paniquer, tu vérifies le rôle du compte, l'historique, la source, le changement planifié éventuel et les actions après connexion. Le triage réduit l'incertitude avant l'escalade." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "An alert is a signal. A false positive is an explained alert without incident. Escalation transfers a case with enough evidence. An exit criterion says when to stop monitoring or change action." },
+        { title: "Scenario", body: "An alert reports an admin sign-in at 02:13. Before panicking, you check account role, history, source, possible planned change, and actions after sign-in. Triage reduces uncertainty before escalation." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Ticket de triage complet", body: "Rédige un ticket avec signal, contexte, hypothèses, preuves présentes, preuves manquantes, décision et critère de sortie." },
+        { title: "Trois décisions", body: "Pour trois alertes fictives, choisis faux positif, surveillance ou escalade. Justifie avec contexte et preuve." }
+      ],
+      en: [
+        { title: "Complete triage ticket", body: "Write a ticket with signal, context, hypotheses, available evidence, missing evidence, decision, and exit criterion." },
+        { title: "Three decisions", body: "For three fictional alerts, choose false positive, monitoring, or escalation. Justify with context and evidence." }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Une alerte critique touche un serveur de test isolé. Quelle question change la priorité ?", options: ["Quel est le rôle réel et l'exposition de l'actif ?", "Quelle est la couleur de l'alerte ?", "Combien de mots dans le titre ?"], correctOption: 0 },
+        { question: "Tu escalades une alerte. Que doit contenir le dossier ?", options: ["Signal, contexte, preuves et décision demandée", "Seulement 'urgent'", "Une capture sans explication"], correctOption: 0 },
+        { question: "Une surveillance est choisie. Qu'est-ce qui manque souvent ?", options: ["Un critère de sortie clair", "Un logo", "Un score arbitraire"], correctOption: 0 }
+      ],
+      en: [
+        { question: "A critical alert affects an isolated test server. Which question changes priority?", options: ["What is the asset's real role and exposure?", "What color is the alert?", "How many words are in the title?"], correctOption: 0 },
+        { question: "You escalate an alert. What must the case contain?", options: ["Signal, context, evidence, and requested decision", "Only 'urgent'", "A screenshot without explanation"], correctOption: 0 },
+        { question: "Monitoring is chosen. What is often missing?", options: ["A clear exit criterion", "A logo", "An arbitrary score"], correctOption: 0 }
+      ]
+    }
+  },
+  "ethical-red-team-scope-and-reporting": {
+    sections: {
+      fr: [
+        { title: "Définitions utiles", body: "Le périmètre fixe les cibles, dates, limites et contacts. Une preuve responsable montre le risque sans dommage. Une recommandation transforme l'observation en action défensive. Une règle d'arrêt protège la mission et les personnes." },
+        { title: "Mise en situation", body: "Un client autorise un test sur app.example.test mais pas sur le VPN ni les comptes employés. Si tu découvres un lien vers le VPN, la bonne décision n'est pas d'explorer : tu notes, demandes clarification et restes dans le périmètre." }
+      ],
+      en: [
+        { title: "Useful definitions", body: "Scope fixes targets, dates, limits, and contacts. Responsible evidence shows risk without damage. A recommendation turns observation into defensive action. A stop rule protects the mission and people." },
+        { title: "Scenario", body: "A client authorizes testing app.example.test but not VPN or employee accounts. If you discover a link to the VPN, the right decision is not to explore: record it, ask for clarification, and stay in scope." }
+      ]
+    },
+    exercises: {
+      fr: [
+        { title: "Périmètre exploitable", body: "Écris une fiche de mission : objectifs, cibles autorisées, cibles interdites, horaires, contacts, preuves acceptables, règle d'arrêt et livrables." },
+        { title: "Transformer une preuve", body: "À partir d'une observation fictive, rédige impact, preuve responsable, recommandation, priorité et vérification attendue.", premium: true }
+      ],
+      en: [
+        { title: "Usable scope", body: "Write a mission sheet: goals, authorized targets, forbidden targets, hours, contacts, acceptable evidence, stop rule, and deliverables." },
+        { title: "Turn evidence into remediation", body: "From a fictional observation, write impact, responsible evidence, recommendation, priority, and expected verification.", premium: true }
+      ]
+    },
+    quiz: {
+      fr: [
+        { question: "Pendant une mission autorisée, tu trouves une cible proche mais hors périmètre. Que fais-tu ?", options: ["Tu documentes et demandes clarification sans tester", "Tu testes vite avant d'oublier", "Tu l'ignores dans le rapport"], correctOption: 0 },
+        { question: "Une preuve montre un risque mais expose des données sensibles. Quelle approche ?", options: ["Réduire la preuve au minimum utile et protéger le détail", "Publier tout pour convaincre", "Supprimer le constat"], correctOption: 0 },
+        { question: "Une recommandation utile doit être...", options: ["Actionnable et vérifiable", "Spectaculaire", "Vague pour rester flexible"], correctOption: 0 }
+      ],
+      en: [
+        { question: "During an authorized mission, you find a nearby but out-of-scope target. What do you do?", options: ["Document and ask for clarification without testing", "Test quickly before forgetting", "Ignore it in the report"], correctOption: 0 },
+        { question: "Evidence shows risk but exposes sensitive data. What approach?", options: ["Reduce evidence to the useful minimum and protect detail", "Publish everything to convince", "Delete the finding"], correctOption: 0 },
+        { question: "A useful recommendation must be...", options: ["Actionable and verifiable", "Spectacular", "Vague to stay flexible"], correctOption: 0 }
+      ]
+    }
+  }
+} satisfies Record<string, CourseEnhancement>;
+
+for (const [slug, enhancement] of Object.entries(courseEnhancements)) {
+  const course = courses.find((item) => item.slug === slug);
+
+  if (course) {
+    course.sections.fr = [...course.sections.fr, ...enhancement.sections.fr];
+    course.sections.en = [...course.sections.en, ...enhancement.sections.en];
+    course.exercises = enhancement.exercises;
+    course.quiz = enhancement.quiz;
+  }
+}
+
 export function getCategory(slug: string) {
   return categories.find((category) => category.slug === slug);
 }
