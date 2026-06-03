@@ -33,7 +33,7 @@ export type Course = {
   prerequisites: Record<Locale, Prerequisite[]>;
   sections: Record<Locale, { title: string; body: string }[]>;
   resources: Record<Locale, { label: string; url: string }[]>;
-  exercises: Record<Locale, { title: string; body: string; premium?: boolean }[]>;
+  exercises: Record<Locale, { title: string; body: string; premium?: boolean; solution?: string }[]>;
   quiz: Record<Locale, QuizQuestion[]>;
 };
 
@@ -886,7 +886,7 @@ export const courses: Course[] = [
 
 type CourseEnhancement = {
   sections: Record<Locale, { title: string; body: string }[]>;
-  exercises: Record<Locale, { title: string; body: string; premium?: boolean }[]>;
+  exercises: Record<Locale, { title: string; body: string; premium?: boolean; solution?: string }[]>;
   quiz: Record<Locale, QuizQuestion[]>;
 };
 
@@ -1415,13 +1415,169 @@ const courseEnhancements = {
   }
 } satisfies Record<string, CourseEnhancement>;
 
+const exerciseSolutions: Record<string, Record<Locale, string[]>> = {
+  "tcpip-basics": {
+    fr: [
+      "Correction guidée : 1. Vérifie que 192.168.10.25/24 est cohérent avec le réseau local 192.168.10.0. 2. Vérifie que la passerelle 192.168.10.1 est dans le même réseau et répond. 3. Vérifie la résolution ou l'adresse cible 192.168.20.10. 4. Teste l'accès TCP 443 sans conclure trop vite si ça échoue. 5. Compare avec un autre poste ou un journal réseau. Conclusion : tu peux distinguer problème local, routage, filtrage ou service indisponible, mais pas identifier la cause exacte sans preuve supplémentaire.",
+      "Correction guidée : IP = adresse d'une interface, exemple 192.168.10.25. Masque = découpe réseau/hôte, exemple /24. Passerelle = sortie vers un autre réseau, exemple 192.168.10.1. Port = porte logique d'un service, exemple 443 pour HTTPS. Protocole = règle d'échange, exemple TCP. Service = application attendue derrière un port, exemple intranet web."
+    ],
+    en: [
+      "Guided correction: 1. Check that 192.168.10.25/24 fits local network 192.168.10.0. 2. Check that gateway 192.168.10.1 is on the same network and responds. 3. Verify target 192.168.20.10. 4. Test TCP 443 without over-concluding if it fails. 5. Compare with another host or network logs. Conclusion: you can separate local issue, routing, filtering, or unavailable service, but not prove root cause without more evidence.",
+      "Guided correction: IP = interface address, example 192.168.10.25. Mask = network/host split, example /24. Gateway = exit to another network, example 192.168.10.1. Port = logical service door, example 443 for HTTPS. Protocol = exchange rules, example TCP. Service = expected application behind a port, example intranet web."
+    ]
+  },
+  "local-lab-vm-setup": {
+    fr: [
+      "Correction guidée : indique deux VM, leur rôle, le réseau isolé, les actions autorisées, les actions interdites, le snapshot initial, la commande ou procédure de reset, et la règle d'arrêt. Une bonne fiche permet à quelqu'un d'autre de reproduire le lab sans deviner.",
+      "Correction guidée : coupe d'abord la communication non prévue, identifie la route ou l'interface responsable, vérifie les règles réseau, note l'heure et l'impact, puis modifie le lab : réseau dédié, snapshot propre, règle d'arrêt et vérification avant chaque exercice."
+    ],
+    en: [
+      "Guided correction: list two VMs, their role, isolated network, allowed actions, forbidden actions, initial snapshot, reset command or procedure, and stop rule. A good sheet lets someone else reproduce the lab without guessing.",
+      "Guided correction: first cut the unexpected communication, identify the route or interface involved, check network rules, record time and impact, then adjust the lab: dedicated network, clean snapshot, stop rule, and pre-exercise verification."
+    ]
+  },
+  "network-map-first-steps": {
+    fr: [
+      "Correction guidée : ta carte doit montrer les zones, les 5 machines, le rôle supposé de chacune, les flux attendus, les flux douteux, une prochaine vérification et un niveau de confiance. La meilleure carte n'est pas la plus belle : c'est celle qui aide à décider.",
+      "Correction guidée : pour chaque flux, écris une phrase complète : source, destination, protocole/port, raison probable, preuve disponible, vérification suivante. Exemple : 'poste invité vers DNS en UDP/53, résolution probable, à confirmer par journaux DNS'."
+    ],
+    en: [
+      "Guided correction: your map should show zones, the 5 machines, expected role for each, expected flows, doubtful flows, next verification, and confidence level. The best map is not the prettiest: it helps decide.",
+      "Guided correction: for each flow, write a complete sentence: source, destination, protocol/port, likely reason, available evidence, next check. Example: 'guest workstation to DNS over UDP/53, likely resolution, confirm with DNS logs'."
+    ]
+  },
+  "http-basics": {
+    fr: [
+      "Correction guidée : une bonne réponse sépare méthode, chemin, statut, cookie, redirection et conclusion. Exemple : POST /login -> 302 -> Set-Cookie -> /dashboard. Observation : redirection et session créées. Hypothèse prudente : connexion réussie, à confirmer avec la page cible et les journaux.",
+      "Correction guidée : méthode = intention HTTP, chemin = ressource, statut = résultat, en-tête = contexte, cookie = état côté client, corps = données envoyées. Pour chaque définition, donne un usage défensif : diagnostic, contrôle de session, erreur, cache ou validation."
+    ],
+    en: [
+      "Guided correction: a good answer separates method, path, status, cookie, redirect, and conclusion. Example: POST /login -> 302 -> Set-Cookie -> /dashboard. Observation: redirect and session created. Careful hypothesis: sign-in succeeded, confirm with target page and logs.",
+      "Guided correction: method = HTTP intent, path = resource, status = result, header = context, cookie = client-side state, body = sent data. For each definition, give a defensive use: diagnosis, session control, error handling, cache, or validation."
+    ]
+  },
+  "web-form-basics": {
+    fr: [
+      "Correction guidée : le contrat serveur doit refuser les champs inconnus, vérifier types, longueurs, formats, droits et intention. Pour l'inscription : email valide, mot de passe assez robuste, nom borné, aucun rôle fourni par le client, erreurs claires et journalisation sobre.",
+      "Correction guidée : email trop long -> rejet avec limite claire. Nom vide -> rejet côté serveur même si le navigateur l'avait bloqué. role=admin -> ignoré ou rejeté car non autorisé. Dans les trois cas, pas de donnée sensible dans le message d'erreur."
+    ],
+    en: [
+      "Guided correction: the server contract should reject unknown fields and verify types, lengths, formats, rights, and intent. For registration: valid email, sufficiently robust password, bounded name, no role accepted from client, clear errors, and sober logging.",
+      "Guided correction: very long email -> reject with clear limit. Empty name -> reject server-side even if browser should block it. role=admin -> ignore or reject as unauthorized. In all three cases, avoid sensitive data in the error message."
+    ]
+  },
+  "web-auth-foundations": {
+    fr: [
+      "Correction guidée : décris un utilisateur authentifié qui demande une ressource appartenant à quelqu'un d'autre. Le serveur doit vérifier propriétaire, rôle, action demandée, état de session et journaliser l'échec sans exposer la ressource.",
+      "Correction guidée : connexion = authentification et limitation des essais. Changement d'email = session récente, MFA ou confirmation. Suppression = autorisation forte et confirmation. Accès admin = rôle serveur vérifié, jamais un champ envoyé par le client."
+    ],
+    en: [
+      "Guided correction: describe an authenticated user requesting someone else's resource. The server should check owner, role, requested action, session state, and log the failure without exposing the resource.",
+      "Guided correction: sign-in = authentication and attempt limiting. Email change = recent session, MFA or confirmation. Deletion = strong authorization and confirmation. Admin access = server-verified role, never a client-sent field."
+    ]
+  },
+  "linux-shell-basics": {
+    fr: [
+      "Correction guidée : commence par pwd, ls -la, file, stat, puis lis sans modifier avec less/head/tail. Ensuite seulement, filtre les journaux utiles. La conclusion doit dire ce qui est observé, ce qui est hypothèse et ce qu'il faut vérifier.",
+      "Correction guidée : pour chaque droit, lis propriétaire/groupe/autres. Indique qui peut lire, écrire, exécuter. Le risque principal apparaît quand un fichier sensible est modifiable par un groupe trop large ou par 'others'."
+    ],
+    en: [
+      "Guided correction: start with pwd, ls -la, file, stat, then read without modifying using less/head/tail. Only then filter useful logs. The conclusion should state what is observed, what is hypothesis, and what must be verified.",
+      "Guided correction: for each permission set, read owner/group/others. State who can read, write, execute. The main risk appears when a sensitive file is writable by a broad group or by 'others'."
+    ]
+  },
+  "linux-service-hardening": {
+    fr: [
+      "Correction guidée : note l'état initial, l'utilisateur actuel, les ports exposés, les fichiers nécessaires, les droits à retirer, le test après changement et le rollback. Ne retire pas tout d'un coup : durcis, testes, documentes.",
+      "Correction guidée : classe chaque élément. Port attendu : nécessaire. Fichier lu par le service : nécessaire si justifié. Écriture hors dossier prévu : à retirer. Journaux : nécessaires. Dépendance inconnue : à vérifier avant changement."
+    ],
+    en: [
+      "Guided correction: record initial state, current user, exposed ports, required files, rights to remove, post-change test, and rollback. Do not remove everything at once: harden, test, document.",
+      "Guided correction: classify each item. Expected port: necessary. File read by service: necessary if justified. Write access outside expected directory: remove. Logs: necessary. Unknown dependency: verify before change."
+    ]
+  },
+  "ctf-evidence-notes": {
+    fr: [
+      "Correction guidée : une bonne note contient contexte, objectif, hypothèse, action, observation, conclusion et prochaine étape. La capture ou sortie doit être accompagnée de l'heure, de la machine, de l'état du lab et de ton interprétation.",
+      "Correction guidée : repars de la commande finale et reconstruis les décisions : pourquoi cette cible, quelle hypothèse, quel essai a échoué, quelle observation a fait avancer, quelle preuve confirme le résultat."
+    ],
+    en: [
+      "Guided correction: a good note contains context, goal, hypothesis, action, observation, conclusion, and next step. Screenshot or output should include time, machine, lab state, and your interpretation.",
+      "Guided correction: start from the final command and reconstruct decisions: why this target, which hypothesis, which attempt failed, which observation moved you forward, which evidence confirms the result."
+    ]
+  },
+  "infrastructure-asset-baseline": {
+    fr: [
+      "Correction guidée : pour chaque actif, indique rôle, propriétaire, dépendances, exposition, sauvegarde, priorité et inconnue dangereuse. Une fiche utile explique pourquoi l'actif compte, pas seulement son nom.",
+      "Correction guidée : choisis l'actif avec le meilleur mélange d'exposition, impact et incertitude. Exemple : une base peu documentée sans restauration testée peut passer avant un poste moins exposé."
+    ],
+    en: [
+      "Guided correction: for each asset, state role, owner, dependencies, exposure, backup, priority, and dangerous unknown. A useful sheet explains why the asset matters, not only its name.",
+      "Guided correction: choose the asset with the strongest mix of exposure, impact, and uncertainty. Example: a poorly documented database without tested restore can come before a less exposed workstation."
+    ]
+  },
+  "opsec-public-footprint-review": {
+    fr: [
+      "Correction guidée : note les 10 informations, puis combine-les. Une ville + horaires + employeur + outil interne peut devenir sensible même si chaque détail semble banal. La réponse attendue classe exposition, utilité pour un tiers et réduction.",
+      "Correction guidée : associe une action à chaque risque : supprimer si inutile, généraliser si trop précis, séparer les identités si corrélable, limiter l'audience si personnel, surveiller si nécessaire."
+    ],
+    en: [
+      "Guided correction: record the 10 pieces of information, then combine them. City + schedule + employer + internal tool can become sensitive even if each detail looks ordinary. Expected answer classifies exposure, third-party usefulness, and reduction.",
+      "Guided correction: attach one action to each risk: remove if useless, generalize if too precise, separate identities if correlatable, limit audience if personal, monitor if necessary."
+    ]
+  },
+  "crypto-hashing-and-passwords": {
+    fr: [
+      "Correction guidée : mot de passe clair = critique, correction immédiate. Hash rapide sans sel = comparaisons et attaques rapides, correction avec sel unique et fonction adaptée. Fonction lente avec sel = meilleure base, à documenter avec paramètres.",
+      "Correction guidée : hash = empreinte non réversible. Chiffrement = coffre ouvrable avec clé. Sel = valeur unique ajoutée pour casser les comparaisons. Fonction lente = ralentit les essais massifs. L'analogie doit préciser ses limites."
+    ],
+    en: [
+      "Guided correction: clear password = critical, immediate correction. Fast hash without salt = comparisons and fast attacks, fix with unique salt and suitable function. Slow function with salt = better baseline, document parameters.",
+      "Guided correction: hash = non-reversible fingerprint. Encryption = locked box opened with a key. Salt = unique value added to break comparisons. Slow function = slows mass attempts. The analogy should state its limits."
+    ]
+  },
+  "forensics-timeline-first-pass": {
+    fr: [
+      "Correction guidée : chaque ligne doit contenir heure, source, fait observé, hypothèse, confiance et question ouverte. Si le fuseau change la lecture, note les deux interprétations avant de conclure.",
+      "Correction guidée : transforme 'l'attaquant a exécuté X' en 'le journal Y indique l'événement X à telle heure ; hypothèse : exécution par tel compte ; confiance : moyenne ; vérification : corréler avec Z'."
+    ],
+    en: [
+      "Guided correction: each line should contain time, source, observed fact, hypothesis, confidence, and open question. If time zone changes interpretation, record both readings before concluding.",
+      "Guided correction: turn 'the attacker executed X' into 'log Y shows event X at this time; hypothesis: execution by this account; confidence: medium; verification: correlate with Z'."
+    ]
+  },
+  "blue-team-alert-triage": {
+    fr: [
+      "Correction guidée : le ticket doit inclure signal, actif, utilisateur, heure, source, contexte récent, hypothèses, preuves disponibles, preuves manquantes, décision et critère de sortie. Sans critère, la surveillance n'a pas de fin.",
+      "Correction guidée : faux positif si le contexte explique clairement. Surveillance si l'incertitude reste mais l'impact immédiat est limité. Escalade si preuves, impact ou privilèges justifient une décision rapide."
+    ],
+    en: [
+      "Guided correction: the ticket should include signal, asset, user, time, source, recent context, hypotheses, available evidence, missing evidence, decision, and exit criterion. Without criteria, monitoring has no end.",
+      "Guided correction: false positive if context clearly explains it. Monitoring if uncertainty remains but immediate impact is limited. Escalation if evidence, impact, or privileges justify fast decision."
+    ]
+  },
+  "ethical-red-team-scope-and-reporting": {
+    fr: [
+      "Correction guidée : une fiche solide contient objectifs, cibles autorisées, cibles interdites, dates, contacts, limites techniques, preuves acceptables, règle d'arrêt et livrables. Tout élément hors périmètre doit être clarifié avant action.",
+      "Correction guidée : observation -> impact -> preuve minimale -> recommandation -> priorité -> vérification attendue. La preuve doit démontrer le risque sans exposer de secret ni causer de dommage.",
+    ],
+    en: [
+      "Guided correction: a strong sheet contains goals, authorized targets, forbidden targets, dates, contacts, technical limits, acceptable evidence, stop rule, and deliverables. Anything out of scope must be clarified before action.",
+      "Guided correction: observation -> impact -> minimal evidence -> recommendation -> priority -> expected verification. Evidence should demonstrate risk without exposing secrets or causing damage."
+    ]
+  }
+};
+
 for (const [slug, enhancement] of Object.entries(courseEnhancements)) {
   const course = courses.find((item) => item.slug === slug);
 
   if (course) {
     course.sections.fr = [...course.sections.fr, ...enhancement.sections.fr];
     course.sections.en = [...course.sections.en, ...enhancement.sections.en];
-    course.exercises = enhancement.exercises;
+    course.exercises = {
+      fr: enhancement.exercises.fr.map((exercise, index) => ({ ...exercise, solution: exerciseSolutions[slug]?.fr[index] })),
+      en: enhancement.exercises.en.map((exercise, index) => ({ ...exercise, solution: exerciseSolutions[slug]?.en[index] }))
+    };
     course.quiz = enhancement.quiz;
   }
 }

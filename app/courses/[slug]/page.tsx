@@ -2,6 +2,7 @@ import { CheckCircle2, ExternalLink, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { ExerciseFlipCard } from "@/components/course/exercise-flip-card";
 import { QuizPreview } from "@/components/course/quiz-preview";
 import { CompleteLessonButton } from "@/components/progress/complete-lesson-button";
 import { AccessGate } from "@/components/ui/access-gate";
@@ -137,13 +138,15 @@ export default async function CoursePage({ params }: CoursePageProps) {
             <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.exercises}</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {course.exercises[locale].map((exercise) => (
-                <div className="hp-panel hp-route-card rounded-sm p-5" key={exercise.title}>
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="hp-wrap min-w-0 text-base font-black text-white">{exercise.title}</h3>
-                    {exercise.premium ? <Badge tone="amber">{dictionary.home.premium}</Badge> : null}
-                  </div>
-                  <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{exercise.body}</p>
-                </div>
+                <ExerciseFlipCard
+                  body={exercise.body}
+                  key={exercise.title}
+                  locale={locale}
+                  premium={exercise.premium}
+                  premiumLabel={dictionary.home.premium}
+                  solution={exercise.solution}
+                  title={exercise.title}
+                />
               ))}
             </div>
           </section>
