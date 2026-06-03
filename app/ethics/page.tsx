@@ -7,7 +7,7 @@ export default async function EthicsPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
-      <section className="hp-shell rounded-md p-6 sm:p-8">
+      <section className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
         <div className="hp-inner">
           <span className="grid h-12 w-12 place-items-center rounded-md border border-mint/25 bg-mint/[0.1] text-mint">
             <ShieldCheck aria-hidden className="h-7 w-7" />

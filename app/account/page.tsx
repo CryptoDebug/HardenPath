@@ -15,7 +15,7 @@ export default async function AccountPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
       <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="hp-shell rounded-md p-6">
+        <div className="hp-shell hp-atlas-surface rounded-md p-6">
           <div className="hp-inner">
             <p className="hp-kicker">{dictionary.account.localAuth}</p>
             <h1 className="hp-wrap mt-3 text-4xl font-extrabold leading-tight text-white">{dictionary.account.title}</h1>

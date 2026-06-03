@@ -20,9 +20,10 @@ export function CategoryCard({ category, locale, moduleCount, progress, cta, ind
 
   return (
     <Link
-      className="focus-ring hp-panel group flex min-h-[260px] flex-col rounded-md p-5 transition duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
+      className="focus-ring hp-panel hp-panel-accent group flex min-h-[260px] flex-col rounded-md p-5 transition duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
       href={`/categories/${category.slug}`}
     >
+      <div className="relative flex h-full flex-col">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex flex-wrap gap-2">
@@ -31,7 +32,7 @@ export function CategoryCard({ category, locale, moduleCount, progress, cta, ind
           </div>
           <h3 className="hp-wrap mt-4 text-xl font-extrabold leading-7 text-white">{category.title[locale]}</h3>
         </div>
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-white/10 bg-white/[0.06]">
+        <span className="hp-checkpoint">
           {isComplete ? <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" /> : <Layers3 aria-hidden className="h-5 w-5 text-steel" />}
         </span>
       </div>
@@ -51,6 +52,7 @@ export function CategoryCard({ category, locale, moduleCount, progress, cta, ind
           0{index + 1}
           <ArrowRight aria-hidden className="h-4 w-4 transition group-hover:translate-x-1 group-hover:text-mint" />
         </span>
+      </div>
       </div>
     </Link>
   );

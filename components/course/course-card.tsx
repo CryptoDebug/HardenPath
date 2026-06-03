@@ -21,9 +21,10 @@ type CourseCardProps = {
 export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = false }: CourseCardProps) {
   return (
     <Link
-      className="focus-ring hp-panel group flex h-full min-h-[250px] flex-col rounded-md p-5 transition duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
+      className="focus-ring hp-panel hp-panel-accent group flex h-full min-h-[250px] flex-col rounded-md p-5 transition duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
       href={locked ? "/account" : `/courses/${course.slug}`}
     >
+      <div className="relative flex h-full flex-col">
       <div className="flex flex-wrap items-center gap-2">
         <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? premiumLabel : freeLabel}</Badge>
         <Badge>{levelLabels[course.level][locale]}</Badge>
@@ -40,6 +41,7 @@ export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = f
           {course.isPremium || locked ? <LockKeyhole aria-hidden className="h-4 w-4 shrink-0 text-amber" /> : <PlayCircle aria-hidden className="h-4 w-4 shrink-0 text-mint" />}
           <span className="hp-wrap">{locked ? (locale === "fr" ? "Accès" : "Access") : locale === "fr" ? "Démarrer" : "Start"}</span>
         </span>
+      </div>
       </div>
     </Link>
   );

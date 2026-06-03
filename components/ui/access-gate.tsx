@@ -10,7 +10,7 @@ type AccessGateProps = {
 
 export function AccessGate({ title, body, cta, href = "/account" }: AccessGateProps) {
   return (
-    <section className="hp-shell rounded-md p-6 sm:p-8">
+    <section className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
       <div className="hp-inner">
         <div className="flex items-center gap-3">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-white/10 bg-white/[0.06] text-steel">

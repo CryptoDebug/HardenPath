@@ -46,6 +46,91 @@ a {
   hyphens: auto;
 }
 
+.hp-atlas-hero {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hp-atlas-hero img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0.34;
+  mix-blend-mode: screen;
+}
+
+.hp-atlas-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(23, 27, 32, 0.98) 0%, rgba(23, 27, 32, 0.9) 42%, rgba(23, 27, 32, 0.35) 100%),
+    linear-gradient(180deg, rgba(23, 27, 32, 0.12), rgba(23, 27, 32, 0.78));
+}
+
+.hp-atlas-surface {
+  background:
+    linear-gradient(180deg, rgba(32, 38, 45, 0.95), rgba(22, 26, 31, 0.95)),
+    linear-gradient(90deg, rgba(23, 27, 32, 0.94), rgba(23, 27, 32, 0.58)),
+    url("/brand/hardenpath-atlas.png");
+  background-position: center, center, right center;
+  background-size: auto, auto, cover;
+}
+
+.hp-brand-mark {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hp-brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: 9px 7px;
+  border-bottom: 2px solid rgba(200, 164, 95, 0.95);
+  border-left: 2px solid rgba(103, 216, 189, 0.85);
+  border-radius: 4px 0 0 9px;
+  transform: skewX(-18deg) rotate(-10deg);
+}
+
+.hp-brand-mark::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  height: 9px;
+  width: 9px;
+  border: 2px solid rgba(103, 216, 189, 0.9);
+  border-radius: 999px;
+  background: #111418;
+  box-shadow:
+    -16px 17px 0 -3px #111418,
+    -16px 17px 0 -1px rgba(200, 164, 95, 0.85);
+}
+
+.hp-route-rail {
+  position: relative;
+}
+
+.hp-route-rail::before {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 24px;
+  bottom: 22px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(103, 216, 189, 0.95), rgba(200, 164, 95, 0.7), rgba(199, 109, 99, 0.55));
+}
+
+.hp-checkpoint {
+  @apply relative grid h-10 w-10 shrink-0 place-items-center rounded-md border border-white/10 bg-[#171b20] text-sm font-extrabold text-paper;
+}
+
 .hp-shell {
   position: relative;
   overflow: hidden;
@@ -73,6 +158,22 @@ a {
   border: 1px solid rgba(215, 221, 229, 0.11);
   background: rgba(30, 35, 41, 0.86);
   box-shadow: 0 18px 52px rgba(0, 0, 0, 0.2);
+}
+
+.hp-panel-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.hp-panel-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(103, 216, 189, 0.1), transparent 32%),
+    linear-gradient(315deg, rgba(200, 164, 95, 0.1), transparent 36%);
+  opacity: 0.75;
 }
 
 .hp-rule {

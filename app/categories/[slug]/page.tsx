@@ -36,7 +36,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <section className="hp-shell rounded-md p-6 sm:p-8">
+      <section className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
         <div className="hp-inner">
           <Badge tone={category.color}>{dictionary.category.modules}</Badge>
           <h1 className="hp-wrap mt-5 text-4xl font-extrabold leading-tight text-white">{category.title[locale]}</h1>

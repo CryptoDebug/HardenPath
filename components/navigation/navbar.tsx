@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookMarked, ShieldCheck, UserCircle } from "lucide-react";
+import { BookMarked, UserCircle } from "lucide-react";
 import { LanguageSwitch } from "@/components/navigation/language-switch";
 import type { Locale } from "@/lib/i18n";
 
@@ -18,9 +18,7 @@ export function Navbar({ locale, dictionary }: NavbarProps) {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#111418]/[0.92] backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8" aria-label="Main">
         <Link className="focus-ring inline-flex min-w-0 items-center gap-3 rounded-md" href="/">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-white/10 bg-white/[0.06] text-mint">
-            <ShieldCheck aria-hidden className="h-6 w-6" />
-          </span>
+          <span aria-hidden className="hp-brand-mark h-10 w-10 shrink-0 rounded-md border border-white/10 bg-white/[0.06]" />
           <span className="min-w-0">
             <span className="block text-lg font-black tracking-normal text-white">HardenPath</span>
             <span className="hidden text-xs font-semibold text-steel sm:block">{locale === "fr" ? "Espace d'apprentissage" : "Learning workspace"}</span>

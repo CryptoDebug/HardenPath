@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Award,
   BookOpenCheck,
@@ -47,6 +48,9 @@ export default async function HomePage() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <section className="grid gap-5 lg:grid-cols-[1.18fr_0.82fr]">
         <div className="hp-shell rounded-md p-6 sm:p-8">
+          <div aria-hidden className="hp-atlas-hero">
+            <Image alt="" fill priority sizes="(min-width: 1024px) 760px, 100vw" src="/brand/hardenpath-atlas.png" />
+          </div>
           <div className="hp-inner">
             <div className="flex flex-wrap items-center gap-3">
               <Badge tone="mint">{dictionary.home.eyebrow}</Badge>
@@ -108,16 +112,18 @@ export default async function HomePage() {
         />
       </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-3">
+      <section className="hp-route-rail mt-10 grid gap-4 md:grid-cols-3">
         {platformItems.map((item, index) => (
-          <div className="hp-panel rounded-md p-5" key={item}>
+          <div className="hp-panel hp-panel-accent rounded-md p-5" key={item}>
+            <div className="relative">
             <div className="flex items-center justify-between gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-md border border-white/10 bg-white/[0.06] text-sm font-extrabold text-mint">
+              <span className="hp-checkpoint">
                 0{index + 1}
               </span>
               <CheckCircle2 aria-hidden className="h-5 w-5 text-amber" />
             </div>
             <p className="hp-wrap mt-4 text-base font-extrabold leading-6 text-white">{item}</p>
+            </div>
           </div>
         ))}
       </section>
@@ -153,13 +159,15 @@ export default async function HomePage() {
           { icon: Flame, value: String(courses.length), label: locale === "fr" ? "Modules disponibles" : "Available modules" },
           { icon: LockKeyhole, value: String(stats.completedCourses), label: locale === "fr" ? "Modules validés" : "Validated modules" }
         ].map((item) => (
-          <div className="hp-panel rounded-md p-5" key={item.label}>
+          <div className="hp-panel hp-panel-accent rounded-md p-5" key={item.label}>
+            <div className="relative">
             <div className="flex items-center justify-between gap-3">
               <item.icon aria-hidden className="h-6 w-6 text-paper" />
               <ShieldCheck aria-hidden className="h-4 w-4 text-mint/70" />
             </div>
             <p className="hp-wrap mt-4 text-2xl font-extrabold text-white">{item.value}</p>
             <p className="hp-wrap mt-1 text-sm text-slate-300">{item.label}</p>
+            </div>
           </div>
         ))}
       </section>

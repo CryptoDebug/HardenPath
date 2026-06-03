@@ -68,7 +68,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-      <article className="hp-shell rounded-md p-6 sm:p-8">
+      <article className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
         <div className="hp-inner">
           <div className="flex flex-wrap items-center gap-2">
             {category ? <Badge tone={category.color}>{category.title[locale]}</Badge> : null}
