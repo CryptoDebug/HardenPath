@@ -13,12 +13,13 @@ export default async function AccountPage() {
   const stats = await getLearningStats(session?.user?.id);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 lg:px-8">
       <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="hp-shell hp-atlas-surface rounded-md p-6">
+        <div className="hp-shell hp-atlas-surface hp-path-card p-6">
+          <div aria-hidden className="hp-gridwash" />
           <div className="hp-inner">
             <p className="hp-kicker">{dictionary.account.localAuth}</p>
-            <h1 className="hp-wrap mt-3 text-4xl font-extrabold leading-tight text-white">{dictionary.account.title}</h1>
+            <h1 className="hp-wrap mt-3 text-4xl font-black leading-tight text-white">{dictionary.account.title}</h1>
             <p className="hp-wrap mt-4 text-base leading-7 text-slate-300">{dictionary.account.body}</p>
             <div className="mt-6">
               <AuthPanel dictionary={dictionary.account} />
@@ -27,9 +28,9 @@ export default async function AccountPage() {
         </div>
 
         <div className="grid gap-4">
-          <div className="hp-panel rounded-md p-5">
+          <div className="hp-panel hp-path-card rounded-sm p-5">
             <ChartNoAxesColumnIncreasing aria-hidden className="h-6 w-6 text-mint" />
-            <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
+            <h2 className="hp-wrap mt-4 text-xl font-black text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
             {session ? (
               <div className="mt-5 space-y-4">
                 <div>
@@ -50,7 +51,7 @@ export default async function AccountPage() {
                 </div>
               </div>
             ) : (
-              <p className="hp-wrap mt-5 rounded-md border border-white/10 bg-white/[0.055] p-4 text-sm leading-6 text-slate-300">
+              <p className="hp-wrap mt-5 rounded-sm border border-white/10 bg-white/[0.055] p-4 text-sm leading-6 text-slate-300">
                 {locale === "fr"
                   ? "Connecte-toi pour afficher tes jalons, validations et badges."
                   : "Sign in to display milestones, validations, and badges."}
@@ -59,9 +60,9 @@ export default async function AccountPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="hp-panel rounded-md p-5">
+            <div className="hp-panel hp-route-card rounded-sm p-5">
               <Award aria-hidden className="h-6 w-6 text-amber" />
-              <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">Badges</h2>
+              <h2 className="hp-wrap mt-4 text-xl font-black text-white">Badges</h2>
               <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">
                 {session
                   ? locale === "fr"
@@ -72,9 +73,9 @@ export default async function AccountPage() {
                     : "Validate modules to unlock badges."}
               </p>
             </div>
-            <div className="hp-panel rounded-md p-5">
+            <div className="hp-panel hp-route-card rounded-sm p-5">
               <CreditCard aria-hidden className="h-6 w-6 text-steel" />
-              <h2 className="hp-wrap mt-4 text-xl font-extrabold text-white">{locale === "fr" ? "Niveaux d'accès" : "Access levels"}</h2>
+              <h2 className="hp-wrap mt-4 text-xl font-black text-white">{locale === "fr" ? "Niveaux d'accès" : "Access levels"}</h2>
               <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">
                 {locale === "fr"
                   ? "Des parcours gratuits et des validations avancées peuvent être distingués selon le niveau d'accès."

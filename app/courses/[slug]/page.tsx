@@ -36,7 +36,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   if (!session?.user?.id) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
         <AccessGate
           body={
             locale === "fr"
@@ -52,7 +52,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   if (course.isPremium && !hasPremium) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
         <AccessGate
           body={
             locale === "fr"
@@ -67,14 +67,16 @@ export default async function CoursePage({ params }: CoursePageProps) {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-      <article className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
+    <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
+      <article className="hp-shell hp-atlas-surface hp-path-card p-6 sm:p-8">
+        <div aria-hidden className="hp-gridwash" />
         <div className="hp-inner">
           <div className="flex flex-wrap items-center gap-2">
             {category ? <Badge tone={category.color}>{category.title[locale]}</Badge> : null}
             <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? dictionary.home.premium : dictionary.home.free}</Badge>
+            <span className="hp-brand-chip">Mission / {course.slug}</span>
           </div>
-          <h1 className="hp-wrap mt-5 text-4xl font-extrabold leading-tight text-white">{course.title[locale]}</h1>
+          <h1 className="hp-wrap mt-5 text-4xl font-black leading-tight text-white">{course.title[locale]}</h1>
           <p className="hp-wrap mt-4 text-lg leading-8 text-slate-300">{course.summary[locale]}</p>
           {course.isPremium ? (
             <div className="hp-wrap mt-6 flex items-start gap-3 rounded-md border border-amber/30 bg-amber/[0.09] p-4 text-sm leading-6 text-amber">
@@ -84,8 +86,8 @@ export default async function CoursePage({ params }: CoursePageProps) {
           ) : null}
 
           <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <section className="rounded-md border border-white/10 bg-white/[0.055] p-5">
-              <h2 className="hp-wrap text-lg font-extrabold text-white">{dictionary.course.objectives}</h2>
+            <section className="hp-ledger rounded-sm p-5">
+              <h2 className="hp-wrap text-lg font-black text-white">{dictionary.course.objectives}</h2>
               <ul className="mt-4 space-y-3">
                 {course.objectives[locale].map((item) => (
                   <li className="flex gap-3 text-sm leading-6 text-slate-300" key={item}>
@@ -95,8 +97,8 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 ))}
               </ul>
             </section>
-            <section className="rounded-md border border-white/10 bg-white/[0.055] p-5">
-              <h2 className="hp-wrap text-lg font-extrabold text-white">{dictionary.course.prerequisites}</h2>
+            <section className="hp-ledger rounded-sm p-5">
+              <h2 className="hp-wrap text-lg font-black text-white">{dictionary.course.prerequisites}</h2>
               <ul className="mt-4 space-y-3">
                 {course.prerequisites[locale].map((item) => (
                   <li className="hp-wrap text-sm leading-6 text-slate-300" key={`${item.label}-${item.courseSlug ?? "plain"}`}>
@@ -117,24 +119,27 @@ export default async function CoursePage({ params }: CoursePageProps) {
           </div>
 
           <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.content}</h2>
+            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.content}</h2>
             <div className="mt-4 space-y-4">
-              {course.sections[locale].map((section) => (
-                <div className="rounded-md border border-white/10 bg-white/[0.055] p-5" key={section.title}>
-                  <h3 className="hp-wrap text-lg font-extrabold text-white">{section.title}</h3>
+              {course.sections[locale].map((section, index) => (
+                <div className="hp-route-step" key={section.title}>
+                  <span className="hp-checkpoint">0{index + 1}</span>
+                  <div className="hp-panel rounded-sm p-5">
+                  <h3 className="hp-wrap text-lg font-black text-white">{section.title}</h3>
                   <p className="hp-wrap mt-2 text-sm leading-7 text-slate-300">{section.body}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
 
           <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.exercises}</h2>
+            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.exercises}</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {course.exercises[locale].map((exercise) => (
-                <div className="rounded-md border border-white/10 bg-white/[0.055] p-5" key={exercise.title}>
+                <div className="hp-panel hp-route-card rounded-sm p-5" key={exercise.title}>
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="hp-wrap min-w-0 text-base font-extrabold text-white">{exercise.title}</h3>
+                    <h3 className="hp-wrap min-w-0 text-base font-black text-white">{exercise.title}</h3>
                     {exercise.premium ? <Badge tone="amber">{dictionary.home.premium}</Badge> : null}
                   </div>
                   <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{exercise.body}</p>
@@ -144,18 +149,18 @@ export default async function CoursePage({ params }: CoursePageProps) {
           </section>
 
           <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.quiz}</h2>
+            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.quiz}</h2>
             <div className="mt-4">
               <QuizPreview locale={locale} questions={course.quiz[locale]} />
             </div>
           </section>
 
           <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-extrabold text-white">{dictionary.course.resources}</h2>
+            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.resources}</h2>
             <div className="mt-4 grid gap-3">
               {course.resources[locale].map((resource) => (
                 <a
-                  className="focus-ring inline-flex items-center justify-between gap-3 rounded-md border border-white/10 bg-white/[0.055] p-4 text-sm font-bold text-slate-100 transition hover:border-mint/40 hover:bg-mint/10"
+                  className="focus-ring inline-flex items-center justify-between gap-3 rounded-sm border border-white/10 bg-white/[0.055] p-4 text-sm font-black text-slate-100 transition hover:border-mint/40 hover:bg-mint/10"
                   href={resource.url}
                   key={resource.url}
                   rel="noreferrer"

@@ -51,60 +51,62 @@ export function LearningPulse({
     totalPercent >= 100 ? (locale === "fr" ? "Parcours validé" : "Path validated") : `${nextBadgePercent}%`;
 
   return (
-    <aside className="hp-shell rounded-md p-5">
+    <aside className="hp-shell hp-path-card p-5">
       <div className="hp-inner">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="hp-kicker">{labels.title}</p>
-            <h2 className="hp-wrap mt-2 text-xl font-extrabold leading-7 text-white">
+            <h2 className="hp-wrap mt-2 text-xl font-black leading-7 text-white">
               {isAuthenticated ? labels.authenticatedBody : labels.body}
             </h2>
           </div>
           <div
             aria-hidden
-            className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-white/10"
+            className="grid h-20 w-20 shrink-0 place-items-center rounded-sm border border-white/10"
             style={{ background: `conic-gradient(#67d8bd ${totalPercent}%, rgba(255,255,255,0.08) 0)` }}
           >
-            <div className="grid h-14 w-14 place-items-center rounded-full bg-[#171b20] text-lg font-black text-white">
+            <div className="grid h-14 w-14 place-items-center rounded-sm bg-[#11161b] text-lg font-black text-white">
               {totalPercent}%
             </div>
           </div>
         </div>
 
-        <div className="mt-5 space-y-2">
+        <div className="hp-ledger mt-5 rounded-sm p-3">
           <div className="flex items-center justify-between gap-3 text-sm font-semibold text-slate-200">
             <span className="hp-wrap">{labels.global}</span>
             <span>{totalPercent}%</span>
           </div>
+          <div className="mt-2">
           <ProgressBar value={totalPercent} label={labels.global} />
+          </div>
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <div className="rounded-md border border-white/10 bg-white/[0.055] p-3">
+          <div className="hp-status-tile">
             <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" />
-            <p className="mt-3 text-xl font-bold text-white">{level}</p>
+            <p className="mt-3 text-xl font-black text-white">{level}</p>
             <p className="hp-wrap text-xs text-slate-400">{labels.level}</p>
           </div>
-          <div className="rounded-md border border-white/10 bg-white/[0.055] p-3">
+          <div className="hp-status-tile">
             <Award aria-hidden className="h-5 w-5 text-amber" />
-            <p className="mt-3 text-xl font-bold text-white">{badgeCount}</p>
+            <p className="mt-3 text-xl font-black text-white">{badgeCount}</p>
             <p className="hp-wrap text-xs text-slate-400">{labels.badges}</p>
           </div>
-          <div className="rounded-md border border-white/10 bg-white/[0.055] p-3">
+          <div className="hp-status-tile">
             <Target aria-hidden className="h-5 w-5 text-mint" />
-            <p className="mt-3 text-xl font-bold text-white">
+            <p className="mt-3 text-xl font-black text-white">
               {completedCourses}/{totalCourses}
             </p>
             <p className="hp-wrap text-xs text-slate-400">{labels.target}</p>
           </div>
-          <div className="rounded-md border border-white/10 bg-white/[0.055] p-3">
+          <div className="hp-status-tile">
             <Flame aria-hidden className="h-5 w-5 text-coral" />
-            <p className="mt-3 text-xl font-bold text-white">{streakDays}</p>
+            <p className="mt-3 text-xl font-black text-white">{streakDays}</p>
             <p className="hp-wrap text-xs text-slate-400">{labels.streak}</p>
           </div>
         </div>
 
-        <div className="hp-wrap mt-4 rounded-md border border-amber/20 bg-amber/[0.08] px-3 py-2 text-sm font-semibold text-amber">
+        <div className="hp-wrap mt-4 rounded-sm border border-amber/20 bg-amber/[0.08] px-3 py-2 text-sm font-black text-amber">
           <span className="text-paper/80">{labels.next}: </span>
           {nextBadgeCopy}
         </div>

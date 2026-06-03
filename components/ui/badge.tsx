@@ -14,7 +14,7 @@ export function Badge({ children, tone = "muted" }: BadgeProps) {
   };
 
   return (
-    <span className={clsx("hp-wrap inline-flex max-w-full items-center rounded-[4px] border px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-[0.06em]", tones[tone])}>
+    <span className={clsx("hp-wrap inline-flex max-w-full items-center rounded-sm border px-2.5 py-1 text-[11px] font-black uppercase", tones[tone])}>
       {children}
     </span>
   );

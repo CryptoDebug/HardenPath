@@ -5,6 +5,7 @@ import {
   BookOpenCheck,
   CheckCircle2,
   ChevronRight,
+  Compass,
   Flame,
   LockKeyhole,
   Map,
@@ -45,21 +46,22 @@ export default async function HomePage() {
         ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <section className="grid gap-5 lg:grid-cols-[1.18fr_0.82fr]">
-        <div className="hp-shell rounded-md p-6 sm:p-8">
+    <div className="hp-page-shell">
+      <section className="hp-hero-grid">
+        <div className="hp-shell hp-path-card p-6 sm:p-8">
           <div aria-hidden className="hp-atlas-hero">
             <Image alt="" fill priority sizes="(min-width: 1024px) 760px, 100vw" src="/brand/hardenpath-atlas.png" />
           </div>
+          <div aria-hidden className="hp-gridwash" />
           <div className="hp-inner">
             <div className="flex flex-wrap items-center gap-3">
               <Badge tone="mint">{dictionary.home.eyebrow}</Badge>
-              <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-bold text-paper">
+              <span className="hp-brand-chip">
                 <Sparkles aria-hidden className="h-3.5 w-3.5 text-amber" />
-                {locale === "fr" ? "Progression visible" : "Visible progress"}
+                Pathline OS
               </span>
             </div>
-            <h1 className="hp-wrap mt-5 max-w-4xl text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+            <h1 className="hp-wrap mt-5 max-w-4xl text-4xl font-black leading-tight text-white sm:text-5xl">
               {dictionary.home.title}
             </h1>
             <p className="hp-wrap mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">{dictionary.home.body}</p>
@@ -74,7 +76,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="hp-skill-map mt-8 rounded-md p-4">
+            <div className="hp-skill-map hp-ledger mt-8 rounded-sm p-4">
               <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-center gap-2 text-sm font-extrabold text-paper">
                   <Map aria-hidden className="h-4 w-4 shrink-0 text-mint" />
@@ -112,23 +114,41 @@ export default async function HomePage() {
         />
       </section>
 
-      <section className="hp-route-rail mt-10 grid gap-4 md:grid-cols-3">
-        {platformItems.map((item, index) => (
-          <div className="hp-panel hp-panel-accent rounded-md p-5" key={item}>
-            <div className="relative">
-            <div className="flex items-center justify-between gap-3">
-              <span className="hp-checkpoint">
-                0{index + 1}
-              </span>
-              <CheckCircle2 aria-hidden className="h-5 w-5 text-amber" />
-            </div>
-            <p className="hp-wrap mt-4 text-base font-extrabold leading-6 text-white">{item}</p>
-            </div>
+      <section className="mt-10 grid gap-5 lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="hp-shell hp-path-card p-5">
+          <div className="hp-inner">
+            <span className="hp-brand-chip">
+              <Compass aria-hidden className="h-3.5 w-3.5 text-mint" />
+              {locale === "fr" ? "Doctrine HardenPath" : "HardenPath doctrine"}
+            </span>
+            <h2 className="hp-wrap mt-4 text-2xl font-black leading-8 text-white">
+              {locale === "fr" ? "Un parcours qui se voit, se valide, se reprend." : "A route you can see, validate, and resume."}
+            </h2>
+            <p className="hp-wrap mt-3 text-sm leading-7 text-slate-300">
+              {locale === "fr"
+                ? "Chaque secteur avance par jalons courts : comprendre, pratiquer, confirmer. La progression devient une preuve, pas une promesse."
+                : "Each sector moves through short milestones: understand, practice, confirm. Progress becomes proof, not a promise."}
+            </p>
           </div>
-        ))}
+        </div>
+        <div className="hp-route-rail grid gap-4 md:grid-cols-3">
+          {platformItems.map((item, index) => (
+            <div className="hp-panel hp-route-card rounded-sm p-5" key={item}>
+              <div className="relative">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="hp-checkpoint">0{index + 1}</span>
+                  <CheckCircle2 aria-hidden className="h-5 w-5 text-amber" />
+                </div>
+                <p className="hp-wrap mt-4 text-base font-black leading-6 text-white">{item}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="mt-12" id="categories">
+        <div className="hp-ledger rounded-sm p-5 sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeading
           title={dictionary.home.categories}
           body={
@@ -137,7 +157,16 @@ export default async function HomePage() {
               : "Choose a path, work through modules by level, then validate skills through scoped exercises."
           }
         />
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-3 gap-2 sm:min-w-[22rem]">
+              {[dictionary.home.free, dictionary.home.premium, locale === "fr" ? "Badges" : "Badges"].map((item, index) => (
+                <div className="hp-status-tile text-center" key={item}>
+                  <p className="text-[0.68rem] font-black uppercase text-steel">0{index + 1}</p>
+                  <p className="hp-wrap mt-1 text-xs font-black text-paper">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category, index) => (
             <CategoryCard
               category={category}
@@ -151,6 +180,7 @@ export default async function HomePage() {
             />
           ))}
         </div>
+        </div>
       </section>
 
       <section className="mt-12 grid gap-4 md:grid-cols-3">
@@ -159,13 +189,13 @@ export default async function HomePage() {
           { icon: Flame, value: String(courses.length), label: locale === "fr" ? "Modules disponibles" : "Available modules" },
           { icon: LockKeyhole, value: String(stats.completedCourses), label: locale === "fr" ? "Modules validés" : "Validated modules" }
         ].map((item) => (
-          <div className="hp-panel hp-panel-accent rounded-md p-5" key={item.label}>
+          <div className="hp-panel hp-path-card rounded-sm p-5" key={item.label}>
             <div className="relative">
             <div className="flex items-center justify-between gap-3">
               <item.icon aria-hidden className="h-6 w-6 text-paper" />
               <ShieldCheck aria-hidden className="h-4 w-4 text-mint/70" />
             </div>
-            <p className="hp-wrap mt-4 text-2xl font-extrabold text-white">{item.value}</p>
+            <p className="hp-wrap mt-4 text-2xl font-black text-white">{item.value}</p>
             <p className="hp-wrap mt-1 text-sm text-slate-300">{item.label}</p>
             </div>
           </div>

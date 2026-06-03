@@ -18,8 +18,10 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24rem),
-    linear-gradient(135deg, #111418 0%, #171b20 48%, #101214 100%);
+    radial-gradient(circle at 18% 0%, rgba(103, 216, 189, 0.12), transparent 28rem),
+    radial-gradient(circle at 85% 8%, rgba(200, 164, 95, 0.1), transparent 26rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 18rem),
+    linear-gradient(135deg, #0c1014 0%, #15191d 42%, #0a0d10 100%);
   background-attachment: fixed;
   color: #f5f7fa;
   font-family:
@@ -59,8 +61,9 @@ a {
   width: 100%;
   object-fit: cover;
   object-position: right center;
-  opacity: 0.34;
-  mix-blend-mode: screen;
+  opacity: 0.22;
+  filter: saturate(0.85) contrast(1.12);
+  mix-blend-mode: lighten;
 }
 
 .hp-atlas-hero::after {
@@ -68,8 +71,8 @@ a {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(23, 27, 32, 0.98) 0%, rgba(23, 27, 32, 0.9) 42%, rgba(23, 27, 32, 0.35) 100%),
-    linear-gradient(180deg, rgba(23, 27, 32, 0.12), rgba(23, 27, 32, 0.78));
+    linear-gradient(90deg, rgba(14, 17, 20, 0.98) 0%, rgba(14, 17, 20, 0.88) 46%, rgba(14, 17, 20, 0.5) 100%),
+    linear-gradient(180deg, rgba(14, 17, 20, 0.08), rgba(14, 17, 20, 0.84));
 }
 
 .hp-atlas-surface {
@@ -81,10 +84,25 @@ a {
   background-size: auto, auto, cover;
 }
 
+.hp-gridwash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.48;
+  background-image:
+    linear-gradient(rgba(215, 221, 229, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215, 221, 229, 0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 78%, transparent);
+}
+
 .hp-brand-mark {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(215, 221, 229, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.28);
 }
 
 .hp-brand-mark::before {
@@ -112,6 +130,20 @@ a {
     -16px 17px 0 -1px rgba(200, 164, 95, 0.85);
 }
 
+.hp-brand-chip {
+  @apply inline-flex items-center gap-2 rounded-sm border border-white/10 bg-white/[0.055] px-2.5 py-1 text-[0.68rem] font-black uppercase text-steel;
+}
+
+.hp-page-shell {
+  @apply mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8;
+}
+
+.hp-hero-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1.13fr) minmax(320px, 0.87fr);
+}
+
 .hp-route-rail {
   position: relative;
 }
@@ -119,26 +151,32 @@ a {
 .hp-route-rail::before {
   content: "";
   position: absolute;
-  left: 19px;
-  top: 24px;
-  bottom: 22px;
+  left: 20px;
+  top: 18px;
+  bottom: 18px;
   width: 2px;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(103, 216, 189, 0.95), rgba(200, 164, 95, 0.7), rgba(199, 109, 99, 0.55));
+  background: linear-gradient(180deg, rgba(103, 216, 189, 0.95), rgba(200, 164, 95, 0.78), rgba(199, 109, 99, 0.58));
+  box-shadow: 0 0 22px rgba(103, 216, 189, 0.18);
 }
 
 .hp-checkpoint {
-  @apply relative grid h-10 w-10 shrink-0 place-items-center rounded-md border border-white/10 bg-[#171b20] text-sm font-extrabold text-paper;
+  @apply relative grid h-10 w-10 shrink-0 place-items-center rounded-sm border border-white/10 bg-[#14191e] text-sm font-black text-paper;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+    0 12px 28px rgba(0, 0, 0, 0.24);
 }
 
 .hp-shell {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(215, 221, 229, 0.12);
+  border: 1px solid rgba(215, 221, 229, 0.13);
   background:
-    linear-gradient(180deg, rgba(32, 38, 45, 0.94), rgba(22, 26, 31, 0.94)),
-    #171b20;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    linear-gradient(180deg, rgba(34, 39, 44, 0.94), rgba(17, 21, 25, 0.96)),
+    #15191d;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
 }
 
 .hp-shell::before {
@@ -155,9 +193,13 @@ a {
 }
 
 .hp-panel {
-  border: 1px solid rgba(215, 221, 229, 0.11);
-  background: rgba(30, 35, 41, 0.86);
-  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(215, 221, 229, 0.12);
+  background:
+    linear-gradient(180deg, rgba(31, 36, 41, 0.92), rgba(17, 21, 25, 0.92)),
+    rgba(22, 26, 31, 0.88);
+  box-shadow:
+    0 18px 52px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
 }
 
 .hp-panel-accent {
@@ -176,20 +218,63 @@ a {
   opacity: 0.75;
 }
 
+.hp-path-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.375rem;
+}
+
+.hp-path-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #67d8bd, #c8a45f 58%, #c76d63);
+  opacity: 0.86;
+}
+
+.hp-route-card {
+  position: relative;
+  overflow: hidden;
+  border-left: 3px solid rgba(103, 216, 189, 0.74);
+}
+
+.hp-route-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(103, 216, 189, 0.09), transparent 24%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 14px);
+  opacity: 0.75;
+}
+
+.hp-stamp {
+  @apply inline-flex max-w-full items-center gap-2 rounded-sm border border-white/10 bg-black/20 px-3 py-2 text-xs font-black uppercase text-paper;
+}
+
+.hp-status-tile {
+  @apply rounded-sm border border-white/10 bg-white/[0.055] p-3;
+  min-width: 0;
+}
+
 .hp-rule {
   background-image: linear-gradient(90deg, rgba(103, 216, 189, 0.72), rgba(200, 164, 95, 0.45), transparent);
 }
 
 .hp-kicker {
-  @apply text-xs font-bold uppercase tracking-[0.08em] text-steel;
+  @apply text-xs font-black uppercase text-steel;
 }
 
 .hp-button-primary {
-  @apply focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-mint px-4 py-3 text-sm font-extrabold text-ink transition hover:bg-[#7ce4cb] hover:shadow-[0_0_0_4px_rgba(103,216,189,0.12)];
+  @apply focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-mint px-4 py-3 text-sm font-black text-ink transition hover:bg-[#7ce4cb] hover:shadow-[0_0_0_4px_rgba(103,216,189,0.12)];
 }
 
 .hp-button-secondary {
-  @apply focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.1];
+  @apply focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-black text-white transition hover:border-white/20 hover:bg-white/[0.1];
 }
 
 .hp-skill-map {
@@ -212,7 +297,7 @@ a {
   overflow-wrap: anywhere;
   word-break: normal;
   hyphens: auto;
-  @apply relative rounded-md border border-white/10 bg-[#181d22] px-3 py-3 text-xs font-extrabold text-paper shadow-soft;
+  @apply relative rounded-sm border border-white/10 bg-[#181d22] px-3 py-3 text-xs font-black text-paper shadow-soft;
 }
 
 .hp-node-done {
@@ -221,4 +306,56 @@ a {
 
 .hp-node-locked {
   @apply border-white/10 text-steel;
+}
+
+.hp-route-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.hp-route-step + .hp-route-step {
+  margin-top: 0.95rem;
+}
+
+.hp-route-step::before {
+  content: "";
+  position: absolute;
+  left: 1.2rem;
+  top: 2.6rem;
+  bottom: -1rem;
+  width: 2px;
+  border-radius: 999px;
+  background: rgba(215, 221, 229, 0.1);
+}
+
+.hp-route-step:last-child::before {
+  display: none;
+}
+
+.hp-ledger {
+  border: 1px solid rgba(215, 221, 229, 0.12);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    rgba(12, 15, 18, 0.38);
+  background-size: 3rem 3rem;
+}
+
+@media (max-width: 1023px) {
+  .hp-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .hp-route-rail::before,
+  .hp-skill-map::before {
+    display: none;
+  }
+
+  .hp-page-shell {
+    @apply py-4;
+  }
 }

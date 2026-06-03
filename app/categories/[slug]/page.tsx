@@ -35,11 +35,15 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const categoryCourses = getCoursesByCategory(category.slug).filter((course) => activeLevel === "all" || course.level === activeLevel);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <section className="hp-shell hp-atlas-surface rounded-md p-6 sm:p-8">
+    <div className="hp-page-shell">
+      <section className="hp-shell hp-atlas-surface hp-path-card p-6 sm:p-8">
+        <div aria-hidden className="hp-gridwash" />
         <div className="hp-inner">
-          <Badge tone={category.color}>{dictionary.category.modules}</Badge>
-          <h1 className="hp-wrap mt-5 text-4xl font-extrabold leading-tight text-white">{category.title[locale]}</h1>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge tone={category.color}>{dictionary.category.modules}</Badge>
+            <span className="hp-brand-chip">Sector / {category.slug}</span>
+          </div>
+          <h1 className="hp-wrap mt-5 text-4xl font-black leading-tight text-white">{category.title[locale]}</h1>
           <p className="hp-wrap mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
           {!session ? (
             <p className="hp-wrap mt-4 max-w-3xl rounded-md border border-amber/30 bg-amber/[0.09] p-4 text-sm font-bold leading-6 text-amber">
@@ -48,7 +52,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                 : "Sign in to open modules, validate milestones, and resume your path."}
             </p>
           ) : null}
-          <div className="mt-7 border-t border-white/10 pt-5">
+          <div className="hp-ledger mt-7 rounded-sm p-4">
             <p className="hp-kicker mb-3">{dictionary.category.levelFilter}</p>
             <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
           </div>
