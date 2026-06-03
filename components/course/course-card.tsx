@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { Clock, LockKeyhole, PlayCircle } from "lucide-react";
+import { CheckCircle2, Clock, LockKeyhole, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Course, Level } from "@/content/catalog";
 import type { Locale } from "@/lib/i18n-client";
@@ -15,26 +17,36 @@ type CourseCardProps = {
   locale: Locale;
   freeLabel: string;
   premiumLabel: string;
+  completed?: boolean;
   locked?: boolean;
 };
 
-export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = false }: CourseCardProps) {
+export function CourseCard({ course, locale, freeLabel, premiumLabel, completed = false, locked = false }: CourseCardProps) {
   const isLocked = course.isPremium || locked;
 
   return (
     <Link
-      className="focus-ring hp-panel hp-route-card group flex h-full min-h-[260px] flex-col rounded-sm p-5 transition duration-200 hover:-translate-y-0.5 hover:border-mint/30 hover:bg-white/[0.07]"
+      className={`focus-ring hp-panel hp-route-card group flex h-full min-h-[260px] flex-col rounded-sm p-5 transition duration-200 hover:-translate-y-0.5 hover:bg-white/[0.07] ${
+        completed ? "border-mint/35" : "hover:border-mint/30"
+      }`}
       href={locked ? "/account" : `/courses/${course.slug}`}
     >
       <div className="relative flex h-full flex-col">
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone={course.isPremium ? "amber" : "mint"}>{course.isPremium ? premiumLabel : freeLabel}</Badge>
           <Badge>{levelLabels[course.level][locale]}</Badge>
+          {completed ? <Badge tone="mint">{locale === "fr" ? "Terminé" : "Completed"}</Badge> : null}
         </div>
 
         <div className="mt-5 flex items-start gap-3">
           <span className="hp-checkpoint">
-            {isLocked ? <LockKeyhole aria-hidden className="h-5 w-5 text-amber" /> : <PlayCircle aria-hidden className="h-5 w-5 text-mint" />}
+            {completed ? (
+              <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" />
+            ) : isLocked ? (
+              <LockKeyhole aria-hidden className="h-5 w-5 text-amber" />
+            ) : (
+              <PlayCircle aria-hidden className="h-5 w-5 text-mint" />
+            )}
           </span>
           <div className="min-w-0">
             <p className="hp-kicker">{locale === "fr" ? "Module" : "Module"}</p>
@@ -51,7 +63,9 @@ export function CourseCard({ course, locale, freeLabel, premiumLabel, locked = f
               {course.estimatedMinutes} min
             </span>
             <span className="inline-flex min-w-0 items-center gap-2 font-black text-paper">
-              <span className="hp-wrap">{locked ? (locale === "fr" ? "Ouvrir l'accès" : "Open access") : locale === "fr" ? "Démarrer" : "Start"}</span>
+              <span className="hp-wrap">
+                {locked ? (locale === "fr" ? "Ouvrir l'accès" : "Open access") : completed ? (locale === "fr" ? "Revoir" : "Review") : locale === "fr" ? "Démarrer" : "Start"}
+              </span>
               <span aria-hidden className="h-2 w-8 rounded-full bg-[linear-gradient(90deg,#67d8bd,#c8a45f)] transition group-hover:w-11" />
             </span>
           </div>

@@ -94,6 +94,29 @@ export async function getCourseCompletion(userId: string, courseSlug: string) {
   };
 }
 
+export async function getCompletedCourseSlugs(userId?: string) {
+  if (!userId) {
+    return [];
+  }
+
+  const completed = await prisma.progress.findMany({
+    where: {
+      lessonId: null,
+      status: ProgressStatus.COMPLETED,
+      userId
+    },
+    select: {
+      course: {
+        select: {
+          slug: true
+        }
+      }
+    }
+  });
+
+  return completed.map((item) => item.course.slug);
+}
+
 export async function userHasPremium(userId: string) {
   const subscription = await prisma.subscription.findFirst({
     where: {

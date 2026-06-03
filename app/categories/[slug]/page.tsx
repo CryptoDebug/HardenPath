@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { CourseCard } from "@/components/course/course-card";
+import { CourseBrowser } from "@/components/course/course-browser";
 import { LevelFilter } from "@/components/course/level-filter";
 import { Badge } from "@/components/ui/badge";
 import { categories, getCategory, getCoursesByCategory, type Level } from "@/content/catalog";
 import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
+import { getCompletedCourseSlugs } from "@/lib/learning";
 
 export function generateStaticParams() {
   return categories.map((category) => ({ slug: category.slug }));
@@ -33,6 +34,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     : "all";
 
   const categoryCourses = getCoursesByCategory(category.slug).filter((course) => activeLevel === "all" || course.level === activeLevel);
+  const completedSlugs = await getCompletedCourseSlugs(session?.user?.id);
 
   return (
     <div className="hp-page-shell">
@@ -59,18 +61,14 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {categoryCourses.map((course) => (
-          <CourseCard
-            course={course}
-            freeLabel={dictionary.home.free}
-            key={course.slug}
-            locale={locale}
-            premiumLabel={dictionary.home.premium}
-            locked={!session}
-          />
-        ))}
-      </section>
+      <CourseBrowser
+        completedSlugs={completedSlugs}
+        courses={categoryCourses}
+        freeLabel={dictionary.home.free}
+        locale={locale}
+        locked={!session}
+        premiumLabel={dictionary.home.premium}
+      />
     </div>
   );
 }
