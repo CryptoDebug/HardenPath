@@ -31,6 +31,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Course is not available yet." }, { status: 404 });
   }
 
+  const passedAttempts = await prisma.quizAttempt.findMany({
+    where: {
+      passed: true,
+      userId: session.user.id,
+      quiz: {
+        courseId: course.id,
+        slug: "validation"
+      }
+    },
+    select: {
+      maxScore: true,
+      score: true
+    }
+  });
+  const hasPerfectQuiz = passedAttempts.some((attempt) => attempt.score === attempt.maxScore);
+
+  if (!hasPerfectQuiz) {
+    return NextResponse.json({ error: "A perfect validation quiz score is required before completing this module." }, { status: 403 });
+  }
+
   const existing = await prisma.progress.findFirst({
     where: {
       userId: session.user.id,

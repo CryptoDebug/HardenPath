@@ -2,13 +2,13 @@ import { CheckCircle2, ExternalLink, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { CourseValidationPanel } from "@/components/course/course-validation-panel";
 import { ExerciseFlipCard } from "@/components/course/exercise-flip-card";
-import { QuizPreview } from "@/components/course/quiz-preview";
-import { CompleteLessonButton } from "@/components/progress/complete-lesson-button";
 import { AccessGate } from "@/components/ui/access-gate";
 import { Badge } from "@/components/ui/badge";
 import { courses, getCategory, getCourse } from "@/content/catalog";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getCourseCompletion, userHasPremium } from "@/lib/learning";
 
@@ -34,6 +34,25 @@ export default async function CoursePage({ params }: CoursePageProps) {
   const category = getCategory(course.categorySlug);
   const completion = session?.user?.id ? await getCourseCompletion(session.user.id, course.slug) : { completed: false, percent: 0 };
   const hasPremium = session?.user?.id ? await userHasPremium(session.user.id) : false;
+  const passedAttempts = session?.user?.id
+    ? await prisma.quizAttempt.findMany({
+        where: {
+          passed: true,
+          quiz: {
+            course: {
+              slug: course.slug
+            },
+            slug: "validation"
+          },
+          userId: session.user.id
+        },
+        select: {
+          maxScore: true,
+          score: true
+        }
+      })
+    : [];
+  const initialQuizPassed = passedAttempts.some((attempt) => attempt.score === attempt.maxScore);
 
   if (!session?.user?.id) {
     return (
@@ -151,12 +170,14 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </div>
           </section>
 
-          <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.quiz}</h2>
-            <div className="mt-4">
-              <QuizPreview locale={locale} questions={course.quiz[locale]} />
-            </div>
-          </section>
+          <CourseValidationPanel
+            completeLabel={dictionary.course.complete}
+            courseSlug={course.slug}
+            initialCompleted={completion.completed}
+            initialQuizPassed={initialQuizPassed}
+            locale={locale}
+            questions={course.quiz[locale]}
+          />
 
           <section className="mt-8">
             <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.resources}</h2>
@@ -176,9 +197,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </div>
           </section>
 
-          <div className="mt-8">
-            <CompleteLessonButton courseSlug={course.slug} initialCompleted={completion.completed} label={dictionary.course.complete} locale={locale} />
-          </div>
         </div>
       </article>
     </div>

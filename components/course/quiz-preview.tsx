@@ -1,12 +1,15 @@
 "use client";
 
 import { CheckCircle2, Circle, ListChecks, RotateCcw, Target, XCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { QuizQuestion } from "@/content/catalog";
 import type { Locale } from "@/lib/i18n-client";
 
 type QuizPreviewProps = {
+  courseSlug: string;
+  initialPassed?: boolean;
   locale: Locale;
+  onPassedChange?: (passed: boolean) => void;
   questions: QuizQuestion[];
 };
 
@@ -20,8 +23,11 @@ const copy = {
     reset: "Réinitialiser",
     score: "Score",
     select: "Choisir cette réponse",
+    serverError: "Impossible d'enregistrer la tentative.",
     statusComplete: "Validation terminée",
-    statusProgress: "Validation en cours"
+    statusPassed: "QCM validé : module déverrouillé",
+    statusProgress: "Validation en cours",
+    statusSaving: "Enregistrement..."
   },
   en: {
     answered: "answers",
@@ -32,18 +38,84 @@ const copy = {
     reset: "Reset",
     score: "Score",
     select: "Choose this answer",
+    serverError: "Unable to save attempt.",
     statusComplete: "Validation complete",
-    statusProgress: "Validation in progress"
+    statusPassed: "Quiz passed: module unlocked",
+    statusProgress: "Validation in progress",
+    statusSaving: "Saving..."
   }
 } satisfies Record<Locale, Record<string, string>>;
 
-export function QuizPreview({ locale, questions }: QuizPreviewProps) {
+export function QuizPreview({ courseSlug, initialPassed = false, locale, onPassedChange, questions }: QuizPreviewProps) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [serverPassed, setServerPassed] = useState(initialPassed);
   const score = questions.reduce((total, question, index) => total + (answers[index] === question.correctOption ? 1 : 0), 0);
   const answeredCount = Object.keys(answers).length;
   const progress = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
   const isComplete = answeredCount === questions.length;
+  const answerList = useMemo(() => questions.map((_, index) => answers[index]), [answers, questions]);
   const labels = copy[locale];
+
+  useEffect(() => {
+    if (!isComplete || answerList.some((answer) => answer === undefined)) {
+      if (!initialPassed) {
+        onPassedChange?.(false);
+      }
+      return;
+    }
+
+    let isCurrent = true;
+
+    async function submitAttempt() {
+      setIsSubmitting(true);
+      setServerError("");
+
+      const response = await fetch("/api/quiz/attempt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: answerList, courseSlug })
+      });
+
+      if (!isCurrent) {
+        return;
+      }
+
+      setIsSubmitting(false);
+
+      if (!response.ok) {
+        setServerError(labels.serverError);
+        if (!initialPassed) {
+          setServerPassed(false);
+          onPassedChange?.(false);
+        }
+        return;
+      }
+
+      const payload = (await response.json()) as { attempt?: { passed?: boolean } };
+      const passed = Boolean(payload.attempt?.passed);
+      setServerPassed((current) => current || passed);
+      onPassedChange?.(passed || initialPassed);
+    }
+
+    void submitAttempt();
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [answerList, courseSlug, initialPassed, isComplete, labels.serverError, onPassedChange]);
+
+  const statusLabel = serverPassed ? labels.statusPassed : isSubmitting ? labels.statusSaving : isComplete ? labels.statusComplete : labels.statusProgress;
+
+  function resetAnswers() {
+    setAnswers({});
+    setServerError("");
+    if (!initialPassed) {
+      setServerPassed(false);
+      onPassedChange?.(false);
+    }
+  }
 
   return (
     <div className="overflow-hidden rounded-sm border border-white/10 bg-[#14191e]">
@@ -55,7 +127,7 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
             </span>
             <div className="min-w-0">
               <p className="hp-kicker">{labels.drill}</p>
-              <h3 className="hp-wrap mt-1 text-lg font-black text-white">{isComplete ? labels.statusComplete : labels.statusProgress}</h3>
+              <h3 className="hp-wrap mt-1 text-lg font-black text-white">{statusLabel}</h3>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -67,7 +139,7 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
             </div>
             <button
               className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/10 bg-white/[0.055] text-steel transition hover:border-mint/30 hover:text-white"
-              onClick={() => setAnswers({})}
+              onClick={resetAnswers}
               type="button"
             >
               <span className="sr-only">{labels.reset}</span>
@@ -89,57 +161,60 @@ export function QuizPreview({ locale, questions }: QuizPreviewProps) {
       </div>
 
       <div className="grid gap-0 divide-y divide-white/10">
-      {questions.map((question, index) => (
-        <fieldset className="p-4 sm:p-5" key={question.question}>
-          <legend className="float-left w-full">
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5 shrink-0 rounded-sm border border-white/10 bg-white/[0.055] px-2 py-1 font-mono text-[0.7rem] font-bold text-steel">
-                Q{String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="hp-wrap min-w-0 text-base font-black leading-6 text-white">{question.question}</span>
+        {questions.map((question, index) => (
+          <fieldset className="p-4 sm:p-5" key={question.question}>
+            <legend className="float-left w-full">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 shrink-0 rounded-sm border border-white/10 bg-white/[0.055] px-2 py-1 font-mono text-[0.7rem] font-bold text-steel">
+                  Q{String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="hp-wrap min-w-0 text-base font-black leading-6 text-white">{question.question}</span>
+              </div>
+            </legend>
+            <div className="clear-both mt-4 grid gap-2">
+              {question.options.map((option, optionIndex) => (
+                <QuizOption
+                  checked={answers[index] === optionIndex}
+                  correct={question.correctOption === optionIndex}
+                  key={option}
+                  name={`question-${index}`}
+                  onSelect={() => setAnswers((current) => ({ ...current, [index]: optionIndex }))}
+                  option={option}
+                  revealed={answers[index] !== undefined}
+                  selectLabel={labels.select}
+                  wrong={answers[index] === optionIndex && answers[index] !== question.correctOption}
+                />
+              ))}
             </div>
-          </legend>
-          <div className="clear-both mt-4 grid gap-2">
-            {question.options.map((option, optionIndex) => (
-              <QuizOption
-                checked={answers[index] === optionIndex}
-                correct={question.correctOption === optionIndex}
-                key={option}
-                name={`question-${index}`}
-                onSelect={() => setAnswers((current) => ({ ...current, [index]: optionIndex }))}
-                option={option}
-                revealed={answers[index] !== undefined}
-                selectLabel={labels.select}
-                wrong={answers[index] === optionIndex && answers[index] !== question.correctOption}
-              />
-            ))}
-          </div>
-          {answers[index] !== undefined ? (
-            <div className="mt-3 flex items-center gap-2 text-xs font-black uppercase">
-              {answers[index] === question.correctOption ? (
-                <>
-                  <CheckCircle2 aria-hidden className="h-4 w-4 text-mint" />
-                  <span className="text-mint">{labels.feedbackCorrect}</span>
-                </>
-              ) : (
-                <>
-                  <XCircle aria-hidden className="h-4 w-4 text-coral" />
-                  <span className="text-coral">{labels.feedbackWrong}</span>
-                </>
-              )}
-            </div>
-          ) : null}
-        </fieldset>
-      ))}
+            {answers[index] !== undefined ? (
+              <div className="mt-3 flex items-center gap-2 text-xs font-black uppercase">
+                {answers[index] === question.correctOption ? (
+                  <>
+                    <CheckCircle2 aria-hidden className="h-4 w-4 text-mint" />
+                    <span className="text-mint">{labels.feedbackCorrect}</span>
+                  </>
+                ) : (
+                  <>
+                    <XCircle aria-hidden className="h-4 w-4 text-coral" />
+                    <span className="text-coral">{labels.feedbackWrong}</span>
+                  </>
+                )}
+              </div>
+            ) : null}
+          </fieldset>
+        ))}
       </div>
 
       {isComplete ? (
         <div className="border-t border-white/10 bg-mint/[0.06] p-4 sm:p-5">
-          <div className="flex items-center gap-3">
-            <ListChecks aria-hidden className="h-5 w-5 text-mint" />
-            <p className="text-sm font-black text-white">
-              {labels.score}: {score}/{questions.length}
-            </p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <ListChecks aria-hidden className={`h-5 w-5 ${serverPassed ? "text-mint" : "text-amber"}`} />
+              <p className="text-sm font-black text-white">
+                {labels.score}: {score}/{questions.length}
+              </p>
+            </div>
+            {serverError ? <p className="hp-wrap text-sm font-bold text-coral">{serverError}</p> : null}
           </div>
         </div>
       ) : null}
