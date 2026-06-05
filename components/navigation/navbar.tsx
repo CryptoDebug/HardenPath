@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, Compass, ShieldCheck, UserCircle } from "lucide-react";
+import { Award, Compass, Search, ShieldCheck, UserCircle } from "lucide-react";
 import { LanguageSwitch } from "@/components/navigation/language-switch";
 import type { Locale } from "@/lib/i18n";
 
@@ -8,6 +8,7 @@ type NavbarProps = {
   dictionary: {
     categories: string;
     ethics: string;
+    profiles: string;
     account: string;
     switchLabel: string;
   };
@@ -33,6 +34,10 @@ export function Navbar({ locale, dictionary }: NavbarProps) {
           <Link className="focus-ring inline-flex items-center gap-2 rounded-[3px] px-3 py-2 text-sm font-black text-slate-200 hover:bg-white/[0.08]" href="/badges">
             <Award aria-hidden className="h-4 w-4 text-amber" />
             Badges
+          </Link>
+          <Link className="focus-ring inline-flex items-center gap-2 rounded-[3px] px-3 py-2 text-sm font-black text-slate-200 hover:bg-white/[0.08]" href="/profiles">
+            <Search aria-hidden className="h-4 w-4 text-mint" />
+            {dictionary.profiles}
           </Link>
           <Link className="focus-ring inline-flex items-center gap-2 rounded-[3px] px-3 py-2 text-sm font-black text-slate-200 hover:bg-white/[0.08]" href="/ethics">
             <ShieldCheck aria-hidden className="h-4 w-4 text-amber" />
