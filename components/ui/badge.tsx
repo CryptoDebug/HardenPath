@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 
 type BadgeProps = {
   children: React.ReactNode;
-  tone?: "mint" | "amber" | "coral" | "muted";
+  tone?: "mint" | "amber" | "coral" | "muted" | "wood";
 };
 
 export function Badge({ children, tone = "muted" }: BadgeProps) {
@@ -10,6 +10,7 @@ export function Badge({ children, tone = "muted" }: BadgeProps) {
     mint: "border-mint/35 bg-mint/[0.12] text-mint",
     amber: "border-amber/35 bg-amber/[0.12] text-amber",
     coral: "border-coral/35 bg-coral/[0.12] text-coral",
+    wood: "border-[#9a6a3f]/45 bg-[#9a6a3f]/[0.14] text-[#d2a16d]",
     muted: "border-white/10 bg-white/[0.06] text-paper"
   };
 

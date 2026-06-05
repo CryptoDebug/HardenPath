@@ -42,7 +42,7 @@ export default async function BadgesPage() {
       howTitle: "Comment les obtenir",
       activeRule: "Règle active aujourd'hui",
       starterRule: "Termine au moins un module dans un parcours pour débloquer son badge Starter.",
-      futureRule: "Les badges avancés pourront ensuite couvrir les parcours complets, les séries de pratique, les scores de QCM et les validations premium.",
+      futureRule: "Rareté prévue : bois pour les badges Starter, bronze pour les examens débutant, argent pour intermédiaire, gold pour avancé, diamant pour tout valider.",
       signin: "Se connecter pour suivre mes badges",
       openPaths: "Voir les parcours",
       starter: "Badge Starter",
@@ -60,7 +60,7 @@ export default async function BadgesPage() {
       howTitle: "How to earn them",
       activeRule: "Active rule today",
       starterRule: "Complete at least one module in a path to unlock its Starter badge.",
-      futureRule: "Advanced badges can later cover full paths, practice streaks, quiz scores, and premium validations.",
+      futureRule: "Planned rarity: wood for Starter badges, bronze for beginner exams, silver for intermediate, gold for advanced, diamond for validating everything.",
       signin: "Sign in to track my badges",
       openPaths: "View paths",
       starter: "Starter badge",
@@ -109,7 +109,7 @@ export default async function BadgesPage() {
                 </p>
               </div>
               <span className="hp-checkpoint h-14 w-14">
-                <Award aria-hidden className="h-7 w-7 text-amber" />
+                <Award aria-hidden className="h-7 w-7 text-wood" />
               </span>
             </div>
             <div className="mt-4">
@@ -126,7 +126,7 @@ export default async function BadgesPage() {
             <div className="mt-5 space-y-4">
               {[
                 { icon: CheckCircle2, title: copy.activeRule, body: copy.starterRule, tone: "text-mint" },
-                { icon: Flame, title: locale === "fr" ? "Progression future" : "Future progression", body: copy.futureRule, tone: "text-amber" },
+                { icon: Flame, title: locale === "fr" ? "Progression future" : "Future progression", body: copy.futureRule, tone: "text-wood" },
                 {
                   icon: ShieldCheck,
                   title: locale === "fr" ? "Important" : "Important",
@@ -134,7 +134,7 @@ export default async function BadgesPage() {
                     locale === "fr"
                       ? "Un badge est lié à une validation dans HardenPath, pas à une simple consultation de page."
                       : "A badge is tied to a HardenPath validation, not just viewing a page.",
-                  tone: "text-coral"
+                  tone: "text-steel"
                 }
               ].map((item) => (
                 <div className="hp-route-step" key={item.title}>
@@ -157,12 +157,12 @@ export default async function BadgesPage() {
               <div className="relative flex h-full flex-col">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <Badge tone={unlocked ? "mint" : category.color}>{unlocked ? copy.done : copy.locked}</Badge>
+                    <Badge tone={unlocked ? "mint" : "amber"}>{unlocked ? copy.done : copy.locked}</Badge>
                     <h2 className="hp-wrap mt-4 text-xl font-black leading-7 text-white">{category.title[locale]}</h2>
                     <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{copy.starter}</p>
                   </div>
                   <span className="hp-checkpoint">
-                    {unlocked ? <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" /> : <Award aria-hidden className="h-5 w-5 text-amber" />}
+                    {unlocked ? <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" /> : <Award aria-hidden className="h-5 w-5 text-wood" />}
                   </span>
                 </div>
                 <div className="mt-5 border-t border-white/10 pt-4">
