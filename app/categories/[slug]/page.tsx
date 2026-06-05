@@ -4,9 +4,12 @@ import { CourseBrowser } from "@/components/course/course-browser";
 import { LevelFilter } from "@/components/course/level-filter";
 import { Badge } from "@/components/ui/badge";
 import { categories, getCategory, getCoursesByCategory, type Level } from "@/content/catalog";
+import { getBeginnerExam, getBeginnerExamRequirement } from "@/content/exams";
 import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getCompletedCourseSlugs } from "@/lib/learning";
+import { Award, LockKeyhole } from "lucide-react";
+import Link from "next/link";
 
 export function generateStaticParams() {
   return categories.map((category) => ({ slug: category.slug }));
@@ -35,6 +38,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   const categoryCourses = getCoursesByCategory(category.slug).filter((course) => activeLevel === "all" || course.level === activeLevel);
   const completedSlugs = await getCompletedCourseSlugs(session?.user?.id);
+  const beginnerExam = getBeginnerExam(category.slug);
+  const beginnerRequirement = getBeginnerExamRequirement(category.slug);
+  const completedBeginnerCourses = beginnerRequirement.courseSlugs.filter((courseSlug) => completedSlugs.includes(courseSlug)).length;
+  const beginnerExamUnlocked = Boolean(session?.user?.id) && completedBeginnerCourses === beginnerRequirement.total;
 
   return (
     <div className="hp-page-shell">
@@ -58,6 +65,26 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             <p className="hp-kicker mb-3">{dictionary.category.levelFilter}</p>
             <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
           </div>
+          {beginnerExam ? (
+            <div className="mt-5 rounded-sm border border-white/10 bg-white/[0.055] p-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge tone={beginnerExamUnlocked ? "mint" : "amber"}>{beginnerExamUnlocked ? (locale === "fr" ? "Déverrouillé" : "Unlocked") : locale === "fr" ? "Examen verrouillé" : "Exam locked"}</Badge>
+                    <Badge tone="wood">{locale === "fr" ? "Débutant" : "Beginner"}</Badge>
+                  </div>
+                  <h2 className="hp-wrap mt-3 text-lg font-black text-white">{beginnerExam.title[locale]}</h2>
+                  <p className="hp-wrap mt-1 text-sm leading-6 text-slate-300">
+                    {completedBeginnerCourses}/{beginnerRequirement.total} {locale === "fr" ? "cours débutants validés" : "beginner courses validated"}
+                  </p>
+                </div>
+                <Link className={beginnerExamUnlocked ? "hp-button-primary" : "hp-button-secondary"} href={`/exams/${category.slug}/beginner`}>
+                  {beginnerExamUnlocked ? <Award aria-hidden className="h-4 w-4" /> : <LockKeyhole aria-hidden className="h-4 w-4" />}
+                  {locale === "fr" ? "Voir l'examen" : "View exam"}
+                </Link>
+              </div>
+            </div>
+          ) : null}
         </div>
       </section>
 

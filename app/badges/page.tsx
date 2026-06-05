@@ -30,8 +30,33 @@ export default async function BadgesPage() {
     slug: `${category.slug}-starter`,
     unlocked: unlockedSlugs.has(`${category.slug}-starter`)
   }));
+  const bronzeBadges = categories.map((category) => ({
+    category,
+    moduleCount: getCoursesByCategory(category.slug).filter((course) => course.level === "beginner").length,
+    slug: `${category.slug}-bronze`,
+    unlocked: unlockedSlugs.has(`${category.slug}-bronze`)
+  }));
   const unlockedStarterCount = starterBadges.filter((badge) => badge.unlocked).length;
-  const starterPercent = starterBadges.length > 0 ? Math.round((unlockedStarterCount / starterBadges.length) * 100) : 0;
+  const unlockedBronzeCount = bronzeBadges.filter((badge) => badge.unlocked).length;
+  const activeBadgeCount = starterBadges.length + bronzeBadges.length;
+  const unlockedActiveCount = unlockedStarterCount + unlockedBronzeCount;
+  const activePercent = activeBadgeCount > 0 ? Math.round((unlockedActiveCount / activeBadgeCount) * 100) : 0;
+  const badgeCards = [
+    ...starterBadges.map((badge) => ({
+      ...badge,
+      iconTone: "text-wood",
+      label: locale === "fr" ? "Badge Starter" : "Starter badge",
+      requirement: locale === "fr" ? "1 module validé dans ce parcours" : "1 validated module in this path",
+      detail: `${badge.moduleCount} ${locale === "fr" ? "modules disponibles" : "available modules"}`
+    })),
+    ...bronzeBadges.map((badge) => ({
+      ...badge,
+      iconTone: "text-[#cd7f32]",
+      label: locale === "fr" ? "Badge Bronze" : "Bronze badge",
+      requirement: locale === "fr" ? "Examen débutant réussi" : "Beginner exam passed",
+      detail: `${badge.moduleCount} ${locale === "fr" ? "cours débutants à valider avant l'examen" : "beginner courses to validate before the exam"}`
+    }))
+  ];
 
   const copy = {
     fr: {
@@ -40,17 +65,15 @@ export default async function BadgesPage() {
       unlocked: "Badges débloqués",
       available: "Badges disponibles",
       howTitle: "Comment les obtenir",
-      activeRule: "Règle active aujourd'hui",
+      activeRule: "Règles actives aujourd'hui",
       starterRule: "Termine au moins un module dans un parcours pour débloquer son badge Starter.",
-      futureRule: "Rareté prévue : bois pour les badges Starter, bronze pour les examens débutant, argent pour intermédiaire, gold pour avancé, diamant pour tout valider.",
+      examRule: "Valide tous les cours débutants d'un parcours, puis réussis son examen pour obtenir le badge Bronze.",
+      futureRule: "Rareté prévue ensuite : argent pour les examens intermédiaire, gold pour avancé, diamant pour tout valider.",
       signin: "Se connecter pour suivre mes badges",
       openPaths: "Voir les parcours",
-      starter: "Badge Starter",
       requirement: "À faire",
       done: "Débloqué",
-      locked: "À débloquer",
-      module: "module validé dans ce parcours",
-      modules: "modules disponibles"
+      locked: "À débloquer"
     },
     en: {
       title: "HardenPath Badges",
@@ -58,17 +81,15 @@ export default async function BadgesPage() {
       unlocked: "Unlocked badges",
       available: "Available badges",
       howTitle: "How to earn them",
-      activeRule: "Active rule today",
+      activeRule: "Active rules today",
       starterRule: "Complete at least one module in a path to unlock its Starter badge.",
-      futureRule: "Planned rarity: wood for Starter badges, bronze for beginner exams, silver for intermediate, gold for advanced, diamond for validating everything.",
+      examRule: "Validate every beginner course in a path, then pass its exam to earn the Bronze badge.",
+      futureRule: "Next planned rarity: silver for intermediate exams, gold for advanced, diamond for validating everything.",
       signin: "Sign in to track my badges",
       openPaths: "View paths",
-      starter: "Starter badge",
       requirement: "Requirement",
       done: "Unlocked",
-      locked: "Locked",
-      module: "validated module in this path",
-      modules: "available modules"
+      locked: "Locked"
     }
   }[locale];
 
@@ -105,7 +126,7 @@ export default async function BadgesPage() {
               <div>
                 <p className="hp-kicker">{copy.unlocked}</p>
                 <p className="mt-2 text-3xl font-black text-white">
-                  {unlockedStarterCount}/{starterBadges.length}
+                  {unlockedActiveCount}/{activeBadgeCount}
                 </p>
               </div>
               <span className="hp-checkpoint h-14 w-14">
@@ -113,7 +134,7 @@ export default async function BadgesPage() {
               </span>
             </div>
             <div className="mt-4">
-              <ProgressBar value={starterPercent} label={copy.unlocked} />
+              <ProgressBar value={activePercent} label={copy.unlocked} />
             </div>
           </div>
         </div>
@@ -126,6 +147,7 @@ export default async function BadgesPage() {
             <div className="mt-5 space-y-4">
               {[
                 { icon: CheckCircle2, title: copy.activeRule, body: copy.starterRule, tone: "text-mint" },
+                { icon: Award, title: locale === "fr" ? "Examen débutant" : "Beginner exam", body: copy.examRule, tone: "text-[#cd7f32]" },
                 { icon: Flame, title: locale === "fr" ? "Progression future" : "Future progression", body: copy.futureRule, tone: "text-wood" },
                 {
                   icon: ShieldCheck,
@@ -152,25 +174,23 @@ export default async function BadgesPage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {starterBadges.map(({ category, moduleCount, slug, unlocked }) => (
+          {badgeCards.map(({ category, detail, iconTone, label, requirement, slug, unlocked }) => (
             <div className="hp-panel hp-route-card rounded-sm p-5" key={slug}>
               <div className="relative flex h-full flex-col">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <Badge tone={unlocked ? "mint" : "amber"}>{unlocked ? copy.done : copy.locked}</Badge>
                     <h2 className="hp-wrap mt-4 text-xl font-black leading-7 text-white">{category.title[locale]}</h2>
-                    <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{copy.starter}</p>
+                    <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{label}</p>
                   </div>
                   <span className="hp-checkpoint">
-                    {unlocked ? <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" /> : <Award aria-hidden className="h-5 w-5 text-wood" />}
+                    {unlocked ? <CheckCircle2 aria-hidden className="h-5 w-5 text-mint" /> : <Award aria-hidden className={`h-5 w-5 ${iconTone}`} />}
                   </span>
                 </div>
                 <div className="mt-5 border-t border-white/10 pt-4">
                   <p className="hp-kicker">{copy.requirement}</p>
-                  <p className="hp-wrap mt-2 text-sm font-black text-paper">1 {copy.module}</p>
-                  <p className="hp-wrap mt-1 text-xs text-steel">
-                    {moduleCount} {copy.modules}
-                  </p>
+                  <p className="hp-wrap mt-2 text-sm font-black text-paper">{requirement}</p>
+                  <p className="hp-wrap mt-1 text-xs text-steel">{detail}</p>
                 </div>
               </div>
             </div>

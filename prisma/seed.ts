@@ -48,6 +48,26 @@ async function main() {
         isPremium: false
       }
     });
+
+    await prisma.badge.upsert({
+      where: { slug: `${category.slug}-bronze` },
+      update: {
+        descriptionEn: `Pass the beginner ${category.title.en} exam.`,
+        descriptionFr: `Réussis l'examen débutant ${category.title.fr}.`,
+        icon: category.icon,
+        titleEn: `${category.title.en} bronze`,
+        titleFr: `${category.title.fr} bronze`
+      },
+      create: {
+        slug: `${category.slug}-bronze`,
+        titleFr: `${category.title.fr} bronze`,
+        titleEn: `${category.title.en} bronze`,
+        descriptionFr: `Réussis l'examen débutant ${category.title.fr}.`,
+        descriptionEn: `Pass the beginner ${category.title.en} exam.`,
+        icon: category.icon,
+        isPremium: false
+      }
+    });
   }
 
   for (const course of courses) {
