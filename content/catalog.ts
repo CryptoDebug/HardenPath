@@ -419,7 +419,7 @@ export const courses: Course[] = [
     },
     quiz: {
       fr: [
-        { question: "Pourquoi la validation client ne suffit-elle pas ?", options: ["Elle peut être contournée", "Elle est toujours lente", "Elle bloque les logs"], correctOption: 0 },
+        { question: "Pourquoi la validation client ne suffit-elle pas ?", options: ["Elle peut être contournée", "Elle est toujours lente", "Elle bloqué les logs"], correctOption: 0 },
         { question: "Que doit vérifier le serveur ?", options: ["Format, droits et intention", "La couleur du bouton", "Seulement le navigateur"], correctOption: 0 }
       ],
       en: [
@@ -678,7 +678,7 @@ export const courses: Course[] = [
       ]
     },
     resources: {
-      fr: [{ label: "CNIL - Maîtriser son identité numérique", url: "https://www.cnil.fr/fr/maitriser-mes-donnees" }],
+      fr: [{ label: "CNIL - Maîtriser son identité numérique", url: "https://www.cnil.fr/fr/maitriser-mes-données" }],
       en: [{ label: "EFF - Surveillance Self-Defense", url: "https://ssd.eff.org/" }]
     },
     exercises: {
@@ -714,7 +714,7 @@ export const courses: Course[] = [
     sections: {
       fr: [
         { title: "Hash n'est pas chiffrement", body: "Un hash transforme une donnée en empreinte courte et vérifiable. Il ne se déchiffre pas. Deux données identiques donnent la même empreinte avec le même algorithme, ce qui permet de vérifier l'intégrité, mais aussi de comparer des valeurs." },
-        { title: "Le sel casse les comparaisons simples", body: "Un sel est une valeur unique ajoutée avant le calcul. Il empêche deux utilisateurs avec le même mot de passe d'avoir la même empreinte et rend les tables pré-calculées beaucoup moins utiles." },
+        { title: "Le sel cassé les comparaisons simples", body: "Un sel est une valeur unique ajoutée avant le calcul. Il empêche deux utilisateurs avec le même mot de passe d'avoir la même empreinte et rend les tables pré-calculées beaucoup moins utiles." },
         { title: "Mots de passe", body: "Les mots de passe humains sont souvent faibles. Ils doivent être traités avec des fonctions dédiées, lentes et paramétrables. La règle pratique : ne jamais stocker un mot de passe en clair, ne pas utiliser un hash rapide seul, et documenter les paramètres." }
       ],
       en: [
@@ -987,20 +987,20 @@ const foundationCourseInputs: FoundationCourseInput[] = [
     level: "beginner",
     estimatedMinutes: 55,
     title: { fr: "DNS et DHCP sans jargon", en: "DNS and DHCP without jargon" },
-    summary: { fr: "Comprendre comment un poste trouve un nom, obtient une adresse et rejoint le reseau.", en: "Understand how a host resolves a name, gets an address, and joins the network." },
-    concepts: { fr: "DNS transforme un nom lisible en adresse. DHCP distribue automatiquement une adresse, un masque, une passerelle et souvent des serveurs DNS. Bail veut dire duree de location d'une adresse. Resolution veut dire recherche du nom. Cache veut dire reponse gardee temporairement.", en: "DNS turns a readable name into an address. DHCP automatically gives an address, mask, gateway, and often DNS servers. Lease means temporary address rental. Resolution means name lookup. Cache means an answer kept temporarily." },
-    scenario: { fr: "Un poste ouvre intranet.local. Il demande d'abord au DNS ou se trouve ce nom. Si le poste n'a pas d'adresse, il demande d'abord au DHCP une configuration. Tu lis donc l'ordre : obtenir une identite reseau, connaitre la sortie, puis trouver le service par son nom.", en: "A workstation opens intranet.local. It first asks DNS where that name is. If it has no address, it first asks DHCP for configuration. Read the order: get network identity, know the exit, then find the service by name." },
-    mistake: { fr: "Confondre DNS et Internet. DNS peut exister dans un lab local et ne prouve pas que le service est accessible. Autre erreur : changer une IP a la main sans noter le DHCP, ce qui peut creer des conflits.", en: "Do not confuse DNS with the Internet. DNS can exist in a local lab and does not prove the service is reachable. Another mistake is changing an IP manually without checking DHCP, creating conflicts." },
-    method: { fr: "Quand un poste ne joint pas un service par nom, verifie l'adresse du poste, le bail DHCP, la passerelle, le serveur DNS, la resolution du nom, puis seulement l'acces au service.", en: "When a host cannot reach a service by name, check host address, DHCP lease, gateway, DNS server, name resolution, then service access." },
+    summary: { fr: "Comprendre comment un poste trouve un nom, obtient une adresse et rejoint le réseau.", en: "Understand how a host resolves a name, gets an address, and joins the network." },
+    concepts: { fr: "DNS transforme un nom lisible en adresse. DHCP distribue automatiquement une adresse, un masque, une passerelle et souvent des serveurs DNS. Bail veut dire durée de location d'une adresse. Résolution veut dire recherche du nom. Cache veut dire réponse gardée temporairement.", en: "DNS turns a readable name into an address. DHCP automatically gives an address, mask, gateway, and often DNS servers. Lease means temporary address rental. Resolution means name lookup. Cache means an answer kept temporarily." },
+    scenario: { fr: "Un poste ouvre intranet.local. Il demande d'abord au DNS où se trouve ce nom. Si le poste n'a pas d'adresse, il demande d'abord au DHCP une configuration. Tu lis donc l'ordre : obtenir une identité réseau, connaître la sortie, puis trouver le service par son nom.", en: "A workstation opens intranet.local. It first asks DNS where that name is. If it has no address, it first asks DHCP for configuration. Read the order: get network identity, know the exit, then find the service by name." },
+    mistake: { fr: "Confondre DNS et Internet. DNS peut exister dans un lab local et ne prouve pas que le service est accessible. Autre erreur : changer une IP à la main sans noter le DHCP, ce qui peut créer des conflits.", en: "Do not confuse DNS with the Internet. DNS can exist in a local lab and does not prove the service is reachable. Another mistake is changing an IP manually without checking DHCP, creating conflicts." },
+    method: { fr: "Quand un poste ne joint pas un service par nom, vérifie l'adresse du poste, le bail DHCP, la passerelle, le serveur DNS, la résolution du nom, puis seulement l'accès au service.", en: "When a host cannot reach a service by name, check host address, DHCP lease, gateway, DNS server, name resolution, then service access." },
     exercise: {
-      fr: { title: "Diagnostic DNS/DHCP", body: "Un poste a une adresse automatique bizarre et ne resout pas intranet.local. Liste les controles dans l'ordre et ce que chaque resultat permet de conclure.", solution: "Correction : verifier si l'adresse vient du DHCP attendu, controler masque/passerelle/DNS, tester la resolution du nom, tester l'adresse directe du service, puis comparer avec un autre poste. Cela separe probleme d'adressage, DNS ou service." },
+      fr: { title: "Diagnostic DNS/DHCP", body: "Un poste a une adresse automatique bizarre et ne résout pas intranet.local. Liste les contrôles dans l'ordre et ce que chaque résultat permet de conclure.", solution: "Correction : vérifier si l'adresse vient du DHCP attendu, contrôler masque/passerelle/DNS, tester la résolution du nom, tester l'adresse directe du service, puis comparer avec un autre poste. Cela sépare problème d'adressage, DNS ou service." },
       en: { title: "DNS/DHCP diagnostic", body: "A host has an odd automatic address and cannot resolve intranet.local. List checks in order and what each result proves.", solution: "Correction: check whether the address came from expected DHCP, verify mask/gateway/DNS, test name resolution, test direct service address, compare with another host. This separates addressing, DNS, or service issues." }
     },
     quiz: {
       fr: [
-        { question: "Un poste n'a pas d'adresse correcte. Que verifier d'abord ?", options: ["Le bail ou serveur DHCP attendu", "Le certificat TLS", "La couleur du navigateur"], correctOption: 0 },
-        { question: "DNS sert principalement a...", options: ["Associer un nom a une adresse", "Chiffrer un fichier", "Donner un role admin"], correctOption: 0 },
-        { question: "Un nom qui se resout prouve-t-il que le service fonctionne ?", options: ["Non, il faut tester l'acces au service", "Oui, toujours", "Seulement si le nom est court"], correctOption: 0 }
+        { question: "Un poste n'a pas d'adresse correcte. Que vérifier d'abord ?", options: ["Le bail ou serveur DHCP attendu", "Le certificat TLS", "La couleur du navigateur"], correctOption: 0 },
+        { question: "DNS sert principalement à...", options: ["Associer un nom à une adresse", "Chiffrer un fichier", "Donner un rôle admin"], correctOption: 0 },
+        { question: "Un nom qui se résout prouve-t-il que le service fonctionne ?", options: ["Non, il faut tester l'accès au service", "Oui, toujours", "Seulement si le nom est court"], correctOption: 0 }
       ],
       en: [
         { question: "A host has no correct address. What do you check first?", options: ["Expected DHCP lease or server", "TLS certificate", "Browser color"], correctOption: 0 },
@@ -1014,21 +1014,21 @@ const foundationCourseInputs: FoundationCourseInput[] = [
     categorySlug: "network",
     level: "beginner",
     estimatedMinutes: 65,
-    title: { fr: "Sous-reseaux, VLAN et zones", en: "Subnets, VLANs, and zones" },
-    summary: { fr: "Lire une separation reseau sans se perdre dans les calculs.", en: "Read network separation without getting lost in calculations." },
-    concepts: { fr: "Sous-reseau veut dire groupe d'adresses. VLAN veut dire separation logique sur un equipement reseau. Zone veut dire ensemble avec une intention : postes, serveurs, invites, administration. Segmentation veut dire limiter les communications inutiles.", en: "Subnet means address group. VLAN means logical separation on network equipment. Zone means a group with intent: workstations, servers, guests, administration. Segmentation means limiting unnecessary communications." },
-    scenario: { fr: "Un reseau a une zone invites, une zone postes et une zone serveurs. Les invites vont vers Internet, mais pas vers les serveurs internes. Tu lis la segmentation comme une carte de confiance : qui peut parler a qui, pour quelle raison, avec quelle preuve.", en: "A network has guest, workstation, and server zones. Guests go to the Internet but not internal servers. Read segmentation as a trust map: who may talk to whom, why, with which proof." },
-    mistake: { fr: "Croire qu'un VLAN est une securite magique. Il aide a separer, mais les regles, routes, pare-feu et tests decident ce qui passe vraiment.", en: "Do not treat a VLAN as magic security. It helps separate, but rules, routes, firewalls, and tests decide what truly passes." },
-    method: { fr: "Pour chaque zone, note son role, ses adresses, les flux autorises, les flux interdits et le niveau de confiance. Une zone sans intention claire finit toujours par devenir floue.", en: "For every zone, record role, addresses, allowed flows, forbidden flows, and trust level. A zone without clear intent becomes blurry." },
+    title: { fr: "Sous-réseaux, VLAN et zones", en: "Subnets, VLANs, and zones" },
+    summary: { fr: "Lire une séparation réseau sans se perdre dans les calculs.", en: "Read network separation without getting lost in calculations." },
+    concepts: { fr: "Sous-réseau veut dire groupe d'adresses. VLAN veut dire séparation logique sur un équipement réseau. Zone veut dire ensemble avec une intention : postes, serveurs, invites, administration. Segmentation veut dire limiter les communications inutiles.", en: "Subnet means address group. VLAN means logical separation on network equipment. Zone means a group with intent: workstations, servers, guests, administration. Segmentation means limiting unnecessary communications." },
+    scenario: { fr: "Un réseau a une zone invites, une zone postes et une zone serveurs. Les invites vont vers Internet, mais pas vers les serveurs internes. Tu lis la segmentation comme une carte de confiance : qui peut parler à qui, pour quelle raison, avec quelle preuve.", en: "A network has guest, workstation, and server zones. Guests go to the Internet but not internal servers. Read segmentation as a trust map: who may talk to whom, why, with which proof." },
+    mistake: { fr: "Croire qu'un VLAN est une sécurité magique. Il aide à séparer, mais les règles, routes, pare-feu et tests décident ce qui passe vraiment.", en: "Do not treat a VLAN as magic security. It helps separate, but rules, routes, firewalls, and tests decide what truly passes." },
+    method: { fr: "Pour chaque zone, note son rôle, ses adresses, les flux autorisés, les flux interdits et le niveau de confiance. Une zone sans intention claire finit toujours par devenir floue.", en: "For every zone, record role, addresses, allowed flows, forbidden flows, and trust level. A zone without clear intent becomes blurry." },
     exercise: {
-      fr: { title: "Carte de zones", body: "Dessine postes, serveurs, invites et administration. Ecris trois flux autorises et trois flux interdits avec justification.", solution: "Correction : les flux autorises doivent avoir un besoin clair, par exemple postes vers DNS ou web interne. Les interdits protègent les zones sensibles, par exemple invites vers administration. Chaque fleche doit avoir une raison." },
+      fr: { title: "Carte de zones", body: "Dessine postes, serveurs, invites et administration. Écris trois flux autorisés et trois flux interdits avec justification.", solution: "Correction : les flux autorisés doivent avoir un besoin clair, par exemple postes vers DNS ou web interne. Les interdits protègent les zones sensibles, par exemple invites vers administration. Chaque flèche doit avoir une raison." },
       en: { title: "Zone map", body: "Draw workstations, servers, guests, and administration. Write three allowed and three forbidden flows with justification.", solution: "Correction: allowed flows need a clear need, such as workstations to DNS or internal web. Forbidden flows protect sensitive zones, such as guests to administration. Every arrow needs a reason." }
     },
     quiz: {
       fr: [
-        { question: "Une zone reseau doit surtout avoir...", options: ["Une intention claire", "Un nom impressionnant", "Une couleur unique"], correctOption: 0 },
-        { question: "Un VLAN suffit-il a prouver qu'un flux est bloque ?", options: ["Non, il faut verifier routes et regles", "Oui, toujours", "Seulement le lundi"], correctOption: 0 },
-        { question: "La segmentation sert a...", options: ["Limiter les communications inutiles", "Supprimer les sauvegardes", "Eviter toute documentation"], correctOption: 0 }
+        { question: "Une zone réseau doit surtout avoir...", options: ["Une intention claire", "Un nom impressionnant", "Une couleur unique"], correctOption: 0 },
+        { question: "Un VLAN suffit-il à prouver qu'un flux est bloqué ?", options: ["Non, il faut vérifier routes et règles", "Oui, toujours", "Seulement le lundi"], correctOption: 0 },
+        { question: "La segmentation sert à...", options: ["Limiter les communications inutiles", "Supprimer les sauvegardes", "Éviter toute documentation"], correctOption: 0 }
       ],
       en: [
         { question: "A network zone mainly needs...", options: ["Clear intent", "An impressive name", "One color"], correctOption: 0 },
@@ -1043,20 +1043,20 @@ const foundationCourseInputs: FoundationCourseInput[] = [
     level: "intermediate",
     estimatedMinutes: 70,
     title: { fr: "Routage et filtrage de base", en: "Basic routing and filtering" },
-    summary: { fr: "Comprendre pourquoi un paquet passe, bloque ou prend le mauvais chemin.", en: "Understand why a packet passes, blocks, or takes the wrong path." },
-    concepts: { fr: "Route veut dire chemin vers un reseau. Table de routage veut dire liste des chemins connus. Pare-feu veut dire decision autoriser ou bloquer selon source, destination, port, protocole et contexte. Etat veut dire memoire d'une connexion.", en: "Route means path to a network. Routing table means known paths. Firewall means allow or block decision based on source, destination, port, protocol, and context. State means memory of a connection." },
-    scenario: { fr: "Un poste peut joindre le DNS mais pas l'application interne. Tu regardes si la route existe, si la passerelle sait revenir, si une regle bloque le port, puis si le service ecoute. Tu ne changes pas trois choses a la fois.", en: "A workstation reaches DNS but not the internal app. Check whether route exists, gateway can return, a rule blocks the port, then whether service listens. Do not change three things at once." },
-    mistake: { fr: "Conclure 'pare-feu' des qu'un test echoue. Un echec peut venir d'une route absente, d'un retour impossible, d'un service ferme ou d'une resolution incorrecte.", en: "Do not conclude 'firewall' whenever a test fails. Failure can come from missing route, impossible return path, closed service, or wrong resolution." },
-    method: { fr: "Lis dans cet ordre : source, destination, route aller, route retour, regle, service, journal. Cette sequence evite les diagnostics au hasard.", en: "Read in this order: source, destination, outbound route, return route, rule, service, log. This avoids random diagnosis." },
+    summary: { fr: "Comprendre pourquoi un paquet passe, bloqué ou prend le mauvais chemin.", en: "Understand why a packet passes, blocks, or takes the wrong path." },
+    concepts: { fr: "Route veut dire chemin vers un réseau. Table de routage veut dire liste des chemins connus. Pare-feu veut dire décision autoriser ou bloquer selon source, destination, port, protocole et contexte. État veut dire mémoire d'une connexion.", en: "Route means path to a network. Routing table means known paths. Firewall means allow or block decision based on source, destination, port, protocol, and context. State means memory of a connection." },
+    scenario: { fr: "Un poste peut joindre le DNS mais pas l'application interne. Tu regardes si la route existe, si la passerelle sait revenir, si une règle bloqué le port, puis si le service écoute. Tu ne changes pas trois choses à la fois.", en: "A workstation reaches DNS but not the internal app. Check whether route exists, gateway can return, a rule blocks the port, then whether service listens. Do not change three things at once." },
+    mistake: { fr: "Conclure 'pare-feu' dès qu'un test échoue. Un échec peut venir d'une route absente, d'un retour impossible, d'un service fermé ou d'une résolution incorrecte.", en: "Do not conclude 'firewall' whenever a test fails. Failure can come from missing route, impossible return path, closed service, or wrong resolution." },
+    method: { fr: "Lis dans cet ordre : source, destination, route aller, route retour, règle, service, journal. Cette séquence évite les diagnostics au hasard.", en: "Read in this order: source, destination, outbound route, return route, rule, service, log. This avoids random diagnosis." },
     exercise: {
-      fr: { title: "Flux bloque", body: "Un poste en 10.10.1.20 ne joint pas 10.10.5.10:443. Ecris les controles sans supposer que le pare-feu est coupable.", solution: "Correction : verifier IP et masque source, route vers 10.10.5.0, route retour, resolution si nom utilise, regle source/destination/port, et ecoute du service 443. Les journaux confirment ou infirment le filtrage." },
+      fr: { title: "Flux bloqué", body: "Un poste en 10.10.1.20 ne joint pas 10.10.5.10:443. Écris les contrôles sans supposer que le pare-feu est coupable.", solution: "Correction : vérifier IP et masque source, route vers 10.10.5.0, route retour, résolution si nom utilisé, règle source/destination/port, et écoute du service 443. Les journaux confirment ou infirment le filtrage." },
       en: { title: "Blocked flow", body: "A host 10.10.1.20 cannot reach 10.10.5.10:443. Write checks without assuming the firewall is guilty.", solution: "Correction: verify source IP/mask, route to 10.10.5.0, return route, resolution if using a name, source/destination/port rule, and service listening on 443. Logs confirm or refute filtering." }
     },
     quiz: {
       fr: [
-        { question: "Avant d'accuser le pare-feu, que verifier ?", options: ["Routes aller et retour", "La police du terminal", "Le nom du ticket"], correctOption: 0 },
-        { question: "Une regle de filtrage lit souvent...", options: ["Source, destination, protocole et port", "Le prenom de l'utilisateur", "Le modele de souris"], correctOption: 0 },
-        { question: "Changer plusieurs choses a la fois rend le diagnostic...", options: ["Moins fiable", "Plus prouve", "Automatique"], correctOption: 0 }
+        { question: "Avant d'accuser le pare-feu, que vérifier ?", options: ["Routes aller et retour", "La police du terminal", "Le nom du ticket"], correctOption: 0 },
+        { question: "Une règle de filtrage lit souvent...", options: ["Source, destination, protocole et port", "Le prénom de l'utilisateur", "Le modèle de souris"], correctOption: 0 },
+        { question: "Changer plusieurs choses à la fois rend le diagnostic...", options: ["Moins fiable", "Plus prouvé", "Automatique"], correctOption: 0 }
       ],
       en: [
         { question: "Before blaming the firewall, check...", options: ["Outbound and return routes", "Terminal font", "Ticket name"], correctOption: 0 },
@@ -1070,21 +1070,21 @@ const foundationCourseInputs: FoundationCourseInput[] = [
     categorySlug: "network",
     level: "beginner",
     estimatedMinutes: 60,
-    title: { fr: "Methode de diagnostic reseau", en: "Network troubleshooting method" },
+    title: { fr: "Méthode de diagnostic réseau", en: "Network troubleshooting method" },
     summary: { fr: "Apprendre une routine simple pour ne pas chercher au hasard.", en: "Learn a simple routine to avoid random troubleshooting." },
-    concepts: { fr: "Diagnostic veut dire isoler une cause probable. Symptôme veut dire ce que l'utilisateur voit. Preuve veut dire resultat observe. Hypothese veut dire cause possible. Reproduction veut dire refaire le probleme dans un cadre controle.", en: "Diagnosis means isolating a likely cause. Symptom means what the user sees. Evidence means observed result. Hypothesis means possible cause. Reproduction means replaying the issue in a controlled way." },
-    scenario: { fr: "On te dit 'Internet ne marche pas'. Tu transformes la phrase en tests : le poste a-t-il une IP, une passerelle, un DNS, une route, un acces par IP, un acces par nom, un probleme sur tous les sites ou un seul ?", en: "Someone says 'Internet does not work'. Turn it into tests: does the host have IP, gateway, DNS, route, access by IP, access by name, all sites failing or one?" },
-    mistake: { fr: "Chercher une solution avant de definir le symptome. Sans symptome precis, tu peux reparer quelque chose qui n'etait pas casse.", en: "Looking for a solution before defining the symptom. Without a precise symptom, you may fix something that was not broken." },
-    method: { fr: "Ecris symptome, perimetre, dernier changement, test local, test passerelle, test DNS, test service, comparaison, conclusion. Chaque ligne doit ajouter une preuve.", en: "Write symptom, scope, last change, local test, gateway test, DNS test, service test, comparison, conclusion. Every line must add evidence." },
+    concepts: { fr: "Diagnostic veut dire isoler une cause probable. Symptôme veut dire ce que l'utilisateur voit. Preuve veut dire résultat observé. Hypothèse veut dire cause possible. Reproduction veut dire refaire le problème dans un cadre contrôle.", en: "Diagnosis means isolating a likely cause. Symptom means what the user sees. Evidence means observed result. Hypothesis means possible cause. Reproduction means replaying the issue in a controlled way." },
+    scenario: { fr: "On te dit 'Internet ne marche pas'. Tu transformes la phrase en tests : le poste a-t-il une IP, une passerelle, un DNS, une route, un accès par IP, un accès par nom, un problème sur tous les sites ou un seul ?", en: "Someone says 'Internet does not work'. Turn it into tests: does the host have IP, gateway, DNS, route, access by IP, access by name, all sites failing or one?" },
+    mistake: { fr: "Chercher une solution avant de définir le symptôme. Sans symptôme précis, tu peux réparer quelque chose qui n'était pas cassé.", en: "Looking for a solution before defining the symptom. Without a precise symptom, you may fix something that was not broken." },
+    method: { fr: "Écris symptôme, périmètre, dernier changement, test local, test passerelle, test DNS, test service, comparaison, conclusion. Chaque ligne doit ajouter une preuve.", en: "Write symptom, scope, last change, local test, gateway test, DNS test, service test, comparison, conclusion. Every line must add evidence." },
     exercise: {
-      fr: { title: "Routine en 8 lignes", body: "Un utilisateur ne joint pas une application interne. Redige une routine de diagnostic en 8 lignes maximum.", solution: "Correction : symptome exact, poste concerne, dernier changement, IP/masque, passerelle, resolution DNS, test port/service, comparaison avec un autre poste, conclusion provisoire." },
+      fr: { title: "Routine en 8 lignes", body: "Un utilisateur ne joint pas une application interne. Rédige une routine de diagnostic en 8 lignes maximum.", solution: "Correction : symptôme exact, poste concerné, dernier changement, IP/masque, passerelle, résolution DNS, test port/service, comparaison avec un autre poste, conclusion provisoire." },
       en: { title: "8-line routine", body: "A user cannot reach an internal application. Write a troubleshooting routine in eight lines maximum.", solution: "Correction: exact symptom, affected host, last change, IP/mask, gateway, DNS resolution, port/service test, comparison with another host, provisional conclusion." }
     },
     quiz: {
       fr: [
-        { question: "Un symptome utile doit etre...", options: ["Precis et observable", "Dramatique", "Sans contexte"], correctOption: 0 },
-        { question: "Une hypothese devient plus solide avec...", options: ["Une preuve", "Une intuition seule", "Un emoji"], correctOption: 0 },
-        { question: "Comparer avec un autre poste sert a...", options: ["Reduire le perimetre", "Remplacer les journaux", "Changer le hasard"], correctOption: 0 }
+        { question: "Un symptôme utile doit être...", options: ["Précis et observable", "Dramatique", "Sans contexte"], correctOption: 0 },
+        { question: "Une hypothèse devient plus solide avec...", options: ["Une preuve", "Une intuition seule", "Un emoji"], correctOption: 0 },
+        { question: "Comparer avec un autre poste sert à...", options: ["Réduire le périmètre", "Remplacer les journaux", "Changer le hasard"], correctOption: 0 }
       ],
       en: [
         { question: "A useful symptom must be...", options: ["Precise and observable", "Dramatic", "Without context"], correctOption: 0 },
@@ -1119,26 +1119,26 @@ function buildQuickFoundationCourse(input: QuickFoundationInput): Course {
     title: input.title,
     summary: input.summary,
     concepts: {
-      fr: `${input.subject.fr}. Commence par nommer les elements : acteur, actif, action, preuve, limite et decision. Un debutant progresse quand il transforme un mot vague en question observable.`,
+      fr: `${input.subject.fr}. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable.`,
       en: `${input.subject.en}. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions.`
     },
     scenario: {
-      fr: `Situation : ${input.action.fr}. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothetique, puis tu choisis la verification la moins risquee.`,
+      fr: `Situation : ${input.action.fr}. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée.`,
       en: `Situation: ${input.action.en}. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification.`
     },
     mistake: {
-      fr: `Erreur classique : ${input.risk.fr}. Le bon reflexe est de ralentir, separer fait et interpretation, puis garder une trace de la decision.`,
+      fr: `Erreur classique : ${input.risk.fr}. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision.`,
       en: `Common trap: ${input.risk.en}. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision.`
     },
     method: {
-      fr: `Methode : decris le perimetre, liste les preuves disponibles, choisis une seule verification, note le resultat, puis decide l'etape suivante. La preuve attendue ici est : ${input.proof.fr}.`,
+      fr: `Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : ${input.proof.fr}.`,
       en: `Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: ${input.proof.en}.`
     },
     exercise: {
       fr: {
         title: "Fiche de mise en situation",
-        body: `A partir du scenario du cours, redige une fiche avec contexte, vocabulaire, preuve disponible, hypothese, verification et decision prudente.`,
-        solution: `Correction : la fiche doit contenir le contexte, les mots definis, au moins une preuve observable, une hypothese marquee comme telle, une verification non destructive et une decision justifiee. Preuve cle : ${input.proof.fr}.`
+        body: `À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.`,
+        solution: `Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : ${input.proof.fr}.`
       },
       en: {
         title: "Scenario sheet",
@@ -1148,8 +1148,8 @@ function buildQuickFoundationCourse(input: QuickFoundationInput): Course {
     },
     quiz: {
       fr: [
-        { question: "Dans cette situation, que faut-il separer en premier ?", options: ["Faits observes et interpretations", "Opinion et vitesse", "Couleurs et icones"], correctOption: 0 },
-        { question: "Quelle verification est la meilleure pour apprendre proprement ?", options: ["Une verification limitee, documentee et non destructive", "Un changement massif sans note", "Une supposition rapide"], correctOption: 0 },
+        { question: "Dans cette situation, que faut-il séparer en premier ?", options: ["Faits observes et interpretations", "Opinion et vitesse", "Couleurs et icônes"], correctOption: 0 },
+        { question: "Quelle vérification est la meilleure pour apprendre proprement ?", options: ["Une vérification limitee, documentee et non destructive", "Un changement massif sans note", "Une supposition rapide"], correctOption: 0 },
         { question: "Une bonne conclusion doit s'appuyer sur...", options: [input.proof.fr, "Une impression seule", "Une phrase vague"], correctOption: 0 }
       ],
       en: [
@@ -1167,12 +1167,12 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     categorySlug: "hardware-infrastructure",
     level: "beginner",
     estimatedMinutes: 50,
-    title: { fr: "Postes, serveurs et roles", en: "Workstations, servers, and roles" },
+    title: { fr: "Postes, serveurs et rôles", en: "Workstations, servers, and roles" },
     summary: { fr: "Comprendre qui fait quoi dans une infrastructure simple.", en: "Understand who does what in a simple infrastructure." },
-    subject: { fr: "Un poste sert a un utilisateur, un serveur rend un service, une appliance a souvent un role specialise", en: "A workstation serves a user, a server provides a service, and an appliance often has a specialized role" },
+    subject: { fr: "Un poste sert à un utilisateur, un serveur rend un service, une appliance a souvent un rôle spécialisé", en: "A workstation serves a user, a server provides a service, and an appliance often has a specialized role" },
     action: { fr: "tu dois classer cinq machines inconnues sans les modifier", en: "you must classify five unknown machines without modifying them" },
     risk: { fr: "juger une machine uniquement par son nom ou son apparence", en: "judging a machine only by name or appearance" },
-    proof: { fr: "role observe, service attendu, proprietaire et dependances", en: "observed role, expected service, owner, and dependencies" }
+    proof: { fr: "rôle observé, service attendu, propriétaire et dépendances", en: "observed role, expected service, owner, and dependencies" }
   },
   {
     slug: "storage-backup-restore-basics",
@@ -1181,10 +1181,10 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     estimatedMinutes: 60,
     title: { fr: "Stockage, sauvegarde et restauration", en: "Storage, backup, and restore" },
     summary: { fr: "Savoir lire ce qui est stocke, sauvegarde et vraiment restaurable.", en: "Learn what is stored, backed up, and truly restorable." },
-    subject: { fr: "Stockage veut dire donnees conservees, sauvegarde veut dire copie de protection, restauration veut dire retour teste", en: "Storage means kept data, backup means protective copy, restore means tested return" },
-    action: { fr: "une equipe dit avoir des sauvegardes mais personne n'a teste la restauration", en: "a team says backups exist but nobody tested restoration" },
-    risk: { fr: "confondre sauvegarde presente et restauration fiable", en: "confusing existing backup with reliable restoration" },
-    proof: { fr: "date du dernier test de restauration, perimetre sauvegarde et temps de reprise", en: "last restore test date, backup scope, and recovery time" }
+    subject: { fr: "Stockage veut dire données conservées, sauvegarde veut dire copie de protection, restauration veut dire retour testé", en: "Storage means kept data, backup means protective copy, restore means tested return" },
+    action: { fr: "une équipe dit avoir des sauvegardes mais personne n'a teste la restauration", en: "a team says backups exist but nobody tested restoration" },
+    risk: { fr: "confondre sauvegarde présente et restauration fiable", en: "confusing existing backup with reliable restoration" },
+    proof: { fr: "date du dernier test de restauration, périmètre sauvegarde et temps de reprise", en: "last restore test date, backup scope, and recovery time" }
   },
   {
     slug: "identity-directory-basics",
@@ -1192,11 +1192,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 65,
     title: { fr: "Identite, annuaire et droits", en: "Identity, directory, and rights" },
-    summary: { fr: "Lire comptes, groupes, roles et droits sans confondre les niveaux.", en: "Read accounts, groups, roles, and rights without mixing levels." },
-    subject: { fr: "Identite veut dire compte, annuaire veut dire source centrale, groupe veut dire collection de comptes, droit veut dire action autorisee", en: "Identity means account, directory means central source, group means account collection, right means allowed action" },
-    action: { fr: "un utilisateur a acces a un partage qu'il ne devrait pas voir", en: "a user can access a share they should not see" },
+    summary: { fr: "Lire comptes, groupes, rôles et droits sans confondre les niveaux.", en: "Read accounts, groups, roles, and rights without mixing levels." },
+    subject: { fr: "Identite veut dire compte, annuaire veut dire source centrale, groupe veut dire collection de comptes, droit veut dire action autorisée", en: "Identity means account, directory means central source, group means account collection, right means allowed action" },
+    action: { fr: "un utilisateur a accès a un partage qu'il ne devrait pas voir", en: "a user can access a share they should not see" },
     risk: { fr: "retirer des droits au hasard sans comprendre le groupe qui les donne", en: "removing rights randomly without understanding which group grants them" },
-    proof: { fr: "chaine compte -> groupe -> ressource -> permission effective", en: "chain account -> group -> resource -> effective permission" }
+    proof: { fr: "chaîne compte -> groupe -> ressource -> permission effective", en: "chain account -> group -> resource -> effective permission" }
   },
   {
     slug: "cloud-exposure-basics",
@@ -1204,11 +1204,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 65,
     title: { fr: "Exposition cloud et services publics", en: "Cloud exposure and public services" },
-    summary: { fr: "Distinguer service interne, service publie et mauvaise exposition.", en: "Separate internal service, published service, and bad exposure." },
-    subject: { fr: "Cloud veut dire infrastructure louee ou geree, exposition veut dire accessible depuis un perimetre donne, public veut dire joignable depuis Internet", en: "Cloud means rented or managed infrastructure, exposure means reachable from a given scope, public means reachable from the Internet" },
+    summary: { fr: "Distinguer service interne, service publié et mauvaise exposition.", en: "Separate internal service, published service, and bad exposure." },
+    subject: { fr: "Cloud veut dire infrastructure louee ou geree, exposition veut dire accessible depuis un périmètre donne, public veut dire joignable depuis Internet", en: "Cloud means rented or managed infrastructure, exposure means reachable from a given scope, public means reachable from the Internet" },
     action: { fr: "tu inventories les services publics d'une petite application", en: "you inventory public services for a small application" },
     risk: { fr: "penser qu'un service cloud est protege parce qu'il appartient a un fournisseur connu", en: "thinking a cloud service is protected because it belongs to a known provider" },
-    proof: { fr: "liste des ports publics, proprietaire, raison metier et regle d'acces", en: "public ports, owner, business reason, and access rule" }
+    proof: { fr: "liste des ports publics, propriétaire, raison métier et règle d'accès", en: "public ports, owner, business reason, and access rule" }
   },
   {
     slug: "password-mfa-hygiene",
@@ -1216,11 +1216,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "beginner",
     estimatedMinutes: 45,
     title: { fr: "Mots de passe, gestionnaire et MFA", en: "Passwords, manager, and MFA" },
-    summary: { fr: "Construire une hygiene simple et durable pour les comptes.", en: "Build simple and durable account hygiene." },
-    subject: { fr: "Un mot de passe unique limite la reutilisation, un gestionnaire stocke, le MFA ajoute une preuve supplementaire", en: "A unique password limits reuse, a manager stores it, MFA adds another proof" },
-    action: { fr: "tu dois securiser les comptes essentiels d'un debutant", en: "you must secure a beginner's essential accounts" },
-    risk: { fr: "utiliser le meme mot de passe partout puis croire que le MFA repare tout", en: "using the same password everywhere and thinking MFA fixes everything" },
-    proof: { fr: "comptes prioritaires, mots de passe uniques, MFA actif et methode de recuperation", en: "priority accounts, unique passwords, active MFA, and recovery method" }
+    summary: { fr: "Construire une hygiène simple et durable pour les comptes.", en: "Build simple and durable account hygiene." },
+    subject: { fr: "Un mot de passe unique limite la réutilisation, un gestionnaire stocke, le MFA ajoute une preuve supplémentaire", en: "A unique password limits reuse, a manager stores it, MFA adds another proof" },
+    action: { fr: "tu dois sécuriser les comptes essentiels d'un débutant", en: "you must secure a beginner's essential accounts" },
+    risk: { fr: "utiliser le même mot de passe partout puis croire que le MFA repare tout", en: "using the same password everywhere and thinking MFA fixes everything" },
+    proof: { fr: "comptes prioritaires, mots de passe uniques, MFA actif et méthode de récupération", en: "priority accounts, unique passwords, active MFA, and recovery method" }
   },
   {
     slug: "browser-device-hygiene",
@@ -1228,11 +1228,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "beginner",
     estimatedMinutes: 50,
     title: { fr: "Hygiene navigateur et appareil", en: "Browser and device hygiene" },
-    summary: { fr: "Limiter les risques quotidiens sans tomber dans la paranoia.", en: "Reduce everyday risk without paranoia." },
-    subject: { fr: "Navigateur, extensions, mises a jour, verrouillage et sauvegarde forment la base d'un poste sain", en: "Browser, extensions, updates, locking, and backup form the base of a healthy device" },
+    summary: { fr: "Limiter les risques quotidiens sans tomber dans la paranoïa.", en: "Reduce everyday risk without paranoia." },
+    subject: { fr: "Navigateur, extensions, mises à jour, verrouillage et sauvegarde forment la base d'un poste sain", en: "Browser, extensions, updates, locking, and backup form the base of a healthy device" },
     action: { fr: "tu fais une revue d'un ordinateur personnel avant une formation", en: "you review a personal computer before training" },
-    risk: { fr: "installer trop d'extensions ou ignorer les mises a jour parce que tout semble fonctionner", en: "installing too many extensions or ignoring updates because everything seems to work" },
-    proof: { fr: "liste d'extensions, etat de mise a jour, verrouillage, sauvegarde et comptes connectes", en: "extension list, update state, lock, backup, and signed-in accounts" }
+    risk: { fr: "installer trop d'extensions ou ignorer les mises à jour parce que tout semble fonctionner", en: "installing too many extensions or ignoring updates because everything seems to work" },
+    proof: { fr: "liste d'extensions, état de mise à jour, verrouillage, sauvegarde et comptes connectes", en: "extension list, update state, lock, backup, and signed-in accounts" }
   },
   {
     slug: "phishing-social-engineering-basics",
@@ -1240,11 +1240,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "beginner",
     estimatedMinutes: 55,
     title: { fr: "Phishing et manipulation sociale", en: "Phishing and social manipulation" },
-    summary: { fr: "Reconnaitre les signaux sans accuser trop vite.", en: "Recognize signals without accusing too fast." },
-    subject: { fr: "Phishing veut dire tentative de tromperie, urgence veut dire pression, lien veut dire action demandee, contexte veut dire coherence avec la situation", en: "Phishing means deception attempt, urgency means pressure, link means requested action, context means consistency with the situation" },
-    action: { fr: "un message demande une connexion urgente pour eviter une suspension", en: "a message asks for urgent login to avoid suspension" },
-    risk: { fr: "cliquer pour verifier ou transferer le message sans contexte", en: "clicking to verify or forwarding without context" },
-    proof: { fr: "expediteur, domaine, demande, urgence, canal alternatif et signalement", en: "sender, domain, request, urgency, alternate channel, and reporting" }
+    summary: { fr: "Reconnaître les signaux sans accuser trop vite.", en: "Recognize signals without accusing too fast." },
+    subject: { fr: "Phishing veut dire tentative de tromperie, urgence veut dire pression, lien veut dire action demandee, contexte veut dire cohérence avec la situation", en: "Phishing means deception attempt, urgency means pressure, link means requested action, context means consistency with the situation" },
+    action: { fr: "un message demande une connexion urgente pour éviter une suspension", en: "a message asks for urgent login to avoid suspension" },
+    risk: { fr: "cliquer pour vérifier ou transférer le message sans contexte", en: "clicking to verify or forwarding without context" },
+    proof: { fr: "expéditeur, domaine, demande, urgence, canal alternatif et signalement", en: "sender, domain, request, urgency, alternate channel, and reporting" }
   },
   {
     slug: "personal-threat-model-basics",
@@ -1252,11 +1252,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 60,
     title: { fr: "Mini threat model personnel", en: "Personal mini threat model" },
-    summary: { fr: "Choisir des protections adaptees a sa vraie situation.", en: "Choose protections adapted to the real situation." },
-    subject: { fr: "Threat model veut dire modele de menace : quoi proteger, contre qui, avec quelles limites", en: "Threat model means threat model: what to protect, against whom, with which limits" },
-    action: { fr: "tu veux reduire ton exposition publique sans supprimer toute ta vie numerique", en: "you want to reduce public exposure without deleting your digital life" },
+    summary: { fr: "Choisir des protections adaptées a sa vraie situation.", en: "Choose protections adapted to the real situation." },
+    subject: { fr: "Threat model veut dire modèle de menace : quoi protéger, contre qui, avec quelles limites", en: "Threat model means threat model: what to protect, against whom, with which limits" },
+    action: { fr: "tu veux réduire ton exposition publique sans supprimer toute ta vie numérique", en: "you want to reduce public exposure without deleting your digital life" },
     risk: { fr: "copier les protections d'une autre personne sans avoir les memes menaces", en: "copying someone else's protections without having the same threats" },
-    proof: { fr: "actifs personnels, adversaires plausibles, impacts et actions proportionnees", en: "personal assets, plausible adversaries, impacts, and proportionate actions" }
+    proof: { fr: "actifs personnels, adversaires plausibles, impacts et actions proportionnées", en: "personal assets, plausible adversaries, impacts, and proportionate actions" }
   },
   {
     slug: "tls-browser-security-basics",
@@ -1265,9 +1265,9 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     estimatedMinutes: 55,
     title: { fr: "TLS, cadenas et confiance web", en: "TLS, padlock, and web trust" },
     summary: { fr: "Comprendre ce que le cadenas prouve et ne prouve pas.", en: "Understand what the padlock proves and does not prove." },
-    subject: { fr: "TLS chiffre le transport, certificat lie un nom a une cle, navigateur verifie une chaine de confiance", en: "TLS encrypts transport, certificate binds a name to a key, browser verifies a trust chain" },
+    subject: { fr: "TLS chiffre le transport, certificat lie un nom a une clé, navigateur vérifie une chaîne de confiance", en: "TLS encrypts transport, certificate binds a name to a key, browser verifies a trust chain" },
     action: { fr: "un utilisateur voit un cadenas mais doute du site", en: "a user sees a padlock but doubts the site" },
-    risk: { fr: "croire que cadenas veut dire site legitime et contenu sans risque", en: "thinking a padlock means legitimate site and risk-free content" },
+    risk: { fr: "croire que cadenas veut dire site légitime et contenu sans risque", en: "thinking a padlock means legitimate site and risk-free content" },
     proof: { fr: "nom de domaine, certificat, redirection, contenu attendu et contexte", en: "domain name, certificate, redirect, expected content, and context" }
   },
   {
@@ -1275,24 +1275,24 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     categorySlug: "web-security",
     level: "intermediate",
     estimatedMinutes: 70,
-    title: { fr: "Controle d'acces web", en: "Web access control" },
-    summary: { fr: "Distinguer etre connecte, etre proprietaire et etre autorise.", en: "Separate being signed in, being owner, and being authorized." },
-    subject: { fr: "Controle d'acces veut dire verifier une action sur une ressource pour un utilisateur donne", en: "Access control means verifying an action on a resource for a given user" },
-    action: { fr: "Alice tente d'ouvrir une ressource appartenant a Bob dans un lab autorise", en: "Alice tries to open Bob's resource inside an authorized lab" },
-    risk: { fr: "verifier seulement la connexion sans verifier la ressource demandee", en: "checking only sign-in without checking the requested resource" },
-    proof: { fr: "utilisateur, ressource, action, proprietaire, role et decision serveur", en: "user, resource, action, owner, role, and server decision" }
+    title: { fr: "Controle d'accès web", en: "Web access control" },
+    summary: { fr: "Distinguer être connecté, être propriétaire et être autorisé.", en: "Separate being signed in, being owner, and being authorized." },
+    subject: { fr: "Controle d'accès veut dire vérifier une action sur une ressource pour un utilisateur donne", en: "Access control means verifying an action on a resource for a given user" },
+    action: { fr: "Alice tente d'ouvrir une ressource appartenant à Bob dans un lab autorisé", en: "Alice tries to open Bob's resource inside an authorized lab" },
+    risk: { fr: "vérifier seulement la connexion sans vérifier la ressource demandee", en: "checking only sign-in without checking the requested resource" },
+    proof: { fr: "utilisateur, ressource, action, propriétaire, rôle et décision serveur", en: "user, resource, action, owner, role, and server decision" }
   },
   {
     slug: "api-security-basics",
     categorySlug: "web-security",
     level: "intermediate",
     estimatedMinutes: 70,
-    title: { fr: "Bases de securite API", en: "API security basics" },
+    title: { fr: "Bases de sécurité API", en: "API security basics" },
     summary: { fr: "Lire une API comme un contrat entre client et serveur.", en: "Read an API as a contract between client and server." },
-    subject: { fr: "API veut dire interface, endpoint veut dire point d'entree, schema veut dire format attendu, token veut dire preuve d'acces", en: "API means interface, endpoint means entry point, schema means expected format, token means access proof" },
-    action: { fr: "une application mobile envoie des donnees a une API", en: "a mobile app sends data to an API" },
+    subject: { fr: "API veut dire interface, endpoint veut dire point d'entrée, schéma veut dire format attendu, token veut dire preuve d'accès", en: "API means interface, endpoint means entry point, schema means expected format, token means access proof" },
+    action: { fr: "une application mobile envoie des données a une API", en: "a mobile app sends data to an API" },
     risk: { fr: "faire confiance au client parce qu'il est officiel", en: "trusting the client because it is official" },
-    proof: { fr: "schema valide, authentification, autorisation, limites et journal serveur", en: "valid schema, authentication, authorization, limits, and server log" }
+    proof: { fr: "schéma valide, authentification, autorisation, limites et journal serveur", en: "valid schema, authentication, authorization, limits, and server log" }
   },
   {
     slug: "web-logging-error-basics",
@@ -1301,9 +1301,9 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     estimatedMinutes: 50,
     title: { fr: "Erreurs web et journaux utiles", en: "Web errors and useful logs" },
     summary: { fr: "Savoir lire une erreur sans exposer trop d'information.", en: "Read an error without exposing too much information." },
-    subject: { fr: "Erreur veut dire resultat inattendu, journal veut dire trace interne, message utilisateur doit aider sans reveler de secret", en: "Error means unexpected result, log means internal trace, user message should help without revealing secrets" },
-    action: { fr: "une page renvoie 500 pendant qu'un utilisateur se connecte", en: "a page returns 500 while a user signs in" },
-    risk: { fr: "afficher la trace technique complete a l'utilisateur", en: "showing the full technical trace to the user" },
+    subject: { fr: "Erreur veut dire résultat inattendu, journal veut dire trace interne, message utilisateur doit aider sans révéler de secret", en: "Error means unexpected result, log means internal trace, user message should help without revealing secrets" },
+    action: { fr: "une page renvoie 500 pendant qu'un utilisateur se connecté", en: "a page returns 500 while a user signs in" },
+    risk: { fr: "afficher la trace technique complète à l'utilisateur", en: "showing the full technical trace to the user" },
     proof: { fr: "code statut, identifiant de correlation, journal serveur et message sobre", en: "status code, correlation id, server log, and sober message" }
   },
   {
@@ -1312,11 +1312,11 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "beginner",
     estimatedMinutes: 55,
     title: { fr: "Fichiers, dossiers et permissions Linux", en: "Linux files, directories, and permissions" },
-    summary: { fr: "Lire les droits sans casser le systeme.", en: "Read permissions without breaking the system." },
-    subject: { fr: "Utilisateur, groupe, autres, lecture, ecriture et execution forment la base des droits Linux", en: "User, group, others, read, write, and execute form the base of Linux permissions" },
+    summary: { fr: "Lire les droits sans casser le système.", en: "Read permissions without breaking the system." },
+    subject: { fr: "Utilisateur, groupe, autres, lecture, ecriture et exécution forment la base des droits Linux", en: "User, group, others, read, write, and execute form the base of Linux permissions" },
     action: { fr: "tu dois comprendre pourquoi un script ne s'execute pas", en: "you must understand why a script does not execute" },
     risk: { fr: "mettre 777 pour aller vite", en: "using 777 to go faster" },
-    proof: { fr: "sortie ls -la, proprietaire, groupe, droits et besoin reel", en: "ls -la output, owner, group, permissions, and real need" }
+    proof: { fr: "sortie ls -la, propriétaire, groupe, droits et besoin réel", en: "ls -la output, owner, group, permissions, and real need" }
   },
   {
     slug: "linux-process-service-logs",
@@ -1324,47 +1324,47 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "beginner",
     estimatedMinutes: 60,
     title: { fr: "Processus, services et journaux Linux", en: "Linux processes, services, and logs" },
-    summary: { fr: "Comprendre ce qui tourne et ce que le systeme raconte.", en: "Understand what runs and what the system says." },
-    subject: { fr: "Processus veut dire programme en cours, service veut dire processus gere, journal veut dire trace d'etat ou d'erreur", en: "Process means running program, service means managed process, log means state or error trace" },
+    summary: { fr: "Comprendre ce qui tourne et ce que le système raconte.", en: "Understand what runs and what the system says." },
+    subject: { fr: "Processus veut dire programme en cours, service veut dire processus géré, journal veut dire trace d'état ou d'erreur", en: "Process means running program, service means managed process, log means state or error trace" },
     action: { fr: "un service attendu ne repond plus dans un lab", en: "an expected service no longer responds in a lab" },
-    risk: { fr: "redemarrer sans lire l'etat ni le journal", en: "restarting without reading state or logs" },
-    proof: { fr: "etat du service, port attendu, journal recent et changement connu", en: "service state, expected port, recent log, and known change" }
+    risk: { fr: "redemarrer sans lire l'état ni le journal", en: "restarting without reading state or logs" },
+    proof: { fr: "état du service, port attendu, journal récent et changement connu", en: "service state, expected port, recent log, and known change" }
   },
   {
     slug: "linux-networking-tools",
     categorySlug: "linux",
     level: "intermediate",
     estimatedMinutes: 65,
-    title: { fr: "Commandes reseau Linux utiles", en: "Useful Linux network commands" },
-    summary: { fr: "Utiliser les commandes de lecture reseau sans bruit inutile.", en: "Use network reading commands without useless noise." },
-    subject: { fr: "ip, ss, ping, dig et curl aident a lire adresse, ports, resolution et service", en: "ip, ss, ping, dig, and curl help read address, ports, resolution, and service" },
-    action: { fr: "tu dois verifier pourquoi un serveur local ne repond pas", en: "you must verify why a local server does not respond" },
-    risk: { fr: "lancer des tests actifs trop larges au lieu de lire l'etat local", en: "running overly broad active tests instead of reading local state" },
-    proof: { fr: "interface, route, port en ecoute, resolution et reponse applicative", en: "interface, route, listening port, resolution, and application response" }
+    title: { fr: "Commandes réseau Linux utiles", en: "Useful Linux network commands" },
+    summary: { fr: "Utiliser les commandes de lecture réseau sans bruit inutile.", en: "Use network reading commands without useless noise." },
+    subject: { fr: "ip, ss, ping, dig et curl aident à lire adresse, ports, résolution et service", en: "ip, ss, ping, dig, and curl help read address, ports, resolution, and service" },
+    action: { fr: "tu dois vérifier pourquoi un serveur local ne repond pas", en: "you must verify why a local server does not respond" },
+    risk: { fr: "lancer des tests actifs trop larges au lieu de lire l'état local", en: "running overly broad active tests instead of reading local state" },
+    proof: { fr: "interface, route, port en écoute, résolution et réponse applicative", en: "interface, route, listening port, resolution, and application response" }
   },
   {
     slug: "linux-updates-backups-basics",
     categorySlug: "linux",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Mises a jour et sauvegardes Linux", en: "Linux updates and backups" },
-    summary: { fr: "Gerer le changement sans perdre l'etat du systeme.", en: "Manage change without losing system state." },
-    subject: { fr: "Mise a jour veut dire changement logiciel, sauvegarde veut dire retour possible, rollback veut dire plan de retour arriere", en: "Update means software change, backup means possible return, rollback means backout plan" },
-    action: { fr: "tu prepares une mise a jour d'un petit service", en: "you prepare an update for a small service" },
-    risk: { fr: "mettre a jour sans savoir restaurer", en: "updating without knowing how to restore" },
-    proof: { fr: "etat initial, sauvegarde, commande prevue, test apres changement et rollback", en: "initial state, backup, planned command, post-change test, and rollback" }
+    title: { fr: "Mises à jour et sauvegardes Linux", en: "Linux updates and backups" },
+    summary: { fr: "Gerer le changement sans perdre l'état du système.", en: "Manage change without losing system state." },
+    subject: { fr: "Mise à jour veut dire changement logiciel, sauvegarde veut dire retour possible, rollback veut dire plan de retour arrière", en: "Update means software change, backup means possible return, rollback means backout plan" },
+    action: { fr: "tu prepares une mise à jour d'un petit service", en: "you prepare an update for a small service" },
+    risk: { fr: "mettre à jour sans savoir restaurer", en: "updating without knowing how to restore" },
+    proof: { fr: "état initial, sauvegarde, commande prévue, test après changement et rollback", en: "initial state, backup, planned command, post-change test, and rollback" }
   },
   {
     slug: "symmetric-asymmetric-encryption",
     categorySlug: "cryptography",
     level: "beginner",
     estimatedMinutes: 60,
-    title: { fr: "Chiffrement symetrique et asymetrique", en: "Symmetric and asymmetric encryption" },
+    title: { fr: "Chiffrement symétrique et asymétrique", en: "Symmetric and asymmetric encryption" },
     summary: { fr: "Comprendre les deux grandes familles de chiffrement.", en: "Understand the two major encryption families." },
-    subject: { fr: "Symetrique veut dire meme cle pour chiffrer et dechiffrer, asymetrique veut dire paire publique/privee", en: "Symmetric means same key to encrypt and decrypt, asymmetric means public/private pair" },
-    action: { fr: "tu expliques comment proteger un message et partager une cle", en: "you explain how to protect a message and share a key" },
-    risk: { fr: "confondre confidentialite, authenticite et integrite", en: "confusing confidentiality, authenticity, and integrity" },
-    proof: { fr: "objectif de securite, type de cle, proprietaire de la cle et limite du modele", en: "security goal, key type, key owner, and model limit" }
+    subject: { fr: "Symétrique veut dire même clé pour chiffrer et déchiffrer, asymétrique veut dire paire publique/privée", en: "Symmetric means same key to encrypt and decrypt, asymmetric means public/private pair" },
+    action: { fr: "tu expliques comment protéger un message et partager une clé", en: "you explain how to protect a message and share a key" },
+    risk: { fr: "confondre confidentialité, authenticité et intégrité", en: "confusing confidentiality, authenticity, and integrity" },
+    proof: { fr: "objectif de sécurité, type de clé, propriétaire de la clé et limite du modèle", en: "security goal, key type, key owner, and model limit" }
   },
   {
     slug: "pki-certificate-basics",
@@ -1372,22 +1372,22 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 65,
     title: { fr: "Certificats, PKI et confiance", en: "Certificates, PKI, and trust" },
-    summary: { fr: "Lire une chaine de certificats sans magie.", en: "Read a certificate chain without magic." },
-    subject: { fr: "Certificat lie une identite a une cle, autorite signe, chaine relie le certificat a une racine de confiance", en: "Certificate binds identity to key, authority signs, chain links certificate to a trusted root" },
+    summary: { fr: "Lire une chaîne de certificats sans magie.", en: "Read a certificate chain without magic." },
+    subject: { fr: "Certificat lie une identité a une clé, autorite signe, chaîne relie le certificat a une racine de confiance", en: "Certificate binds identity to key, authority signs, chain links certificate to a trusted root" },
     action: { fr: "un navigateur signale un certificat invalide", en: "a browser reports an invalid certificate" },
     risk: { fr: "accepter une alerte certificat pour gagner du temps", en: "accepting a certificate warning to save time" },
-    proof: { fr: "nom, dates, emetteur, chaine, usage et contexte du service", en: "name, dates, issuer, chain, usage, and service context" }
+    proof: { fr: "nom, dates, émetteur, chaîne, usage et contexte du service", en: "name, dates, issuer, chain, usage, and service context" }
   },
   {
     slug: "signatures-integrity-basics",
     categorySlug: "cryptography",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Signatures et integrite", en: "Signatures and integrity" },
-    summary: { fr: "Verifier qu'un contenu n'a pas ete modifie et vient de la bonne source.", en: "Verify content was not modified and comes from the right source." },
-    subject: { fr: "Integrite veut dire non modification, signature veut dire preuve liee a une cle privee, verification utilise la cle publique", en: "Integrity means not modified, signature means proof linked to a private key, verification uses the public key" },
-    action: { fr: "tu telecharges un outil de lab et veux verifier sa provenance", en: "you download a lab tool and want to verify origin" },
-    risk: { fr: "verifier seulement que le fichier se lance", en: "checking only that the file runs" },
+    title: { fr: "Signatures et intégrité", en: "Signatures and integrity" },
+    summary: { fr: "Verifier qu'un contenu n'a pas ete modifié et vient de la bonne source.", en: "Verify content was not modified and comes from the right source." },
+    subject: { fr: "Intégrité veut dire non modification, signature veut dire preuve liée à une clé privée, vérification utilise la clé publique", en: "Integrity means not modified, signature means proof linked to a private key, verification uses the public key" },
+    action: { fr: "tu télécharges un outil de lab et veux vérifier sa provenance", en: "you download a lab tool and want to verify origin" },
+    risk: { fr: "vérifier seulement que le fichier se lance", en: "checking only that the file runs" },
     proof: { fr: "hash attendu, signature valide, source officielle et date", en: "expected hash, valid signature, official source, and date" }
   },
   {
@@ -1395,34 +1395,34 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     categorySlug: "cryptography",
     level: "intermediate",
     estimatedMinutes: 65,
-    title: { fr: "Gestion des cles", en: "Key management" },
-    summary: { fr: "Comprendre creation, stockage, rotation et revocation.", en: "Understand creation, storage, rotation, and revocation." },
-    subject: { fr: "Cle cree un pouvoir, stockage protege ce pouvoir, rotation limite la duree, revocation retire la confiance", en: "A key creates power, storage protects that power, rotation limits duration, revocation removes trust" },
-    action: { fr: "une equipe trouve une cle ancienne dans un depot prive", en: "a team finds an old key in a private repository" },
-    risk: { fr: "supprimer la cle sans comprendre ou elle est utilisee", en: "deleting the key without understanding where it is used" },
-    proof: { fr: "usage de la cle, date, exposition, rotation, revocation et impact", en: "key usage, date, exposure, rotation, revocation, and impact" }
+    title: { fr: "Gestion des clés", en: "Key management" },
+    summary: { fr: "Comprendre création, stockage, rotation et révocation.", en: "Understand creation, storage, rotation, and revocation." },
+    subject: { fr: "Clé crée un pouvoir, stockage protege ce pouvoir, rotation limite la durée, révocation retire la confiance", en: "A key creates power, storage protects that power, rotation limits duration, revocation removes trust" },
+    action: { fr: "une équipe trouve une clé ancienne dans un depot prive", en: "a team finds an old key in a private repository" },
+    risk: { fr: "supprimer la clé sans comprendre où elle est utilisee", en: "deleting the key without understanding where it is used" },
+    proof: { fr: "usage de la clé, date, exposition, rotation, révocation et impact", en: "key usage, date, exposure, rotation, revocation, and impact" }
   },
   {
     slug: "evidence-preservation-basics",
     categorySlug: "forensics",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Preserver une preuve numerique", en: "Preserving digital evidence" },
-    summary: { fr: "Eviter de detruire l'information que l'on veut comprendre.", en: "Avoid destroying the information you want to understand." },
-    subject: { fr: "Preuve veut dire element observable, preservation veut dire limiter les modifications, chaine veut dire historique de manipulation", en: "Evidence means observable element, preservation means limiting changes, chain means handling history" },
-    action: { fr: "tu decouvres un poste suspect dans un exercice de lab", en: "you discover a suspicious host in a lab exercise" },
+    title: { fr: "Préserver une preuve numérique", en: "Preserving digital evidence" },
+    summary: { fr: "Éviter de détruire l'information que l'on veut comprendre.", en: "Avoid destroying the information you want to understand." },
+    subject: { fr: "Preuve veut dire élément observable, préservation veut dire limiter les modifications, chaîne veut dire historique de manipulation", en: "Evidence means observable element, preservation means limiting changes, chain means handling history" },
+    action: { fr: "tu découvres un poste suspect dans un exercice de lab", en: "you discover a suspicious host in a lab exercise" },
     risk: { fr: "ouvrir partout et modifier les dates sans le savoir", en: "opening everything and unknowingly modifying timestamps" },
-    proof: { fr: "heure, source, action realisee, copie et personne responsable", en: "time, source, performed action, copy, and responsible person" }
+    proof: { fr: "heure, source, action réalisée, copie et personne responsable", en: "time, source, performed action, copy, and responsible person" }
   },
   {
     slug: "system-artifacts-basics",
     categorySlug: "forensics",
     level: "beginner",
     estimatedMinutes: 60,
-    title: { fr: "Artefacts systeme essentiels", en: "Essential system artifacts" },
+    title: { fr: "Artefacts système essentiels", en: "Essential system artifacts" },
     summary: { fr: "Savoir quelles traces chercher au debut.", en: "Know which traces to look for first." },
-    subject: { fr: "Artefact peut etre journal, fichier, compte, processus, connexion, tache planifiee ou historique", en: "Artifact can be log, file, account, process, connection, scheduled task, or history" },
-    action: { fr: "tu dois faire une premiere lecture d'un systeme de lab", en: "you must do a first reading of a lab system" },
+    subject: { fr: "Artefact peut être journal, fichier, compte, processus, connexion, tâche planifiée ou historique", en: "Artifact can be log, file, account, process, connection, scheduled task, or history" },
+    action: { fr: "tu dois faire une première lecture d'un système de lab", en: "you must do a first reading of a lab system" },
     risk: { fr: "chercher une trace spectaculaire avant les traces simples", en: "searching for spectacular traces before simple traces" },
     proof: { fr: "liste d'artefacts, emplacement, heure, signification et limite", en: "artifact list, location, time, meaning, and limit" }
   },
@@ -1431,12 +1431,12 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     categorySlug: "forensics",
     level: "intermediate",
     estimatedMinutes: 70,
-    title: { fr: "Correlation de journaux", en: "Log correlation" },
+    title: { fr: "Corrélation de journaux", en: "Log correlation" },
     summary: { fr: "Relier plusieurs traces sans inventer l'histoire.", en: "Connect several traces without inventing the story." },
-    subject: { fr: "Correlation veut dire relier des evenements par heure, compte, machine, source ou action", en: "Correlation means connecting events by time, account, machine, source, or action" },
+    subject: { fr: "Corrélation veut dire relier des événements par heure, compte, machine, source ou action", en: "Correlation means connecting events by time, account, machine, source, or action" },
     action: { fr: "trois journaux racontent chacun une partie d'un incident", en: "three logs each tell part of an incident" },
-    risk: { fr: "aligner les evenements sans verifier fuseau horaire et horloge", en: "aligning events without checking time zone and clock" },
-    proof: { fr: "horodatage normalise, source, evenement, confiance et question ouverte", en: "normalized timestamp, source, event, confidence, and open question" }
+    risk: { fr: "aligner les événements sans vérifier fuseau horaire et horloge", en: "aligning events without checking time zone and clock" },
+    proof: { fr: "horodatage normalisé, source, événement, confiance et question ouverte", en: "normalized timestamp, source, event, confidence, and open question" }
   },
   {
     slug: "forensic-reporting-basics",
@@ -1444,23 +1444,23 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 60,
     title: { fr: "Rapport forensic lisible", en: "Readable forensic report" },
-    summary: { fr: "Transformer une analyse en recit factuel utile.", en: "Turn analysis into a useful factual narrative." },
-    subject: { fr: "Rapport veut dire transmission, fait veut dire observation, hypothese veut dire interpretation, recommandation veut dire prochaine action", en: "Report means transmission, fact means observation, hypothesis means interpretation, recommendation means next action" },
+    summary: { fr: "Transformer une analyse en récit factuel utile.", en: "Turn analysis into a useful factual narrative." },
+    subject: { fr: "Rapport veut dire transmission, fait veut dire observation, hypothèse veut dire interprétation, recommandation veut dire prochaine action", en: "Report means transmission, fact means observation, hypothesis means interpretation, recommendation means next action" },
     action: { fr: "tu dois expliquer une chronologie a une personne non technique", en: "you must explain a timeline to a non-technical person" },
-    risk: { fr: "melanger certitude, soupcon et conseil dans la meme phrase", en: "mixing certainty, suspicion, and advice in one sentence" },
-    proof: { fr: "faits separes des hypotheses, niveau de confiance et action conseillee", en: "facts separated from hypotheses, confidence level, and advised action" }
+    risk: { fr: "mélanger certitude, soupçon et conseil dans la même phrase", en: "mixing certainty, suspicion, and advice in one sentence" },
+    proof: { fr: "faits séparés des hypothèses, niveau de confiance et action conseillee", en: "facts separated from hypotheses, confidence level, and advised action" }
   },
   {
     slug: "security-logging-basics",
     categorySlug: "blue-team",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Journaux de securite utiles", en: "Useful security logs" },
+    title: { fr: "Journaux de sécurité utiles", en: "Useful security logs" },
     summary: { fr: "Comprendre ce qu'il faut journaliser et pourquoi.", en: "Understand what to log and why." },
-    subject: { fr: "Journal utile contient qui, quoi, quand, ou, resultat et contexte", en: "A useful log contains who, what, when, where, result, and context" },
+    subject: { fr: "Journal utile contient qui, quoi, quand, où, résultat et contexte", en: "A useful log contains who, what, when, where, result, and context" },
     action: { fr: "tu dois choisir les journaux minimum pour une petite application", en: "you must choose minimum logs for a small application" },
     risk: { fr: "journaliser trop peu ou stocker des secrets dans les journaux", en: "logging too little or storing secrets in logs" },
-    proof: { fr: "evenement, identifiant, horodatage, resultat, correlation et absence de secret", en: "event, identifier, timestamp, result, correlation, and no secret" }
+    proof: { fr: "événement, identifiant, horodatage, résultat, correlation et absence de secret", en: "event, identifier, timestamp, result, correlation, and no secret" }
   },
   {
     slug: "siem-dashboard-basics",
@@ -1468,34 +1468,34 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     estimatedMinutes: 65,
     title: { fr: "SIEM et tableaux de bord", en: "SIEM and dashboards" },
-    summary: { fr: "Lire un tableau de bord comme une aide a la decision.", en: "Read a dashboard as decision support." },
-    subject: { fr: "SIEM centralise des signaux, tableau de bord resume, requete cherche, alerte demande qualification", en: "SIEM centralizes signals, dashboard summarizes, query searches, alert requires qualification" },
+    summary: { fr: "Lire un tableau de bord comme une aide à la décision.", en: "Read a dashboard as decision support." },
+    subject: { fr: "SIEM centralise des signaux, tableau de bord résume, requête cherche, alerte demande qualification", en: "SIEM centralizes signals, dashboard summarizes, query searches, alert requires qualification" },
     action: { fr: "un tableau affiche beaucoup d'alertes mais peu de contexte", en: "a dashboard shows many alerts but little context" },
-    risk: { fr: "croire que plus d'alertes veut dire meilleure detection", en: "thinking more alerts means better detection" },
-    proof: { fr: "source du signal, volume, tendance, exemple, faux positifs et decision", en: "signal source, volume, trend, example, false positives, and decision" }
+    risk: { fr: "croire que plus d'alertes veut dire meilleure détection", en: "thinking more alerts means better detection" },
+    proof: { fr: "source du signal, volume, tendance, exemple, faux positifs et décision", en: "signal source, volume, trend, example, false positives, and decision" }
   },
   {
     slug: "incident-response-first-hour",
     categorySlug: "blue-team",
     level: "beginner",
     estimatedMinutes: 60,
-    title: { fr: "Premiere heure de reponse a incident", en: "First hour of incident response" },
+    title: { fr: "Premiere heure de réponse a incident", en: "First hour of incident response" },
     summary: { fr: "Savoir quoi faire sans empirer la situation.", en: "Know what to do without making the situation worse." },
-    subject: { fr: "Incident veut dire evenement avec impact potentiel, triage veut dire prioriser, confinement veut dire limiter l'impact", en: "Incident means event with possible impact, triage means prioritizing, containment means limiting impact" },
-    action: { fr: "une alerte credible arrive sur un poste important", en: "a credible alert arrives on an important workstation" },
-    risk: { fr: "eteindre ou nettoyer trop vite sans preuve ni coordination", en: "shutting down or cleaning too fast without evidence or coordination" },
-    proof: { fr: "chronologie initiale, actifs touches, impact, decision et responsable", en: "initial timeline, affected assets, impact, decision, and owner" }
+    subject: { fr: "Incident veut dire événement avec impact potentiel, triage veut dire prioriser, confinement veut dire limiter l'impact", en: "Incident means event with possible impact, triage means prioritizing, containment means limiting impact" },
+    action: { fr: "une alerte crédible arrive sur un poste important", en: "a credible alert arrives on an important workstation" },
+    risk: { fr: "éteindre ou nettoyer trop vite sans preuve ni coordination", en: "shutting down or cleaning too fast without evidence or coordination" },
+    proof: { fr: "chronologie initiale, actifs touchés, impact, décision et responsable", en: "initial timeline, affected assets, impact, decision, and owner" }
   },
   {
     slug: "detection-rule-lifecycle",
     categorySlug: "blue-team",
     level: "intermediate",
     estimatedMinutes: 70,
-    title: { fr: "Cycle de vie d'une regle de detection", en: "Detection rule lifecycle" },
-    summary: { fr: "Creer, tester, ajuster et documenter une detection.", en: "Create, test, tune, and document a detection." },
-    subject: { fr: "Detection veut dire signal utile, regle veut dire condition, test veut dire verification, tuning veut dire reduction du bruit", en: "Detection means useful signal, rule means condition, test means verification, tuning means noise reduction" },
-    action: { fr: "une nouvelle regle produit trop de faux positifs", en: "a new rule produces too many false positives" },
-    risk: { fr: "desactiver la regle sans apprendre pourquoi elle bruite", en: "disabling the rule without learning why it is noisy" },
+    title: { fr: "Cycle de vie d'une règle de détection", en: "Detection rule lifecycle" },
+    summary: { fr: "Créer, tester, ajuster et documenter une détection.", en: "Create, test, tune, and document a detection." },
+    subject: { fr: "Détection veut dire signal utile, règle veut dire condition, test veut dire vérification, tuning veut dire réduction du bruit", en: "Detection means useful signal, rule means condition, test means verification, tuning means noise reduction" },
+    action: { fr: "une nouvelle règle produit trop de faux positifs", en: "a new rule produces too many false positives" },
+    risk: { fr: "désactiver la règle sans apprendre pourquoi elle bruite", en: "disabling the rule without learning why it is noisy" },
     proof: { fr: "objectif, logique, exemples vrais/faux, seuil, exception et revue", en: "objective, logic, true/false examples, threshold, exception, and review" }
   },
   {
@@ -1503,12 +1503,12 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     categorySlug: "ethical-red-team",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Regles d'engagement et autorisation", en: "Rules of engagement and authorization" },
+    title: { fr: "Règles d'engagement et autorisation", en: "Rules of engagement and authorization" },
     summary: { fr: "Comprendre les limites avant toute pratique offensive.", en: "Understand limits before any offensive practice." },
-    subject: { fr: "Regles d'engagement definissent cibles, dates, actions autorisees, interdits, contacts et arret", en: "Rules of engagement define targets, dates, allowed actions, forbidden actions, contacts, and stop" },
+    subject: { fr: "Règles d'engagement définissent cibles, dates, actions autorisées, interdits, contacts et arrêt", en: "Rules of engagement define targets, dates, allowed actions, forbidden actions, contacts, and stop" },
     action: { fr: "tu prepares un exercice dans un lab fourni", en: "you prepare an exercise in a provided lab" },
-    risk: { fr: "tester une cible proche mais hors perimetre", en: "testing a nearby but out-of-scope target" },
-    proof: { fr: "perimetre ecrit, autorisation, limites, contact et regle d'arret", en: "written scope, authorization, limits, contact, and stop rule" }
+    risk: { fr: "tester une cible proche mais hors périmètre", en: "testing a nearby but out-of-scope target" },
+    proof: { fr: "périmètre ecrit, autorisation, limites, contact et règle d'arrêt", en: "written scope, authorization, limits, contact, and stop rule" }
   },
   {
     slug: "authorized-recon-method",
@@ -1516,12 +1516,12 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     level: "intermediate",
     isPremium: true,
     estimatedMinutes: 70,
-    title: { fr: "Reconnaissance autorisee et inventaire", en: "Authorized reconnaissance and inventory" },
-    summary: { fr: "Observer un perimetre autorise sans depasser le cadre.", en: "Observe an authorized scope without exceeding it." },
-    subject: { fr: "Reconnaissance veut dire collecte d'informations dans un cadre autorise, inventaire veut dire liste verifiable", en: "Reconnaissance means information collection in an authorized scope, inventory means verifiable list" },
+    title: { fr: "Reconnaissance autorisée et inventaire", en: "Authorized reconnaissance and inventory" },
+    summary: { fr: "Observer un périmètre autorisé sans dépasser le cadre.", en: "Observe an authorized scope without exceeding it." },
+    subject: { fr: "Reconnaissance veut dire collecte d'informations dans un cadre autorisé, inventaire veut dire liste vérifiable", en: "Reconnaissance means information collection in an authorized scope, inventory means verifiable list" },
     action: { fr: "tu dois inventorier un lab sans tester hors scope", en: "you must inventory a lab without testing out of scope" },
-    risk: { fr: "confondre observation autorisee et curiosite sans limite", en: "confusing authorized observation with unlimited curiosity" },
-    proof: { fr: "source, cible autorisee, observation, limite et prochaine validation permise", en: "source, authorized target, observation, limit, and next allowed validation" }
+    risk: { fr: "confondre observation autorisée et curiosité sans limite", en: "confusing authorized observation with unlimited curiosity" },
+    proof: { fr: "source, cible autorisée, observation, limite et prochaine validation permise", en: "source, authorized target, observation, limit, and next allowed validation" }
   },
   {
     slug: "responsible-validation-basics",
@@ -1531,46 +1531,46 @@ const quickFoundationInputs: QuickFoundationInput[] = [
     estimatedMinutes: 75,
     title: { fr: "Validation responsable d'un risque", en: "Responsible risk validation" },
     summary: { fr: "Prouver assez pour corriger, pas plus.", en: "Prove enough to fix, not more." },
-    subject: { fr: "Validation veut dire confirmer un risque dans la limite autorisee, preuve minimale veut dire montrer sans exposer", en: "Validation means confirming risk within authorized limits, minimal evidence means showing without exposing" },
-    action: { fr: "une observation de lab indique un acces trop large", en: "a lab observation suggests overly broad access" },
+    subject: { fr: "Validation veut dire confirmer un risque dans la limite autorisée, preuve minimale veut dire montrer sans exposer", en: "Validation means confirming risk within authorized limits, minimal evidence means showing without exposing" },
+    action: { fr: "une observation de lab indique un accès trop large", en: "a lab observation suggests overly broad access" },
     risk: { fr: "chercher une preuve spectaculaire au lieu d'une preuve suffisante", en: "seeking spectacular proof instead of sufficient proof" },
-    proof: { fr: "impact, etapes limitees, preuve minimale, recommandation et verification", en: "impact, limited steps, minimal evidence, recommendation, and verification" }
+    proof: { fr: "impact, étapes limitées, preuve minimale, recommandation et vérification", en: "impact, limited steps, minimal evidence, recommendation, and verification" }
   },
   {
     slug: "ctf-methodology-basics",
     categorySlug: "ctf-labs",
     level: "beginner",
     estimatedMinutes: 55,
-    title: { fr: "Methode CTF debutant", en: "Beginner CTF method" },
-    summary: { fr: "Resoudre un lab sans partir dans tous les sens.", en: "Solve a lab without scattering." },
-    subject: { fr: "CTF veut dire defi isole, indice veut dire signal, piste veut dire hypothese, writeup veut dire retour d'apprentissage", en: "CTF means isolated challenge, clue means signal, path means hypothesis, writeup means learning review" },
-    action: { fr: "tu ouvres un defi inconnu et dois organiser ton approche", en: "you open an unknown challenge and must organize your approach" },
+    title: { fr: "Méthode CTF débutant", en: "Beginner CTF method" },
+    summary: { fr: "Résoudre un lab sans partir dans tous les sens.", en: "Solve a lab without scattering." },
+    subject: { fr: "CTF veut dire défi isolé, indice veut dire signal, piste veut dire hypothèse, writeup veut dire retour d'apprentissage", en: "CTF means isolated challenge, clue means signal, path means hypothesis, writeup means learning review" },
+    action: { fr: "tu ouvres un défi inconnu et dois organiser ton approche", en: "you open an unknown challenge and must organize your approach" },
     risk: { fr: "copier une solution sans comprendre la piste", en: "copying a solution without understanding the path" },
-    proof: { fr: "objectif, observations, hypotheses, essais rates, etape qui debloque", en: "goal, observations, hypotheses, failed attempts, unlocking step" }
+    proof: { fr: "objectif, observations, hypothèses, essais rates, étape qui débloque", en: "goal, observations, hypotheses, failed attempts, unlocking step" }
   },
   {
     slug: "web-lab-workflow",
     categorySlug: "ctf-labs",
     level: "beginner",
     estimatedMinutes: 60,
-    title: { fr: "Workflow de lab web autorise", en: "Authorized web lab workflow" },
+    title: { fr: "Workflow de lab web autorisé", en: "Authorized web lab workflow" },
     summary: { fr: "Explorer une application de lab proprement et sans bruit inutile.", en: "Explore a lab application cleanly and without useless noise." },
     subject: { fr: "Workflow veut dire ordre de travail, observation veut dire lecture, validation veut dire test limite dans le lab", en: "Workflow means work order, observation means reading, validation means limited test in the lab" },
-    action: { fr: "tu dois comprendre une petite application volontairement vulnerable en local", en: "you must understand a small intentionally vulnerable local app" },
+    action: { fr: "tu dois comprendre une petite application volontairement vulnérable en local", en: "you must understand a small intentionally vulnerable local app" },
     risk: { fr: "tester au hasard avant de lire pages, routes et formulaires", en: "testing randomly before reading pages, routes, and forms" },
-    proof: { fr: "carte des pages, formulaires, roles, donnees, hypotheses et tests autorises", en: "map of pages, forms, roles, data, hypotheses, and authorized tests" }
+    proof: { fr: "carte des pages, formulaires, rôles, données, hypothèses et tests autorisés", en: "map of pages, forms, roles, data, hypotheses, and authorized tests" }
   },
   {
     slug: "writeup-retro-basics",
     categorySlug: "ctf-labs",
     level: "beginner",
     estimatedMinutes: 45,
-    title: { fr: "Writeup et retrospective", en: "Writeup and retrospective" },
-    summary: { fr: "Transformer un exercice termine en competence durable.", en: "Turn a finished exercise into durable skill." },
-    subject: { fr: "Writeup raconte le chemin, retrospective explique ce qui a bloque, lecon transforme l'essai en methode", en: "Writeup tells the path, retrospective explains blockers, lesson turns the attempt into method" },
+    title: { fr: "Writeup et rétrospective", en: "Writeup and retrospective" },
+    summary: { fr: "Transformer un exercice terminé en compétence durable.", en: "Turn a finished exercise into durable skill." },
+    subject: { fr: "Writeup raconte le chemin, rétrospective explique ce qui a bloqué, leçon transforme l'essai en méthode", en: "Writeup tells the path, retrospective explains blockers, lesson turns the attempt into method" },
     action: { fr: "tu viens de finir un lab mais tes notes sont brouillonnes", en: "you just finished a lab but your notes are messy" },
-    risk: { fr: "ne garder que le resultat final et perdre le raisonnement", en: "keeping only the final result and losing reasoning" },
-    proof: { fr: "chronologie, decisions, erreurs, preuve finale et lecon reutilisable", en: "timeline, decisions, mistakes, final proof, and reusable lesson" }
+    risk: { fr: "ne garder que le résultat final et perdre le raisonnement", en: "keeping only the final result and losing reasoning" },
+    proof: { fr: "chronologie, décisions, erreurs, preuve finale et leçon réutilisable", en: "timeline, decisions, mistakes, final proof, and reusable lesson" }
   }
 ];
 
@@ -1754,8 +1754,8 @@ const courseEnhancements = {
     },
     quiz: {
       fr: [
-        { question: "Le navigateur bloque un champ vide, mais une requête directe l'envoie quand même. Où doit se trouver la protection décisive ?", options: ["Côté serveur", "Uniquement dans le HTML", "Dans la couleur du bouton"], correctOption: 0 },
-        { question: "Un utilisateur ajoute role=admin dans la soumission. Quelle réponse est saine ?", options: ["Ignorer ou rejeter ce champ non autorisé", "Créer un compte admin", "Masquer l'erreur sans journal"], correctOption: 0 },
+        { question: "Le navigateur bloqué un champ vide, mais une requête directe l'envoie quand même. Où doit se trouver la protection décisive ?", options: ["Côté serveur", "Uniquement dans le HTML", "Dans la couleur du bouton"], correctOption: 0 },
+        { question: "Un utilisateur ajoute rôle=admin dans la soumission. Quelle réponse est saine ?", options: ["Ignorer ou rejeter ce champ non autorisé", "Créer un compte admin", "Masquer l'erreur sans journal"], correctOption: 0 },
         { question: "Une erreur dit 'email déjà utilisé par alice@example.com'. Quel problème ?", options: ["Elle révèle trop d'information", "Elle est trop courte", "Elle utilise HTTP"], correctOption: 0 }
       ],
       en: [
@@ -1769,7 +1769,7 @@ const courseEnhancements = {
     sections: {
       fr: [
         { title: "Définitions utiles", body: "Authentification : prouver une identité. Session : conserver temporairement cet état. Autorisation : décider ce que cette identité peut faire. MFA : demander un facteur supplémentaire quand le risque le justifie." },
-        { title: "Mise en situation", body: "Un utilisateur standard modifie l'URL /users/12 en /users/13 et voit un autre profil. Le mot de passe n'est pas en cause : l'utilisateur est authentifié, mais l'autorisation de l'action n'est pas correctement vérifiée." }
+        { title: "Mise en situation", body: "Un utilisateur standard modifié l'URL /users/12 en /users/13 et voit un autre profil. Le mot de passe n'est pas en cause : l'utilisateur est authentifié, mais l'autorisation de l'action n'est pas correctement vérifiée." }
       ],
       en: [
         { title: "Useful definitions", body: "Authentication proves identity. Session keeps that state temporarily. Authorization decides what that identity can do. MFA asks for an extra factor when risk justifies it." },
@@ -2121,7 +2121,7 @@ const exerciseSolutions: Record<string, Record<Locale, string[]>> = {
   "local-lab-vm-setup": {
     fr: [
       "Correction guidée : indique deux VM, leur rôle, le réseau isolé, les actions autorisées, les actions interdites, le snapshot initial, la commande ou procédure de reset, et la règle d'arrêt. Une bonne fiche permet à quelqu'un d'autre de reproduire le lab sans deviner.",
-      "Correction guidée : coupe d'abord la communication non prévue, identifie la route ou l'interface responsable, vérifie les règles réseau, note l'heure et l'impact, puis modifie le lab : réseau dédié, snapshot propre, règle d'arrêt et vérification avant chaque exercice."
+      "Correction guidée : coupe d'abord la communication non prévue, identifie la route ou l'interface responsable, vérifie les règles réseau, note l'heure et l'impact, puis modifié le lab : réseau dédié, snapshot propre, règle d'arrêt et vérification avant chaque exercice."
     ],
     en: [
       "Guided correction: list two VMs, their role, isolated network, allowed actions, forbidden actions, initial snapshot, reset command or procedure, and stop rule. A good sheet lets someone else reproduce the lab without guessing.",
@@ -2151,7 +2151,7 @@ const exerciseSolutions: Record<string, Record<Locale, string[]>> = {
   "web-form-basics": {
     fr: [
       "Correction guidée : le contrat serveur doit refuser les champs inconnus, vérifier types, longueurs, formats, droits et intention. Pour l'inscription : email valide, mot de passe assez robuste, nom borné, aucun rôle fourni par le client, erreurs claires et journalisation sobre.",
-      "Correction guidée : email trop long -> rejet avec limite claire. Nom vide -> rejet côté serveur même si le navigateur l'avait bloqué. role=admin -> ignoré ou rejeté car non autorisé. Dans les trois cas, pas de donnée sensible dans le message d'erreur."
+      "Correction guidée : email trop long -> rejet avec limite claire. Nom vide -> rejet côté serveur même si le navigateur l'avait bloqué. rôle=admin -> ignoré ou rejeté car non autorisé. Dans les trois cas, pas de donnée sensible dans le message d'erreur."
     ],
     en: [
       "Guided correction: the server contract should reject unknown fields and verify types, lengths, formats, rights, and intent. For registration: valid email, sufficiently robust password, bounded name, no role accepted from client, clear errors, and sober logging.",
@@ -2265,10 +2265,10 @@ type BeginnerDeepDive = Record<Locale, { words: string; guided: string; mistake:
 const beginnerDeepDives = {
   "tcpip-basics": {
     fr: {
-      words: "Mot par mot : IP veut dire adresse d'une interface, comme une etiquette de livraison. Reseau veut dire groupe d'adresses qui peuvent se parler directement. Masque veut dire regle de decoupe entre la partie reseau et la partie machine. Passerelle veut dire sortie vers un autre reseau. Port veut dire porte logique d'un service, pas un cable physique.",
-      guided: "Exemple guide : tu vois 192.168.10.25/24 avec une passerelle 192.168.10.1. Tu lis d'abord le /24 : le reseau est 192.168.10.0. Tu compares ensuite la passerelle : elle est dans le meme reseau, donc elle peut etre jointe directement. Puis tu regardes la cible : 192.168.20.10 n'est pas dans le meme reseau, donc le poste devra passer par la passerelle.",
-      mistake: "Erreur classique : croire qu'une IP identifie toute la machine ou toute la personne. En realite, une machine peut avoir plusieurs interfaces, donc plusieurs IP. Autre piege : voir un port 443 et conclure trop vite que tout est sain. 443 suggere HTTPS, mais il faut verifier le service, le certificat, les journaux et le contexte.",
-      checkpoint: "Checkpoint : si tu peux dire en une phrase qui parle a qui, par quel protocole, vers quel port, et pourquoi la passerelle intervient ou non, tu as compris la lecture de base. Si tu bloques, reviens aux cinq mots : IP, masque, reseau, passerelle, port."
+      words: "Mot par mot : IP veut dire adresse d'une interface, comme une etiquette de livraison. Reseau veut dire groupe d'adresses qui peuvent se parler directement. Masque veut dire règle de decoupe entre la partie réseau et la partie machine. Passerelle veut dire sortie vers un autre réseau. Port veut dire porte logique d'un service, pas un cable physique.",
+      guided: "Exemple guide : tu vois 192.168.10.25/24 avec une passerelle 192.168.10.1. Tu lis d'abord le /24 : le réseau est 192.168.10.0. Tu compares ensuite la passerelle : elle est dans le même réseau, donc elle peut être jointe directement. Puis tu regardes la cible : 192.168.20.10 n'est pas dans le même réseau, donc le poste devra passer par la passerelle.",
+      mistake: "Erreur classique : croire qu'une IP identifie toute la machine ou toute la personne. En réalité, une machine peut avoir plusieurs interfaces, donc plusieurs IP. Autre piège : voir un port 443 et conclure trop vite que tout est sain. 443 suggère HTTPS, mais il faut vérifier le service, le certificat, les journaux et le contexte.",
+      checkpoint: "Checkpoint : si tu peux dire en une phrase qui parle à qui, par quel protocole, vers quel port, et pourquoi la passerelle intervient ou non, tu as compris la lecture de base. Si tu bloques, reviens aux cinq mots : IP, masque, réseau, passerelle, port."
     },
     en: {
       words: "Word by word: IP means an interface address, like a delivery label. Network means a group of addresses that can talk directly. Mask means the split rule between the network part and the machine part. Gateway means exit toward another network. Port means a logical service door, not a physical cable.",
@@ -2279,10 +2279,10 @@ const beginnerDeepDives = {
   },
   "local-lab-vm-setup": {
     fr: {
-      words: "Mot par mot : lab veut dire environnement d'entrainement. Perimetre veut dire ce qui est autorise et ce qui ne l'est pas. VM veut dire machine virtuelle, donc ordinateur simule dans ton ordinateur. Snapshot veut dire point de retour. Isolation veut dire que le lab ne doit pas toucher tes machines ou services personnels.",
-      guided: "Exemple guide : avant un exercice, tu ecris deux machines autorisees, leur role, le reseau utilise, l'objectif, la regle d'arret et la facon de revenir au snapshot. Ce papier simple transforme l'exercice en zone controlee : tu sais ou tu peux agir, quand t'arreter, et comment reparer une erreur.",
-      mistake: "Erreur classique : installer un outil puis tester au hasard parce que le lab semble local. Un lab local peut quand meme communiquer avec Internet ou ton reseau personnel si l'interface est mal choisie. La bonne habitude est de verifier l'isolation avant l'action, pas apres un doute.",
-      checkpoint: "Checkpoint : tu dois pouvoir montrer ton lab a quelqu'un et repondre sans hesiter : quelles machines, quelles actions, quelle limite, quel retour arriere. Si une reponse manque, le lab n'est pas encore pret."
+      words: "Mot par mot : lab veut dire environnement d'entraînement. Périmètre veut dire ce qui est autorisé et ce qui ne l'est pas. VM veut dire machine virtuelle, donc ordinateur simulé dans ton ordinateur. Snapshot veut dire point de retour. Isolation veut dire que le lab ne doit pas toucher tes machines ou services personnels.",
+      guided: "Exemple guide : avant un exercice, tu écris deux machines autorisées, leur rôle, le réseau utilisé, l'objectif, la règle d'arrêt et la façon de revenir au snapshot. Ce papier simple transforme l'exercice en zone contrôlée : tu sais où tu peux agir, quand t'arrêter, et comment réparer une erreur.",
+      mistake: "Erreur classique : installer un outil puis tester au hasard parce que le lab semble local. Un lab local peut quand même communiquer avec Internet ou ton réseau personnel si l'interface est mal choisie. La bonne habitude est de vérifier l'isolation avant l'action, pas après un doute.",
+      checkpoint: "Checkpoint : tu dois pouvoir montrer ton lab à quelqu'un et repondre sans hésiter : quelles machines, quelles actions, quelle limite, quel retour arrière. Si une réponse manque, le lab n'est pas encore prêt."
     },
     en: {
       words: "Word by word: lab means training environment. Scope means what is allowed and what is not. VM means virtual machine, a simulated computer inside your computer. Snapshot means return point. Isolation means the lab should not touch your personal machines or services.",
@@ -2293,10 +2293,10 @@ const beginnerDeepDives = {
   },
   "network-map-first-steps": {
     fr: {
-      words: "Mot par mot : hote veut dire machine vue sur le reseau. Flux veut dire communication entre une source et une destination. Service veut dire application joignable, comme DNS ou web. Zone veut dire groupe logique, par exemple postes, serveurs ou invites. Hypothese veut dire idee plausible mais pas encore prouvee.",
-      guided: "Exemple guide : tu observes un poste, un DNS, une passerelle et un serveur web. Tu ne dessines pas seulement des icones : tu notes poste vers DNS en UDP/53, poste vers web en TCP/443, poste vers passerelle pour sortir. Chaque fleche doit avoir une raison probable et une preuve ou une question.",
-      mistake: "Erreur classique : confondre carte et decoration. Une carte utile n'est pas celle qui impressionne, c'est celle qui evite de se tromper. Si tu mets une machine en serveur sans preuve, marque confiance faible. Si tu ne sais pas pourquoi un flux existe, garde-le comme inconnue.",
-      checkpoint: "Checkpoint : une bonne carte debutant contient machines, roles supposes, flux principaux, inconnues et prochaine verification. Quand tu peux expliquer chaque fleche en une phrase simple, tu progresses vraiment."
+      words: "Mot par mot : hôte veut dire machine vue sur le réseau. Flux veut dire communication entre une source et une destination. Service veut dire application joignable, comme DNS ou web. Zone veut dire groupe logique, par exemple postes, serveurs ou invites. Hypothèse veut dire idée plausible mais pas encore prouvée.",
+      guided: "Exemple guide : tu observes un poste, un DNS, une passerelle et un serveur web. Tu ne dessines pas seulement des icônes : tu notes poste vers DNS en UDP/53, poste vers web en TCP/443, poste vers passerelle pour sortir. Chaque flèche doit avoir une raison probable et une preuve ou une question.",
+      mistake: "Erreur classique : confondre carte et décoration. Une carte utile n'est pas celle qui impressionne, c'est celle qui évite de se tromper. Si tu mets une machine en serveur sans preuve, marque confiance faible. Si tu ne sais pas pourquoi un flux existe, garde-le comme inconnue.",
+      checkpoint: "Checkpoint : une bonne carte débutant contient machines, rôles supposés, flux principaux, inconnues et prochaine vérification. Quand tu peux expliquer chaque flèche en une phrase simple, tu progresses vraiment."
     },
     en: {
       words: "Word by word: host means a machine seen on the network. Flow means communication between a source and a destination. Service means reachable application, such as DNS or web. Zone means logical group, such as workstations, servers, or guests. Hypothesis means plausible idea not yet proven.",
@@ -2307,10 +2307,10 @@ const beginnerDeepDives = {
   },
   "http-basics": {
     fr: {
-      words: "Mot par mot : client veut dire navigateur ou application qui demande. Serveur veut dire systeme qui repond. Requete veut dire message envoye par le client. Reponse veut dire message renvoye par le serveur. Methode veut dire intention HTTP, comme GET pour lire ou POST pour envoyer. Statut veut dire resultat, comme 200, 302 ou 404.",
-      guided: "Exemple guide : tu cliques sur connexion. Le navigateur envoie POST /login avec des champs. Le serveur repond 302 et ajoute un cookie. Le navigateur suit vers /dashboard. Tu lis donc une histoire : envoi d'identifiants, creation possible de session, redirection, puis page cible.",
-      mistake: "Erreur classique : croire que le navigateur decide de la securite. Le navigateur aide, mais le serveur doit verifier. Un bouton cache, un champ disabled ou une validation HTML ne suffisent jamais. Tout ce qui compte doit etre controle cote serveur.",
-      checkpoint: "Checkpoint : quand tu lis une trace HTTP, separe methode, chemin, statut, en-tetes, cookie et corps. Si tu peux raconter le dialogue sans inventer, tu as la base pour comprendre la securite web."
+      words: "Mot par mot : client veut dire navigateur ou application qui demande. Serveur veut dire système qui repond. Requête veut dire message envoyé par le client. Réponse veut dire message renvoye par le serveur. Méthode veut dire intention HTTP, comme GET pour lire ou POST pour envoyer. Statut veut dire résultat, comme 200, 302 ou 404.",
+      guided: "Exemple guide : tu cliques sur connexion. Le navigateur envoie POST /login avec des champs. Le serveur repond 302 et ajoute un cookie. Le navigateur suit vers /dashboard. Tu lis donc une histoire : envoi d'identifiants, création possible de session, redirection, puis page cible.",
+      mistake: "Erreur classique : croire que le navigateur decide de la sécurité. Le navigateur aide, mais le serveur doit vérifier. Un bouton cache, un champ disabled ou une validation HTML ne suffisent jamais. Tout ce qui compte doit être contrôle côté serveur.",
+      checkpoint: "Checkpoint : quand tu lis une trace HTTP, sépare méthode, chemin, statut, en-têtes, cookie et corps. Si tu peux raconter le dialogue sans inventer, tu as la base pour comprendre la sécurité web."
     },
     en: {
       words: "Word by word: client means browser or application that asks. Server means system that answers. Request means message sent by the client. Response means message returned by the server. Method means HTTP intent, such as GET to read or POST to send. Status means result, such as 200, 302, or 404.",
@@ -2321,10 +2321,10 @@ const beginnerDeepDives = {
   },
   "web-form-basics": {
     fr: {
-      words: "Mot par mot : formulaire veut dire zone ou l'utilisateur envoie des donnees. Champ veut dire une information, comme email. Validation veut dire verification d'une regle. Type veut dire nature attendue, comme texte ou nombre. Longueur veut dire taille maximale. Contrat serveur veut dire liste de ce que le serveur accepte vraiment.",
-      guided: "Exemple guide : un formulaire d'inscription demande email, mot de passe et nom. Le serveur verifie format email, longueur du nom, robustesse du mot de passe et refuse un champ role=admin ajoute a la main. Le formulaire n'est donc pas une confiance : c'est une demande que le serveur doit controler.",
-      mistake: "Erreur classique : penser que si le champ n'apparait pas a l'ecran, il ne peut pas etre envoye. Un utilisateur peut modifier une requete. Le serveur doit ignorer ou refuser les champs inattendus et ne jamais deduire un droit depuis une donnee libre.",
-      checkpoint: "Checkpoint : pour chaque champ, demande-toi quoi verifier, qui a le droit de l'envoyer, quelle limite appliquer et quel message d'erreur afficher. Si tu peux faire cette table, tu sais penser comme un defenseur."
+      words: "Mot par mot : formulaire veut dire zone ou l'utilisateur envoie des données. Champ veut dire une information, comme email. Validation veut dire vérification d'une règle. Type veut dire nature attendue, comme texte ou nombre. Longueur veut dire taille maximale. Contrat serveur veut dire liste de ce que le serveur accepte vraiment.",
+      guided: "Exemple guide : un formulaire d'inscription demande email, mot de passe et nom. Le serveur vérifie format email, longueur du nom, robustesse du mot de passe et refuse un champ rôle=admin ajoute à la main. Le formulaire n'est donc pas une confiance : c'est une demande que le serveur doit contrôler.",
+      mistake: "Erreur classique : penser que si le champ n'apparait pas à l'écran, il ne peut pas être envoyé. Un utilisateur peut modifier une requête. Le serveur doit ignorer ou refuser les champs inattendus et ne jamais déduire un droit depuis une donnée libre.",
+      checkpoint: "Checkpoint : pour chaque champ, demande-toi quoi vérifier, qui a le droit de l'envoyer, quelle limite appliquer et quel message d'erreur afficher. Si tu peux faire cette table, tu sais penser comme un défenseur."
     },
     en: {
       words: "Word by word: form means an area where the user sends data. Field means one piece of information, such as email. Validation means checking a rule. Type means expected nature, such as text or number. Length means maximum size. Server contract means what the server truly accepts.",
@@ -2335,10 +2335,10 @@ const beginnerDeepDives = {
   },
   "web-auth-foundations": {
     fr: {
-      words: "Mot par mot : authentification veut dire prouver qui tu es. Autorisation veut dire verifier ce que tu as le droit de faire. Session veut dire souvenir temporaire cote application. Cookie de session veut dire preuve stockee cote navigateur. Role veut dire niveau de droit, comme user ou admin.",
-      guided: "Exemple guide : Alice se connecte, puis demande /factures/42. Le serveur ne doit pas seulement voir qu'Alice est connectee. Il doit verifier que la facture 42 appartient a Alice ou que son role autorise l'acces. Connexion et autorisation sont deux questions differentes.",
-      mistake: "Erreur classique : confondre connecte et autorise. Un utilisateur connecte n'a pas automatiquement acces a tout. Autre piege : faire confiance a un role envoye par le client. Le role fiable vient du serveur, de la base ou d'un jeton verifie.",
-      checkpoint: "Checkpoint : devant chaque action sensible, pose deux questions : qui es-tu, puis as-tu le droit ici et maintenant. Si les deux reponses sont separees, ton modele mental est solide."
+      words: "Mot par mot : authentification veut dire prouver qui tu es. Autorisation veut dire vérifier ce que tu as le droit de faire. Session veut dire souvenir temporaire côté application. Cookie de session veut dire preuve stockée côté navigateur. Role veut dire niveau de droit, comme user ou admin.",
+      guided: "Exemple guide : Alice se connecté, puis demande /factures/42. Le serveur ne doit pas seulement voir qu'Alice est connectée. Il doit vérifier que la facture 42 appartient à Alice ou que son rôle autorise l'accès. Connexion et autorisation sont deux questions différentes.",
+      mistake: "Erreur classique : confondre connecté et autorisé. Un utilisateur connecté n'a pas automatiquement accès à tout. Autre piège : faire confiance a un rôle envoyé par le client. Le rôle fiable vient du serveur, de la base ou d'un jeton vérifie.",
+      checkpoint: "Checkpoint : devant chaque action sensible, pose deux questions : qui es-tu, puis as-tu le droit ici et maintenant. Si les deux réponses sont séparées, ton modèle mental est solide."
     },
     en: {
       words: "Word by word: authentication means proving who you are. Authorization means checking what you are allowed to do. Session means temporary application memory. Session cookie means proof stored in the browser. Role means right level, such as user or admin.",
@@ -2349,10 +2349,10 @@ const beginnerDeepDives = {
   },
   "linux-shell-basics": {
     fr: {
-      words: "Mot par mot : shell veut dire interface texte pour parler au systeme. Commande veut dire instruction. Repertoire veut dire dossier. Fichier veut dire donnees stockees. Droit veut dire qui peut lire, ecrire ou executer. Journal veut dire trace d'evenements.",
-      guided: "Exemple guide : tu arrives dans un dossier inconnu. Tu utilises pwd pour savoir ou tu es, ls -la pour voir les fichiers, file pour comprendre leur type, puis less pour lire sans modifier. Tu avances comme un analyste : observer, comprendre, conclure doucement.",
-      mistake: "Erreur classique : lancer une commande destructive avant d'avoir observe. En securite, lire vaut souvent mieux qu'agir. Evite de supprimer, de deplacer ou de modifier tant que tu ne sais pas ce que represente le fichier et quel impact aurait le changement.",
-      checkpoint: "Checkpoint : si tu peux expliquer une ligne ls -la avec proprietaire, groupe, droits et nom du fichier, tu as la base. Si tu peux lire un journal sans le modifier, tu gagnes un vrai reflexe d'analyse."
+      words: "Mot par mot : shell veut dire interface texte pour parler au système. Commande veut dire instruction. Repertoire veut dire dossier. Fichier veut dire données stockées. Droit veut dire qui peut lire, ecrire ou exécuter. Journal veut dire trace d'événements.",
+      guided: "Exemple guide : tu arrives dans un dossier inconnu. Tu utilises pwd pour savoir où tu es, ls -la pour voir les fichiers, file pour comprendre leur type, puis less pour lire sans modifier. Tu avances comme un analyste : observer, comprendre, conclure doucement.",
+      mistake: "Erreur classique : lancer une commande destructive avant d'avoir observé. En sécurité, lire vaut souvent mieux qu'agir. Évite de supprimer, de déplacer ou de modifier tant que tu ne sais pas ce que représente le fichier et quel impact aurait le changement.",
+      checkpoint: "Checkpoint : si tu peux expliquer une ligne ls -la avec propriétaire, groupe, droits et nom du fichier, tu as la base. Si tu peux lire un journal sans le modifier, tu gagnes un vrai reflexe d'analyse."
     },
     en: {
       words: "Word by word: shell means text interface to talk to the system. Command means instruction. Directory means folder. File means stored data. Permission means who can read, write, or execute. Log means event trace.",
@@ -2363,10 +2363,10 @@ const beginnerDeepDives = {
   },
   "ctf-evidence-notes": {
     fr: {
-      words: "Mot par mot : note veut dire trace ecrite de ton raisonnement. Preuve veut dire observation verifiable. Hypothese veut dire idee a tester. Action veut dire ce que tu fais. Conclusion veut dire ce que tu peux dire apres l'observation, sans exagerer.",
-      guided: "Exemple guide : tu testes une page de lab. Note l'objectif, l'URL, l'action, le resultat, puis la conclusion. Une bonne note ressemble a : j'ai essaye ceci, j'ai observe cela, donc je pense ceci, et la prochaine verification est celle-ci.",
-      mistake: "Erreur classique : garder seulement la commande finale. Le vrai apprentissage est dans les essais rates, les changements d'hypothese et les preuves. Sans ces traces, tu ne peux pas expliquer comment tu as progresse.",
-      checkpoint: "Checkpoint : une note utile doit permettre de refaire ton chemin le lendemain. Si tu peux reprendre sans memoire magique, tu as transforme un exercice en competence."
+      words: "Mot par mot : note veut dire trace ecrite de ton raisonnement. Preuve veut dire observation vérifiable. Hypothèse veut dire idée à tester. Action veut dire ce que tu fais. Conclusion veut dire ce que tu peux dire après l'observation, sans exagerer.",
+      guided: "Exemple guide : tu testes une page de lab. Note l'objectif, l'URL, l'action, le résultat, puis la conclusion. Une bonne note ressemble à : j'ai essayé ceci, j'ai observé cela, donc je pense ceci, et la prochaine vérification est celle-ci.",
+      mistake: "Erreur classique : garder seulement la commande finale. Le vrai apprentissage est dans les essais rates, les changements d'hypothèse et les preuves. Sans ces traces, tu ne peux pas expliquer comment tu as progresse.",
+      checkpoint: "Checkpoint : une note utile doit permettre de refaire ton chemin le lendemain. Si tu peux reprendre sans mémoire magique, tu as transforme un exercice en compétence."
     },
     en: {
       words: "Word by word: note means written trace of your reasoning. Evidence means verifiable observation. Hypothesis means idea to test. Action means what you do. Conclusion means what you can say after observation, without overstating.",
@@ -2377,10 +2377,10 @@ const beginnerDeepDives = {
   },
   "infrastructure-asset-baseline": {
     fr: {
-      words: "Mot par mot : actif veut dire element important, comme serveur, base, application ou sauvegarde. Baseline veut dire etat de reference. Proprietaire veut dire personne responsable. Exposition veut dire qui peut atteindre l'actif. Criticite veut dire impact si l'actif tombe ou fuit.",
-      guided: "Exemple guide : une base de donnees interne n'est pas seulement un nom. Tu notes son role, les applications qui l'utilisent, qui la gere, ou elle est exposee, comment elle est sauvegardee et ce qui reste inconnu. La valeur est dans le contexte.",
-      mistake: "Erreur classique : faire une liste d'actifs sans priorite. Dix noms ne disent pas quoi proteger d'abord. Un actif peu visible mais sans sauvegarde testee peut etre plus urgent qu'un poste connu et bien gere.",
-      checkpoint: "Checkpoint : pour chaque actif, tu dois pouvoir repondre : a quoi sert-il, qui en depend, qui y accede, que se passe-t-il s'il tombe, quelle preuve manque. La baseline devient alors utile."
+      words: "Mot par mot : actif veut dire élément important, comme serveur, base, application ou sauvegarde. Baseline veut dire état de reference. Proprietaire veut dire personne responsable. Exposition veut dire qui peut atteindre l'actif. Criticite veut dire impact si l'actif tombe ou fuit.",
+      guided: "Exemple guide : une base de données interne n'est pas seulement un nom. Tu notes son rôle, les applications qui l'utilisent, qui la gère, où elle est exposée, comment elle est sauvegardée et ce qui reste inconnu. La valeur est dans le contexte.",
+      mistake: "Erreur classique : faire une liste d'actifs sans priorité. Dix noms ne disent pas quoi protéger d'abord. Un actif peu visible mais sans sauvegarde testée peut être plus urgent qu'un poste connu et bien géré.",
+      checkpoint: "Checkpoint : pour chaque actif, tu dois pouvoir repondre : à quoi sert-il, qui en depend, qui y accede, que se passe-t-il s'il tombe, quelle preuve manque. La baseline devient alors utile."
     },
     en: {
       words: "Word by word: asset means important element, such as server, database, application, or backup. Baseline means reference state. Owner means responsible person. Exposure means who can reach the asset. Criticality means impact if the asset fails or leaks.",
@@ -2391,10 +2391,10 @@ const beginnerDeepDives = {
   },
   "opsec-public-footprint-review": {
     fr: {
-      words: "Mot par mot : OpSec veut dire securite operationnelle, donc limiter ce que tes habitudes revelent. Empreinte publique veut dire informations visibles par tous. Correlation veut dire relier plusieurs petits indices. Reduction veut dire enlever, flouter ou separer ce qui expose trop.",
-      guided: "Exemple guide : une ville seule semble banale, un outil publie semble banal, un horaire semble banal. Ensemble, ville + outil + horaires + employeur peuvent aider quelqu'un a te cibler. L'analyse OpSec regarde les combinaisons, pas seulement les details isoles.",
-      mistake: "Erreur classique : supprimer au hasard ou paniquer. L'objectif n'est pas de disparaitre, mais de choisir ce qui reste public. Une bonne reduction garde ce qui sert ton objectif et retire ce qui donne trop de contexte inutile.",
-      checkpoint: "Checkpoint : pour chaque info publique, demande : qui peut la voir, que peut-on deviner avec, quel autre indice la renforce, est-elle necessaire. Cette grille simple donne un vrai controle."
+      words: "Mot par mot : OpSec veut dire sécurité opérationnelle, donc limiter ce que tes habitudes révèlent. Empreinte publique veut dire informations visibles par tous. Corrélation veut dire relier plusieurs petits indices. Réduction veut dire enlever, flouter ou séparer ce qui expose trop.",
+      guided: "Exemple guide : une ville seule semble banale, un outil publié semble banal, un horaire semble banal. Ensemble, ville + outil + horaires + employeur peuvent aider quelqu'un à te cibler. L'analyse OpSec regarde les combinaisons, pas seulement les détails isolés.",
+      mistake: "Erreur classique : supprimer au hasard ou paniquer. L'objectif n'est pas de disparaitre, mais de choisir ce qui reste public. Une bonne réduction garde ce qui sert ton objectif et retire ce qui donne trop de contexte inutile.",
+      checkpoint: "Checkpoint : pour chaque info publique, demande : qui peut la voir, que peut-on deviner avec, quel autre indice la renforce, est-elle nécessaire. Cette grille simple donne un vrai contrôle."
     },
     en: {
       words: "Word by word: OpSec means operational security, limiting what your habits reveal. Public footprint means information visible to everyone. Correlation means connecting several small clues. Reduction means removing, blurring, or separating what exposes too much.",
@@ -2405,10 +2405,10 @@ const beginnerDeepDives = {
   },
   "crypto-hashing-and-passwords": {
     fr: {
-      words: "Mot par mot : hash veut dire empreinte calculee depuis une donnee. Non reversible veut dire qu'on ne doit pas retrouver le texte original depuis l'empreinte. Sel veut dire valeur unique ajoutee pour casser les comparaisons. Fonction lente veut dire calcul volontairement couteux pour ralentir les essais.",
-      guided: "Exemple guide : deux personnes ont le meme mot de passe. Sans sel, le hash peut etre identique et donc facile a comparer. Avec un sel different pour chacun, les empreintes changent. Avec une fonction lente adaptee, tester des millions de mots de passe devient beaucoup plus couteux.",
-      mistake: "Erreur classique : confondre hash et chiffrement. Le chiffrement se decrypte avec une cle. Un hash de mot de passe ne doit pas se decrypter. On verifie un mot de passe en recalculant l'empreinte avec les bons parametres, pas en recuperant le mot de passe.",
-      checkpoint: "Checkpoint : si tu peux expliquer hash, sel et lenteur avec une analogie, puis dire ou l'analogie s'arrete, tu comprends mieux que beaucoup de debutants. Le detail important est la verification, pas la recuperation."
+      words: "Mot par mot : hash veut dire empreinte calculée depuis une donnee. Non réversible veut dire qu'on ne doit pas retrouver le texte original depuis l'empreinte. Sel veut dire valeur unique ajoutée pour casser les comparaisons. Fonction lente veut dire calcul volontairement coûteux pour ralentir les essais.",
+      guided: "Exemple guide : deux personnes ont le même mot de passe. Sans sel, le hash peut être identique et donc facile a comparer. Avec un sel différent pour chacun, les empreintes changent. Avec une fonction lente adaptée, tester des millions de mots de passe devient beaucoup plus coûteux.",
+      mistake: "Erreur classique : confondre hash et chiffrement. Le chiffrement se décrypte avec une clé. Un hash de mot de passe ne doit pas se décrypter. On vérifie un mot de passe en recalculant l'empreinte avec les bons paramètres, pas en récupérant le mot de passe.",
+      checkpoint: "Checkpoint : si tu peux expliquer hash, sel et lenteur avec une analogie, puis dire ou l'analogie s'arrete, tu comprends mieux que beaucoup de debutants. Le detail important est la vérification, pas la récupération."
     },
     en: {
       words: "Word by word: hash means fingerprint computed from data. Non-reversible means the original text should not be recovered from the fingerprint. Salt means unique value added to break comparisons. Slow function means intentionally costly computation to slow attempts.",
@@ -2419,10 +2419,10 @@ const beginnerDeepDives = {
   },
   "forensics-timeline-first-pass": {
     fr: {
-      words: "Mot par mot : forensic veut dire analyse de traces apres un evenement. Chronologie veut dire ordre des faits dans le temps. Artefact veut dire trace utile, comme journal, fichier, compte ou connexion. Hypothese veut dire interpretation. Confiance veut dire force de la preuve.",
-      guided: "Exemple guide : tu vois une connexion a 10:03, un fichier modifie a 10:05, puis une alerte a 10:08. Tu ne dis pas tout de suite 'attaque terminee'. Tu ecris les faits, la source de chaque fait, le fuseau horaire, puis ce que tu peux supposer prudemment.",
-      mistake: "Erreur classique : raconter une histoire trop vite. Une chronologie n'est pas un roman, c'est une table de faits. Si l'heure vient de sources differentes ou de fuseaux differents, la conclusion doit rester prudente jusqu'a correlation.",
-      checkpoint: "Checkpoint : chaque ligne devrait contenir heure, source, fait observe, hypothese, confiance et question ouverte. Quand tu separes ces colonnes, tu evites de transformer une impression en certitude."
+      words: "Mot par mot : forensic veut dire analyse de traces après un événement. Chronologie veut dire ordre des faits dans le temps. Artefact veut dire trace utile, comme journal, fichier, compte ou connexion. Hypothèse veut dire interprétation. Confiance veut dire force de la preuve.",
+      guided: "Exemple guide : tu vois une connexion à 10:03, un fichier modifié à 10:05, puis une alerte à 10:08. Tu ne dis pas tout de suite 'attaque terminee'. Tu écris les faits, la source de chaque fait, le fuseau horaire, puis ce que tu peux supposer prudemment.",
+      mistake: "Erreur classique : raconter une histoire trop vite. Une chronologie n'est pas un roman, c'est une table de faits. Si l'heure vient de sources différentes ou de fuseaux différents, la conclusion doit rester prudente jusqu'a correlation.",
+      checkpoint: "Checkpoint : chaque ligne devrait contenir heure, source, fait observé, hypothèse, confiance et question ouverte. Quand tu sépares ces colonnes, tu évites de transformer une impression en certitude."
     },
     en: {
       words: "Word by word: forensic means analyzing traces after an event. Timeline means ordering facts in time. Artifact means useful trace, such as log, file, account, or connection. Hypothesis means interpretation. Confidence means strength of evidence.",
