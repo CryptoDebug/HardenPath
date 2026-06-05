@@ -343,6 +343,121 @@ a {
   background-size: 3rem 3rem;
 }
 
+.hp-learning-meter {
+  display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hp-learning-meter-dot {
+  height: 0.5rem;
+  width: 1.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(215, 221, 229, 0.12);
+  background: linear-gradient(90deg, rgba(103, 216, 189, 0.75), rgba(200, 164, 95, 0.54));
+  box-shadow: 0 0 18px rgba(103, 216, 189, 0.12);
+}
+
+.hp-learning-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.hp-learning-step::before {
+  content: "";
+  position: absolute;
+  left: 1.35rem;
+  top: 2.95rem;
+  bottom: -1.05rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(103, 216, 189, 0.48), rgba(215, 221, 229, 0.08));
+}
+
+.hp-learning-step:last-child::before {
+  display: none;
+}
+
+.hp-learning-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  height: 2.75rem;
+  width: 2.75rem;
+  place-items: center;
+  border-radius: 0.125rem;
+  border: 1px solid rgba(215, 221, 229, 0.14);
+  background:
+    linear-gradient(180deg, rgba(31, 36, 41, 0.98), rgba(13, 16, 19, 0.98)),
+    #14191e;
+  color: #67d8bd;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.hp-learning-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(215, 221, 229, 0.12);
+  background:
+    linear-gradient(180deg, rgba(31, 36, 41, 0.94), rgba(16, 20, 24, 0.94)),
+    rgba(15, 18, 22, 0.88);
+  padding: 1.15rem;
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.hp-learning-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.hp-learning-card-mint::before {
+  background:
+    linear-gradient(90deg, rgba(103, 216, 189, 0.13), transparent 30%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 18px);
+}
+
+.hp-learning-card-amber::before {
+  background:
+    linear-gradient(90deg, rgba(200, 164, 95, 0.14), transparent 32%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.032) 0 1px, transparent 1px 18px);
+}
+
+.hp-learning-card-coral::before {
+  background:
+    linear-gradient(90deg, rgba(199, 109, 99, 0.13), transparent 32%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.032) 0 1px, transparent 1px 18px);
+}
+
+.hp-learning-card-steel::before {
+  background:
+    linear-gradient(90deg, rgba(141, 154, 170, 0.12), transparent 30%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 18px);
+}
+
+.hp-learning-card > * {
+  position: relative;
+}
+
+.hp-learning-index {
+  @apply inline-flex h-7 min-w-9 items-center justify-center rounded-sm border border-white/10 bg-black/20 px-2 text-xs font-black text-paper;
+}
+
+.hp-learning-badge {
+  @apply inline-flex min-h-7 max-w-full items-center rounded-sm border border-white/10 bg-white/[0.065] px-2.5 text-xs font-black uppercase text-steel;
+}
+
 .hp-flip-card {
   position: relative;
   display: block;

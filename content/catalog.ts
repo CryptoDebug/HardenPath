@@ -1568,6 +1568,200 @@ const exerciseSolutions: Record<string, Record<Locale, string[]>> = {
   }
 };
 
+type BeginnerDeepDive = Record<Locale, { words: string; guided: string; mistake: string; checkpoint: string }>;
+
+const beginnerDeepDives = {
+  "tcpip-basics": {
+    fr: {
+      words: "Mot par mot : IP veut dire adresse d'une interface, comme une etiquette de livraison. Reseau veut dire groupe d'adresses qui peuvent se parler directement. Masque veut dire regle de decoupe entre la partie reseau et la partie machine. Passerelle veut dire sortie vers un autre reseau. Port veut dire porte logique d'un service, pas un cable physique.",
+      guided: "Exemple guide : tu vois 192.168.10.25/24 avec une passerelle 192.168.10.1. Tu lis d'abord le /24 : le reseau est 192.168.10.0. Tu compares ensuite la passerelle : elle est dans le meme reseau, donc elle peut etre jointe directement. Puis tu regardes la cible : 192.168.20.10 n'est pas dans le meme reseau, donc le poste devra passer par la passerelle.",
+      mistake: "Erreur classique : croire qu'une IP identifie toute la machine ou toute la personne. En realite, une machine peut avoir plusieurs interfaces, donc plusieurs IP. Autre piege : voir un port 443 et conclure trop vite que tout est sain. 443 suggere HTTPS, mais il faut verifier le service, le certificat, les journaux et le contexte.",
+      checkpoint: "Checkpoint : si tu peux dire en une phrase qui parle a qui, par quel protocole, vers quel port, et pourquoi la passerelle intervient ou non, tu as compris la lecture de base. Si tu bloques, reviens aux cinq mots : IP, masque, reseau, passerelle, port."
+    },
+    en: {
+      words: "Word by word: IP means an interface address, like a delivery label. Network means a group of addresses that can talk directly. Mask means the split rule between the network part and the machine part. Gateway means exit toward another network. Port means a logical service door, not a physical cable.",
+      guided: "Guided example: you see 192.168.10.25/24 with gateway 192.168.10.1. First read /24: the network is 192.168.10.0. Then compare the gateway: it is in the same network, so it can be reached directly. Then inspect the target: 192.168.20.10 is not in the same network, so the host will use the gateway.",
+      mistake: "Common trap: thinking an IP identifies a whole machine or a person. A machine can have several interfaces, therefore several IPs. Another trap: seeing port 443 and concluding everything is healthy. 443 suggests HTTPS, but you still verify service, certificate, logs, and context.",
+      checkpoint: "Checkpoint: if you can say in one sentence who talks to whom, through which protocol, toward which port, and why the gateway is or is not involved, you understand the base reading. If stuck, return to five words: IP, mask, network, gateway, port."
+    }
+  },
+  "local-lab-vm-setup": {
+    fr: {
+      words: "Mot par mot : lab veut dire environnement d'entrainement. Perimetre veut dire ce qui est autorise et ce qui ne l'est pas. VM veut dire machine virtuelle, donc ordinateur simule dans ton ordinateur. Snapshot veut dire point de retour. Isolation veut dire que le lab ne doit pas toucher tes machines ou services personnels.",
+      guided: "Exemple guide : avant un exercice, tu ecris deux machines autorisees, leur role, le reseau utilise, l'objectif, la regle d'arret et la facon de revenir au snapshot. Ce papier simple transforme l'exercice en zone controlee : tu sais ou tu peux agir, quand t'arreter, et comment reparer une erreur.",
+      mistake: "Erreur classique : installer un outil puis tester au hasard parce que le lab semble local. Un lab local peut quand meme communiquer avec Internet ou ton reseau personnel si l'interface est mal choisie. La bonne habitude est de verifier l'isolation avant l'action, pas apres un doute.",
+      checkpoint: "Checkpoint : tu dois pouvoir montrer ton lab a quelqu'un et repondre sans hesiter : quelles machines, quelles actions, quelle limite, quel retour arriere. Si une reponse manque, le lab n'est pas encore pret."
+    },
+    en: {
+      words: "Word by word: lab means training environment. Scope means what is allowed and what is not. VM means virtual machine, a simulated computer inside your computer. Snapshot means return point. Isolation means the lab should not touch your personal machines or services.",
+      guided: "Guided example: before an exercise, write the two authorized machines, their role, the network, the goal, the stop rule, and the snapshot return method. This simple sheet turns practice into a controlled zone: you know where to act, when to stop, and how to repair a mistake.",
+      mistake: "Common trap: installing a tool and testing randomly because the lab feels local. A local lab can still talk to the Internet or your personal network if the interface is wrong. The good habit is checking isolation before acting, not after doubt appears.",
+      checkpoint: "Checkpoint: you should be able to show your lab to someone and answer without hesitation: which machines, which actions, which limit, which rollback. If an answer is missing, the lab is not ready yet."
+    }
+  },
+  "network-map-first-steps": {
+    fr: {
+      words: "Mot par mot : hote veut dire machine vue sur le reseau. Flux veut dire communication entre une source et une destination. Service veut dire application joignable, comme DNS ou web. Zone veut dire groupe logique, par exemple postes, serveurs ou invites. Hypothese veut dire idee plausible mais pas encore prouvee.",
+      guided: "Exemple guide : tu observes un poste, un DNS, une passerelle et un serveur web. Tu ne dessines pas seulement des icones : tu notes poste vers DNS en UDP/53, poste vers web en TCP/443, poste vers passerelle pour sortir. Chaque fleche doit avoir une raison probable et une preuve ou une question.",
+      mistake: "Erreur classique : confondre carte et decoration. Une carte utile n'est pas celle qui impressionne, c'est celle qui evite de se tromper. Si tu mets une machine en serveur sans preuve, marque confiance faible. Si tu ne sais pas pourquoi un flux existe, garde-le comme inconnue.",
+      checkpoint: "Checkpoint : une bonne carte debutant contient machines, roles supposes, flux principaux, inconnues et prochaine verification. Quand tu peux expliquer chaque fleche en une phrase simple, tu progresses vraiment."
+    },
+    en: {
+      words: "Word by word: host means a machine seen on the network. Flow means communication between a source and a destination. Service means reachable application, such as DNS or web. Zone means logical group, such as workstations, servers, or guests. Hypothesis means plausible idea not yet proven.",
+      guided: "Guided example: you observe a workstation, DNS, gateway, and web server. You do not only draw icons: record workstation to DNS over UDP/53, workstation to web over TCP/443, workstation to gateway for exit. Every arrow needs a likely reason and evidence or a question.",
+      mistake: "Common trap: confusing map with decoration. A useful map is not the one that impresses; it is the one that prevents mistakes. If you mark a machine as server without proof, set confidence low. If you cannot explain a flow, keep it as an unknown.",
+      checkpoint: "Checkpoint: a beginner map contains machines, likely roles, main flows, unknowns, and next verification. When you can explain every arrow in a simple sentence, you are truly progressing."
+    }
+  },
+  "http-basics": {
+    fr: {
+      words: "Mot par mot : client veut dire navigateur ou application qui demande. Serveur veut dire systeme qui repond. Requete veut dire message envoye par le client. Reponse veut dire message renvoye par le serveur. Methode veut dire intention HTTP, comme GET pour lire ou POST pour envoyer. Statut veut dire resultat, comme 200, 302 ou 404.",
+      guided: "Exemple guide : tu cliques sur connexion. Le navigateur envoie POST /login avec des champs. Le serveur repond 302 et ajoute un cookie. Le navigateur suit vers /dashboard. Tu lis donc une histoire : envoi d'identifiants, creation possible de session, redirection, puis page cible.",
+      mistake: "Erreur classique : croire que le navigateur decide de la securite. Le navigateur aide, mais le serveur doit verifier. Un bouton cache, un champ disabled ou une validation HTML ne suffisent jamais. Tout ce qui compte doit etre controle cote serveur.",
+      checkpoint: "Checkpoint : quand tu lis une trace HTTP, separe methode, chemin, statut, en-tetes, cookie et corps. Si tu peux raconter le dialogue sans inventer, tu as la base pour comprendre la securite web."
+    },
+    en: {
+      words: "Word by word: client means browser or application that asks. Server means system that answers. Request means message sent by the client. Response means message returned by the server. Method means HTTP intent, such as GET to read or POST to send. Status means result, such as 200, 302, or 404.",
+      guided: "Guided example: you click sign in. The browser sends POST /login with fields. The server answers 302 and adds a cookie. The browser follows /dashboard. You can read the story: credentials sent, possible session created, redirect, then target page.",
+      mistake: "Common trap: thinking the browser decides security. The browser helps, but the server must verify. A hidden button, disabled field, or HTML validation is never enough. Everything that matters must be checked server-side.",
+      checkpoint: "Checkpoint: when reading HTTP, separate method, path, status, headers, cookie, and body. If you can tell the dialogue without inventing, you have the base for web security."
+    }
+  },
+  "web-form-basics": {
+    fr: {
+      words: "Mot par mot : formulaire veut dire zone ou l'utilisateur envoie des donnees. Champ veut dire une information, comme email. Validation veut dire verification d'une regle. Type veut dire nature attendue, comme texte ou nombre. Longueur veut dire taille maximale. Contrat serveur veut dire liste de ce que le serveur accepte vraiment.",
+      guided: "Exemple guide : un formulaire d'inscription demande email, mot de passe et nom. Le serveur verifie format email, longueur du nom, robustesse du mot de passe et refuse un champ role=admin ajoute a la main. Le formulaire n'est donc pas une confiance : c'est une demande que le serveur doit controler.",
+      mistake: "Erreur classique : penser que si le champ n'apparait pas a l'ecran, il ne peut pas etre envoye. Un utilisateur peut modifier une requete. Le serveur doit ignorer ou refuser les champs inattendus et ne jamais deduire un droit depuis une donnee libre.",
+      checkpoint: "Checkpoint : pour chaque champ, demande-toi quoi verifier, qui a le droit de l'envoyer, quelle limite appliquer et quel message d'erreur afficher. Si tu peux faire cette table, tu sais penser comme un defenseur."
+    },
+    en: {
+      words: "Word by word: form means an area where the user sends data. Field means one piece of information, such as email. Validation means checking a rule. Type means expected nature, such as text or number. Length means maximum size. Server contract means what the server truly accepts.",
+      guided: "Guided example: a sign-up form asks for email, password, and name. The server checks email format, name length, password strength, and rejects a manually added role=admin field. The form is not trust: it is a request the server must control.",
+      mistake: "Common trap: thinking that if a field is not visible, it cannot be sent. A user can modify a request. The server must ignore or reject unexpected fields and never infer rights from free input.",
+      checkpoint: "Checkpoint: for every field, ask what to verify, who may send it, what limit applies, and which error message to show. If you can build that table, you think like a defender."
+    }
+  },
+  "web-auth-foundations": {
+    fr: {
+      words: "Mot par mot : authentification veut dire prouver qui tu es. Autorisation veut dire verifier ce que tu as le droit de faire. Session veut dire souvenir temporaire cote application. Cookie de session veut dire preuve stockee cote navigateur. Role veut dire niveau de droit, comme user ou admin.",
+      guided: "Exemple guide : Alice se connecte, puis demande /factures/42. Le serveur ne doit pas seulement voir qu'Alice est connectee. Il doit verifier que la facture 42 appartient a Alice ou que son role autorise l'acces. Connexion et autorisation sont deux questions differentes.",
+      mistake: "Erreur classique : confondre connecte et autorise. Un utilisateur connecte n'a pas automatiquement acces a tout. Autre piege : faire confiance a un role envoye par le client. Le role fiable vient du serveur, de la base ou d'un jeton verifie.",
+      checkpoint: "Checkpoint : devant chaque action sensible, pose deux questions : qui es-tu, puis as-tu le droit ici et maintenant. Si les deux reponses sont separees, ton modele mental est solide."
+    },
+    en: {
+      words: "Word by word: authentication means proving who you are. Authorization means checking what you are allowed to do. Session means temporary application memory. Session cookie means proof stored in the browser. Role means right level, such as user or admin.",
+      guided: "Guided example: Alice signs in, then requests /invoices/42. The server must not only see that Alice is signed in. It must check that invoice 42 belongs to Alice or that her role allows access. Sign-in and authorization are two different questions.",
+      mistake: "Common trap: confusing signed in and authorized. A signed-in user does not automatically access everything. Another trap: trusting a role sent by the client. A reliable role comes from the server, database, or verified token.",
+      checkpoint: "Checkpoint: before every sensitive action, ask two questions: who are you, then are you allowed here and now. If both answers are separate, your mental model is solid."
+    }
+  },
+  "linux-shell-basics": {
+    fr: {
+      words: "Mot par mot : shell veut dire interface texte pour parler au systeme. Commande veut dire instruction. Repertoire veut dire dossier. Fichier veut dire donnees stockees. Droit veut dire qui peut lire, ecrire ou executer. Journal veut dire trace d'evenements.",
+      guided: "Exemple guide : tu arrives dans un dossier inconnu. Tu utilises pwd pour savoir ou tu es, ls -la pour voir les fichiers, file pour comprendre leur type, puis less pour lire sans modifier. Tu avances comme un analyste : observer, comprendre, conclure doucement.",
+      mistake: "Erreur classique : lancer une commande destructive avant d'avoir observe. En securite, lire vaut souvent mieux qu'agir. Evite de supprimer, de deplacer ou de modifier tant que tu ne sais pas ce que represente le fichier et quel impact aurait le changement.",
+      checkpoint: "Checkpoint : si tu peux expliquer une ligne ls -la avec proprietaire, groupe, droits et nom du fichier, tu as la base. Si tu peux lire un journal sans le modifier, tu gagnes un vrai reflexe d'analyse."
+    },
+    en: {
+      words: "Word by word: shell means text interface to talk to the system. Command means instruction. Directory means folder. File means stored data. Permission means who can read, write, or execute. Log means event trace.",
+      guided: "Guided example: you enter an unknown folder. Use pwd to know where you are, ls -la to see files, file to understand their type, then less to read without modifying. You move like an analyst: observe, understand, conclude carefully.",
+      mistake: "Common trap: running a destructive command before observing. In security, reading is often better than acting. Avoid deleting, moving, or modifying until you know what the file represents and what the change would impact.",
+      checkpoint: "Checkpoint: if you can explain an ls -la line with owner, group, permissions, and file name, you have the base. If you can read a log without modifying it, you gain a real analysis reflex."
+    }
+  },
+  "ctf-evidence-notes": {
+    fr: {
+      words: "Mot par mot : note veut dire trace ecrite de ton raisonnement. Preuve veut dire observation verifiable. Hypothese veut dire idee a tester. Action veut dire ce que tu fais. Conclusion veut dire ce que tu peux dire apres l'observation, sans exagerer.",
+      guided: "Exemple guide : tu testes une page de lab. Note l'objectif, l'URL, l'action, le resultat, puis la conclusion. Une bonne note ressemble a : j'ai essaye ceci, j'ai observe cela, donc je pense ceci, et la prochaine verification est celle-ci.",
+      mistake: "Erreur classique : garder seulement la commande finale. Le vrai apprentissage est dans les essais rates, les changements d'hypothese et les preuves. Sans ces traces, tu ne peux pas expliquer comment tu as progresse.",
+      checkpoint: "Checkpoint : une note utile doit permettre de refaire ton chemin le lendemain. Si tu peux reprendre sans memoire magique, tu as transforme un exercice en competence."
+    },
+    en: {
+      words: "Word by word: note means written trace of your reasoning. Evidence means verifiable observation. Hypothesis means idea to test. Action means what you do. Conclusion means what you can say after observation, without overstating.",
+      guided: "Guided example: you test a lab page. Record goal, URL, action, result, then conclusion. A good note sounds like: I tried this, I observed that, so I think this, and the next verification is this.",
+      mistake: "Common trap: keeping only the final command. The real learning is in failed attempts, changed hypotheses, and evidence. Without those traces, you cannot explain how you progressed.",
+      checkpoint: "Checkpoint: a useful note lets you replay your path the next day. If you can resume without magic memory, you turned an exercise into skill."
+    }
+  },
+  "infrastructure-asset-baseline": {
+    fr: {
+      words: "Mot par mot : actif veut dire element important, comme serveur, base, application ou sauvegarde. Baseline veut dire etat de reference. Proprietaire veut dire personne responsable. Exposition veut dire qui peut atteindre l'actif. Criticite veut dire impact si l'actif tombe ou fuit.",
+      guided: "Exemple guide : une base de donnees interne n'est pas seulement un nom. Tu notes son role, les applications qui l'utilisent, qui la gere, ou elle est exposee, comment elle est sauvegardee et ce qui reste inconnu. La valeur est dans le contexte.",
+      mistake: "Erreur classique : faire une liste d'actifs sans priorite. Dix noms ne disent pas quoi proteger d'abord. Un actif peu visible mais sans sauvegarde testee peut etre plus urgent qu'un poste connu et bien gere.",
+      checkpoint: "Checkpoint : pour chaque actif, tu dois pouvoir repondre : a quoi sert-il, qui en depend, qui y accede, que se passe-t-il s'il tombe, quelle preuve manque. La baseline devient alors utile."
+    },
+    en: {
+      words: "Word by word: asset means important element, such as server, database, application, or backup. Baseline means reference state. Owner means responsible person. Exposure means who can reach the asset. Criticality means impact if the asset fails or leaks.",
+      guided: "Guided example: an internal database is not only a name. Record its role, applications that use it, who manages it, where it is exposed, how it is backed up, and what remains unknown. The value is in context.",
+      mistake: "Common trap: building an asset list without priority. Ten names do not say what to protect first. A less visible asset without tested backup can be more urgent than a known and well-managed workstation.",
+      checkpoint: "Checkpoint: for every asset, you should answer: what it does, who depends on it, who reaches it, what happens if it fails, which proof is missing. Then the baseline becomes useful."
+    }
+  },
+  "opsec-public-footprint-review": {
+    fr: {
+      words: "Mot par mot : OpSec veut dire securite operationnelle, donc limiter ce que tes habitudes revelent. Empreinte publique veut dire informations visibles par tous. Correlation veut dire relier plusieurs petits indices. Reduction veut dire enlever, flouter ou separer ce qui expose trop.",
+      guided: "Exemple guide : une ville seule semble banale, un outil publie semble banal, un horaire semble banal. Ensemble, ville + outil + horaires + employeur peuvent aider quelqu'un a te cibler. L'analyse OpSec regarde les combinaisons, pas seulement les details isoles.",
+      mistake: "Erreur classique : supprimer au hasard ou paniquer. L'objectif n'est pas de disparaitre, mais de choisir ce qui reste public. Une bonne reduction garde ce qui sert ton objectif et retire ce qui donne trop de contexte inutile.",
+      checkpoint: "Checkpoint : pour chaque info publique, demande : qui peut la voir, que peut-on deviner avec, quel autre indice la renforce, est-elle necessaire. Cette grille simple donne un vrai controle."
+    },
+    en: {
+      words: "Word by word: OpSec means operational security, limiting what your habits reveal. Public footprint means information visible to everyone. Correlation means connecting several small clues. Reduction means removing, blurring, or separating what exposes too much.",
+      guided: "Guided example: a city alone looks ordinary, a published tool looks ordinary, a schedule looks ordinary. Together, city + tool + schedule + employer can help someone target you. OpSec analysis reads combinations, not only isolated details.",
+      mistake: "Common trap: deleting randomly or panicking. The goal is not to disappear, but to choose what stays public. Good reduction keeps what serves your goal and removes unnecessary context.",
+      checkpoint: "Checkpoint: for every public detail, ask: who can see it, what can be guessed from it, which other clue reinforces it, is it necessary. This simple grid gives real control."
+    }
+  },
+  "crypto-hashing-and-passwords": {
+    fr: {
+      words: "Mot par mot : hash veut dire empreinte calculee depuis une donnee. Non reversible veut dire qu'on ne doit pas retrouver le texte original depuis l'empreinte. Sel veut dire valeur unique ajoutee pour casser les comparaisons. Fonction lente veut dire calcul volontairement couteux pour ralentir les essais.",
+      guided: "Exemple guide : deux personnes ont le meme mot de passe. Sans sel, le hash peut etre identique et donc facile a comparer. Avec un sel different pour chacun, les empreintes changent. Avec une fonction lente adaptee, tester des millions de mots de passe devient beaucoup plus couteux.",
+      mistake: "Erreur classique : confondre hash et chiffrement. Le chiffrement se decrypte avec une cle. Un hash de mot de passe ne doit pas se decrypter. On verifie un mot de passe en recalculant l'empreinte avec les bons parametres, pas en recuperant le mot de passe.",
+      checkpoint: "Checkpoint : si tu peux expliquer hash, sel et lenteur avec une analogie, puis dire ou l'analogie s'arrete, tu comprends mieux que beaucoup de debutants. Le detail important est la verification, pas la recuperation."
+    },
+    en: {
+      words: "Word by word: hash means fingerprint computed from data. Non-reversible means the original text should not be recovered from the fingerprint. Salt means unique value added to break comparisons. Slow function means intentionally costly computation to slow attempts.",
+      guided: "Guided example: two people use the same password. Without salt, the hash can be identical and easy to compare. With a different salt for each, fingerprints change. With a suitable slow function, testing millions of passwords becomes much more expensive.",
+      mistake: "Common trap: confusing hash and encryption. Encryption decrypts with a key. A password hash should not decrypt. You verify a password by recomputing the fingerprint with the right parameters, not by recovering the password.",
+      checkpoint: "Checkpoint: if you can explain hash, salt, and slowness with an analogy, then say where the analogy stops, you understand more than many beginners. The key detail is verification, not recovery."
+    }
+  },
+  "forensics-timeline-first-pass": {
+    fr: {
+      words: "Mot par mot : forensic veut dire analyse de traces apres un evenement. Chronologie veut dire ordre des faits dans le temps. Artefact veut dire trace utile, comme journal, fichier, compte ou connexion. Hypothese veut dire interpretation. Confiance veut dire force de la preuve.",
+      guided: "Exemple guide : tu vois une connexion a 10:03, un fichier modifie a 10:05, puis une alerte a 10:08. Tu ne dis pas tout de suite 'attaque terminee'. Tu ecris les faits, la source de chaque fait, le fuseau horaire, puis ce que tu peux supposer prudemment.",
+      mistake: "Erreur classique : raconter une histoire trop vite. Une chronologie n'est pas un roman, c'est une table de faits. Si l'heure vient de sources differentes ou de fuseaux differents, la conclusion doit rester prudente jusqu'a correlation.",
+      checkpoint: "Checkpoint : chaque ligne devrait contenir heure, source, fait observe, hypothese, confiance et question ouverte. Quand tu separes ces colonnes, tu evites de transformer une impression en certitude."
+    },
+    en: {
+      words: "Word by word: forensic means analyzing traces after an event. Timeline means ordering facts in time. Artifact means useful trace, such as log, file, account, or connection. Hypothesis means interpretation. Confidence means strength of evidence.",
+      guided: "Guided example: you see a sign-in at 10:03, a file modified at 10:05, then an alert at 10:08. Do not immediately say 'attack complete'. Write the facts, source of each fact, time zone, then what you can carefully infer.",
+      mistake: "Common trap: telling a story too fast. A timeline is not a novel, it is a table of facts. If times come from different sources or time zones, the conclusion stays careful until correlation.",
+      checkpoint: "Checkpoint: every line should contain time, source, observed fact, hypothesis, confidence, and open question. When you separate these columns, you avoid turning an impression into certainty."
+    }
+  }
+} satisfies Record<string, BeginnerDeepDive>;
+
+for (const [slug, deepDive] of Object.entries(beginnerDeepDives)) {
+  const course = courses.find((item) => item.slug === slug);
+
+  if (course) {
+    course.sections.fr = [
+      { title: "Mot par mot", body: deepDive.fr.words },
+      { title: "Exemple guidé pas à pas", body: deepDive.fr.guided },
+      { title: "Erreur classique à éviter", body: deepDive.fr.mistake },
+      { title: "Checkpoint débutant", body: deepDive.fr.checkpoint },
+      ...course.sections.fr
+    ];
+    course.sections.en = [
+      { title: "Word by word", body: deepDive.en.words },
+      { title: "Guided example step by step", body: deepDive.en.guided },
+      { title: "Common trap to avoid", body: deepDive.en.mistake },
+      { title: "Beginner checkpoint", body: deepDive.en.checkpoint },
+      ...course.sections.en
+    ];
+  }
+}
+
 for (const [slug, enhancement] of Object.entries(courseEnhancements)) {
   const course = courses.find((item) => item.slug === slug);
 

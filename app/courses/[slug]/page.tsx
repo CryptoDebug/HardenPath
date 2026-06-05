@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { CourseValidationPanel } from "@/components/course/course-validation-panel";
 import { ExerciseFlipCard } from "@/components/course/exercise-flip-card";
+import { LessonBriefing } from "@/components/course/lesson-briefing";
 import { AccessGate } from "@/components/ui/access-gate";
 import { Badge } from "@/components/ui/badge";
 import { courses, getCategory, getCourse } from "@/content/catalog";
@@ -138,20 +139,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </section>
           </div>
 
-          <section className="mt-8">
-            <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.content}</h2>
-            <div className="mt-4 space-y-4">
-              {course.sections[locale].map((section, index) => (
-                <div className="hp-route-step" key={section.title}>
-                  <span className="hp-checkpoint">0{index + 1}</span>
-                  <div className="hp-panel rounded-sm p-5">
-                  <h3 className="hp-wrap text-lg font-black text-white">{section.title}</h3>
-                  <p className="hp-wrap mt-2 text-sm leading-7 text-slate-300">{section.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+          <LessonBriefing locale={locale} sections={course.sections[locale]} title={dictionary.course.content} />
 
           <section className="mt-8">
             <h2 className="hp-wrap text-2xl font-black text-white">{dictionary.course.exercises}</h2>
