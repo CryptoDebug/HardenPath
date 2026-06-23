@@ -55,7 +55,7 @@
     "submitting": "Vérification...",
     "sessionActive": "Session active",
     "databaseUnavailable": "La base de données est indisponible. Lance Docker Desktop et le service PostgreSQL, puis réessaie.",
-    "invalidCredentials": "Connexion impossible. Vérifie tes identifiants et que PostgreSQL est bien lancé.",
+    "invalidCredentials": "Email ou mot de passe incorrect.",
     "accountExists": "Un compte utilise déjà cette adresse email.",
     "genericError": "La demande n'a pas pu aboutir. Vérifie les champs puis réessaie."
   },

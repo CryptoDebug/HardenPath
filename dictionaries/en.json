@@ -55,7 +55,7 @@
     "submitting": "Checking...",
     "sessionActive": "Session active",
     "databaseUnavailable": "The database is unavailable. Start Docker Desktop and PostgreSQL, then try again.",
-    "invalidCredentials": "Unable to sign in. Check your credentials and make sure PostgreSQL is running.",
+    "invalidCredentials": "Incorrect email or password.",
     "accountExists": "An account already uses this email address.",
     "genericError": "The request could not be completed. Check the fields and try again."
   },

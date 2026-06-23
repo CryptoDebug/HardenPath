@@ -29,6 +29,8 @@ type AuthPanelProps = {
   dictionary: AccountDictionary;
 };
 
+type DatabaseState = "available" | "unavailable" | "unknown";
+
 function AuthForms({ dictionary }: AuthPanelProps) {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -39,6 +41,22 @@ function AuthForms({ dictionary }: AuthPanelProps) {
   function changeMode(nextMode: "signin" | "register") {
     setMode(nextMode);
     setFeedback(null);
+  }
+
+  async function getDatabaseState(): Promise<DatabaseState> {
+    try {
+      const response = await fetch("/api/health/database", {
+        cache: "no-store"
+      });
+
+      if (response.ok) {
+        return "available";
+      }
+
+      return response.status === 503 ? "unavailable" : "unknown";
+    } catch {
+      return "unknown";
+    }
   }
 
   async function handleSubmit(formData: FormData) {
@@ -79,14 +97,22 @@ function AuthForms({ dictionary }: AuthPanelProps) {
       });
 
       if (!result?.ok) {
-        setFeedback({ message: dictionary.invalidCredentials, tone: "error" });
+        const databaseState = await getDatabaseState();
+        const message =
+          databaseState === "available"
+            ? dictionary.invalidCredentials
+            : databaseState === "unavailable"
+              ? dictionary.databaseUnavailable
+              : dictionary.genericError;
+        setFeedback({ message, tone: "error" });
         return;
       }
 
       setFeedback({ message: dictionary.sessionActive, tone: "success" });
       router.refresh();
     } catch {
-      setFeedback({ message: dictionary.databaseUnavailable, tone: "error" });
+      const databaseState = await getDatabaseState();
+      setFeedback({ message: databaseState === "unavailable" ? dictionary.databaseUnavailable : dictionary.genericError, tone: "error" });
     } finally {
       setIsSubmitting(false);
     }
