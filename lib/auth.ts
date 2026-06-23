@@ -4,9 +4,10 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { normalizeEmail } from "@/lib/account-security";
 
 const credentialsSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email().transform(normalizeEmail),
   password: z.string().min(8)
 });
 
@@ -32,11 +33,16 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: parsed.data.email }
+        const user = await prisma.user.findFirst({
+          where: { email: { equals: parsed.data.email, mode: "insensitive" } },
+          orderBy: { createdAt: "asc" }
         });
 
         if (!user?.passwordHash) {
+          return null;
+        }
+
+        if (process.env.REQUIRE_EMAIL_VERIFICATION === "true" && !user.emailVerified) {
           return null;
         }
 
@@ -50,22 +56,37 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           email: user.email,
           name: user.name,
-          image: user.image
+          image: user.image,
+          sessionVersion: user.sessionVersion
         };
       }
     })
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.sessionVersion = user.sessionVersion ?? 0;
+        token.invalid = false;
+      } else if (token.id) {
+        const current = await prisma.user.findUnique({
+          where: { id: token.id },
+          select: { sessionVersion: true }
+        });
+
+        if (!current || current.sessionVersion !== token.sessionVersion) {
+          token.id = undefined;
+          token.invalid = true;
+        }
       }
 
       return token;
     },
     session({ session, token }) {
-      if (session.user) {
+      if (session.user && token.id && !token.invalid) {
         session.user.id = String(token.id);
+      } else if (session.user) {
+        session.user.id = "";
       }
       return session;
     }

@@ -6,12 +6,13 @@ const TEN_MINUTES = 10 * 60 * 1_000;
 const ONE_HOUR = 60 * 60 * 1_000;
 
 function getClientAddress(request: NextRequest) {
-  const forwardedAddress = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const platformAddress = request.headers.get("cf-connecting-ip") || request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  const proxyAddress = process.env.TRUST_PROXY === "true" ? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() : null;
 
-  return forwardedAddress || request.headers.get("x-real-ip") || "unknown";
+  return platformAddress || proxyAddress || "unavailable";
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (request.method !== "POST") {
     return NextResponse.next();
   }
@@ -20,7 +21,31 @@ export function proxy(request: NextRequest) {
   const limit = isRegistration ? 5 : 10;
   const windowMs = isRegistration ? ONE_HOUR : TEN_MINUTES;
   const scope = isRegistration ? "registration" : "credentials";
-  const result = consumeRateLimit(`${scope}:${getClientAddress(request)}`, limit, windowMs);
+  let identity = "unknown";
+  try {
+    const payload = isRegistration ? await request.clone().json() : Object.fromEntries(await request.clone().formData());
+    identity = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "unknown";
+  } catch {
+    identity = "unknown";
+  }
+
+  let result;
+  try {
+    const address = getClientAddress(request);
+    const [identityLimit, addressLimit] = await Promise.all([
+      consumeRateLimit(`${scope}:identity:${identity}`, limit, windowMs),
+      consumeRateLimit(`${scope}:address:${address}`, isRegistration ? 30 : 100, windowMs)
+    ]);
+    result = {
+      allowed: identityLimit.allowed && addressLimit.allowed,
+      limit: identityLimit.limit,
+      remaining: Math.min(identityLimit.remaining, addressLimit.remaining),
+      resetAt: Math.max(identityLimit.resetAt, addressLimit.resetAt)
+    };
+  } catch (error) {
+    console.error("Rate limit storage unavailable", error);
+    return NextResponse.json({ code: "DATABASE_UNAVAILABLE", error: "Request protection is unavailable." }, { status: 503 });
+  }
   const retryAfter = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1_000));
 
   if (!result.allowed) {

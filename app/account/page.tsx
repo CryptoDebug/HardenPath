@@ -5,12 +5,29 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getLearningStats } from "@/lib/learning";
+import { AccountSettings } from "@/components/account/account-settings";
+import { prisma } from "@/lib/db";
 
 export default async function AccountPage() {
   const locale = await getLocale();
   const dictionary = await getDictionary(locale);
   const session = await getServerSession(authOptions);
   const stats = await getLearningStats(session?.user?.id);
+  const account = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          emailVerified: true,
+          publicHandle: true,
+          publicProfileEnabled: true,
+          examAttempts: {
+            orderBy: { completedAt: "desc" },
+            select: { categorySlug: true, completedAt: true, disqualified: true, passed: true, score: true },
+            take: 5
+          }
+        }
+      })
+    : null;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 lg:px-8">
@@ -31,7 +48,7 @@ export default async function AccountPage() {
           <div className="hp-panel hp-path-card rounded-sm p-5">
             <ChartNoAxesColumnIncreasing aria-hidden className="h-6 w-6 text-mint" />
             <h2 className="hp-wrap mt-4 text-xl font-black text-white">{locale === "fr" ? "État d'entraînement" : "Training state"}</h2>
-            {session ? (
+            {session?.user?.id ? (
               <div className="mt-5 space-y-4">
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-3 text-sm font-semibold text-slate-200">
@@ -64,7 +81,7 @@ export default async function AccountPage() {
               <Award aria-hidden className="h-6 w-6 text-amber" />
               <h2 className="hp-wrap mt-4 text-xl font-black text-white">Badges</h2>
               <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">
-                {session
+                {session?.user?.id
                   ? locale === "fr"
                     ? `${stats.badgeCount} badge(s) débloqué(s).`
                     : `${stats.badgeCount} badge(s) unlocked.`
@@ -85,6 +102,20 @@ export default async function AccountPage() {
           </div>
         </div>
       </section>
+      {account ? <AccountSettings copy={dictionary.account.settings} emailVerified={Boolean(account.emailVerified)} initialHandle={account.publicHandle ?? ""} initialPublic={account.publicProfileEnabled} /> : null}
+      {account?.examAttempts.length ? (
+        <section className="hp-panel mt-8 rounded-sm p-5">
+          <h2 className="text-xl font-black text-white">{locale === "fr" ? "Historique des examens" : "Exam history"}</h2>
+          <div className="mt-4 grid gap-3">
+            {account.examAttempts.map((attempt) => (
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-white/10 bg-black/20 p-3" key={`${attempt.categorySlug}-${attempt.completedAt.toISOString()}`}>
+                <div><p className="font-black text-white">{attempt.categorySlug}</p><p className="text-xs text-steel">{attempt.completedAt.toLocaleDateString(locale)}</p></div>
+                <p className={attempt.passed ? "font-black text-mint" : "font-black text-amber"}>{attempt.score}% · {attempt.disqualified ? (locale === "fr" ? "éliminatoire" : "disqualified") : attempt.passed ? (locale === "fr" ? "réussi" : "passed") : (locale === "fr" ? "à revoir" : "review")}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

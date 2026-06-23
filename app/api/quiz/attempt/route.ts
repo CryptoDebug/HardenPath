@@ -6,6 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { gradeQuestions, hasCompleteAnswerSet } from "@/lib/assessment";
 import { userHasPremium } from "@/lib/learning";
+import { consumeUserRateLimit } from "@/lib/request-rate-limit";
 
 const attemptSchema = z.object({
   answers: z.array(z.object({
@@ -22,7 +23,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Authentication required." }, { status: 401 });
   }
 
-  const parsed = attemptSchema.safeParse(await request.json());
+  const rateLimit = await consumeUserRateLimit("quiz", session.user.id, 60, 10 * 60 * 1_000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many quiz attempts." }, { status: 429 });
+  }
+
+  let body: unknown;
+  try { body = await request.json(); } catch { return NextResponse.json({ error: "Invalid JSON." }, { status: 400 }); }
+  const parsed = attemptSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid quiz payload." }, { status: 400 });

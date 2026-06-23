@@ -15,6 +15,7 @@ type CourseBrowserProps = {
   locale: Locale;
   locked: boolean;
   premiumLabel: string;
+  premiumAccess: boolean;
 };
 
 const labels = {
@@ -36,7 +37,7 @@ const labels = {
   }
 } satisfies Record<Locale, Record<string, string>>;
 
-export function CourseBrowser({ completedSlugs, courses, freeLabel, locale, locked, premiumLabel }: CourseBrowserProps) {
+export function CourseBrowser({ completedSlugs, courses, freeLabel, locale, locked, premiumAccess, premiumLabel }: CourseBrowserProps) {
   const [query, setQuery] = useState("");
   const [completionFilter, setCompletionFilter] = useState<CompletionFilter>("all");
   const completed = useMemo(() => new Set(completedSlugs), [completedSlugs]);
@@ -107,6 +108,7 @@ export function CourseBrowser({ completedSlugs, courses, freeLabel, locale, lock
               key={course.slug}
               locale={locale}
               locked={locked}
+              premiumAccess={premiumAccess}
               premiumLabel={premiumLabel}
             />
           ))}

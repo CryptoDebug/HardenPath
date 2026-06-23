@@ -4,6 +4,7 @@ import { signIn, signOut, useSession, SessionProvider } from "next-auth/react";
 import { useState } from "react";
 import { LogIn, LogOut, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type AccountDictionary = {
   email: string;
@@ -24,6 +25,9 @@ type AccountDictionary = {
   tooManyAttempts: string;
   accountExists: string;
   genericError: string;
+  forgotPassword: string;
+  passwordRule: string;
+  verificationSent: string;
 };
 
 type AuthPanelProps = {
@@ -77,7 +81,7 @@ function AuthForms({ dictionary }: AuthPanelProps) {
             password
           })
         });
-        const payload = (await response.json().catch(() => null)) as { code?: string } | null;
+        const payload = (await response.json().catch(() => null)) as { code?: string; verificationRequired?: boolean; verificationSent?: boolean } | null;
 
         if (!response.ok) {
           const message =
@@ -89,6 +93,11 @@ function AuthForms({ dictionary }: AuthPanelProps) {
                 ? dictionary.databaseUnavailable
                 : dictionary.genericError;
           setFeedback({ message, tone: "error" });
+          return;
+        }
+
+        if (payload?.verificationRequired || payload?.verificationSent) {
+          setFeedback({ message: dictionary.verificationSent, tone: "success" });
           return;
         }
       }
@@ -204,12 +213,14 @@ function AuthForms({ dictionary }: AuthPanelProps) {
           {dictionary.password}
           <input
             className="focus-ring rounded-sm border border-white/10 bg-black/20 px-3 py-3 text-white"
-            minLength={8}
+            minLength={mode === "register" ? 12 : 8}
             name="password"
             required
             type="password"
           />
         </label>
+        {mode === "register" ? <p className="-mt-2 text-xs font-bold text-steel">{dictionary.passwordRule}</p> : null}
+        {mode === "signin" ? <Link className="-mt-2 text-sm font-bold text-mint hover:text-white" href="/account/reset-password">{dictionary.forgotPassword}</Link> : null}
         <button className="hp-button-primary justify-center disabled:cursor-wait disabled:opacity-60" disabled={isSubmitting} type="submit">
           {isSubmitting ? dictionary.submitting : mode === "signin" ? dictionary.signin : dictionary.register}
         </button>

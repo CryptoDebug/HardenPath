@@ -58,7 +58,29 @@
     "invalidCredentials": "Email ou mot de passe incorrect.",
     "tooManyAttempts": "Trop de tentatives. Patiente quelques minutes avant de réessayer.",
     "accountExists": "Un compte utilise déjà cette adresse email.",
-    "genericError": "La demande n'a pas pu aboutir. Vérifie les champs puis réessaie."
+    "genericError": "La demande n'a pas pu aboutir. Vérifie les champs puis réessaie.",
+    "forgotPassword": "Mot de passe oublié ?",
+    "passwordRule": "12 caractères minimum, avec au moins une lettre et un chiffre.",
+    "verificationSent": "Compte créé. Consulte ton email pour confirmer ton adresse.",
+    "settings": {
+      "danger": "Zone sensible",
+      "delete": "Supprimer définitivement mon compte",
+      "deleteHelp": "Saisis DELETE et ton mot de passe. Progression, badges et historique seront supprimés.",
+      "handle": "Pseudo public",
+      "password": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "privacy": "Profil public",
+      "privacyHelp": "Privé par défaut. Active cette option uniquement si tu veux apparaître dans l’annuaire.",
+      "save": "Enregistrer",
+      "security": "Sécurité",
+      "change": "Changer le mot de passe",
+      "verify": "Renvoyer l’email de vérification",
+      "verified": "Email vérifié",
+      "saved": "Préférences enregistrées.",
+      "genericError": "La demande a échoué.",
+      "emailSent": "Email envoyé.",
+      "emailUnavailable": "Envoi indisponible."
+    }
   },
   "ethics": {
     "title": "Règles d'engagement HardenPath",

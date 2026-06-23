@@ -19,10 +19,11 @@ type CourseCardProps = {
   premiumLabel: string;
   completed?: boolean;
   locked?: boolean;
+  premiumAccess?: boolean;
 };
 
-export function CourseCard({ course, locale, freeLabel, premiumLabel, completed = false, locked = false }: CourseCardProps) {
-  const isLocked = course.isPremium || locked;
+export function CourseCard({ course, locale, freeLabel, premiumLabel, completed = false, locked = false, premiumAccess = false }: CourseCardProps) {
+  const isLocked = locked || (course.isPremium && !premiumAccess);
 
   return (
     <Link

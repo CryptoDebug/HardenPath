@@ -7,7 +7,7 @@ import { categories, getCategory, getCoursesByCategory, type Level } from "@/con
 import { getBeginnerExam, getBeginnerExamRequirement } from "@/content/exams";
 import { authOptions } from "@/lib/auth";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { getCompletedCourseSlugs } from "@/lib/learning";
+import { getCompletedCourseSlugs, userHasPremium } from "@/lib/learning";
 import { Award, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 
@@ -36,8 +36,12 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     ? (query.level as Level)
     : "all";
 
-  const categoryCourses = getCoursesByCategory(category.slug).filter((course) => activeLevel === "all" || course.level === activeLevel);
+  const allCategoryCourses = getCoursesByCategory(category.slug);
+  const categoryCourses = allCategoryCourses.filter((course) => activeLevel === "all" || course.level === activeLevel);
+  const availableLevels = Array.from(new Set(allCategoryCourses.map((course) => course.level)));
   const completedSlugs = await getCompletedCourseSlugs(session?.user?.id);
+  const hasPremium = session?.user?.id ? await userHasPremium(session.user.id) : false;
+  const isAuthenticated = Boolean(session?.user?.id);
   const beginnerExam = getBeginnerExam(category.slug);
   const beginnerRequirement = getBeginnerExamRequirement(category.slug);
   const completedBeginnerCourses = beginnerRequirement.courseSlugs.filter((courseSlug) => completedSlugs.includes(courseSlug)).length;
@@ -54,7 +58,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           </div>
           <h1 className="hp-wrap mt-5 text-4xl font-black leading-tight text-white">{category.title[locale]}</h1>
           <p className="hp-wrap mt-4 max-w-3xl text-base leading-7 text-slate-300">{category.description[locale]}</p>
-          {!session ? (
+          {!isAuthenticated ? (
             <p className="hp-wrap mt-4 max-w-3xl rounded-md border border-amber/30 bg-amber/[0.09] p-4 text-sm font-bold leading-6 text-amber">
               {locale === "fr"
                 ? "Connecte-toi pour ouvrir les modules, valider les jalons et reprendre ton parcours."
@@ -63,7 +67,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
           ) : null}
           <div className="hp-ledger mt-7 rounded-sm p-4">
             <p className="hp-kicker mb-3">{dictionary.category.levelFilter}</p>
-            <LevelFilter active={activeLevel} basePath={`/categories/${category.slug}`} locale={locale} />
+            <LevelFilter active={activeLevel} availableLevels={availableLevels} basePath={`/categories/${category.slug}`} locale={locale} />
           </div>
           {beginnerExam ? (
             <div className="mt-5 rounded-sm border border-white/10 bg-white/[0.055] p-4">
@@ -93,7 +97,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         courses={categoryCourses}
         freeLabel={dictionary.home.free}
         locale={locale}
-        locked={!session}
+        locked={!isAuthenticated}
+        premiumAccess={hasPremium}
         premiumLabel={dictionary.home.premium}
       />
     </div>

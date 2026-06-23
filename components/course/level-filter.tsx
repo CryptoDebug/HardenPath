@@ -15,12 +15,13 @@ type LevelFilterProps = {
   locale: Locale;
   active: Level | "all";
   basePath: string;
+  availableLevels: Level[];
 };
 
-export function LevelFilter({ locale, active, basePath }: LevelFilterProps) {
+export function LevelFilter({ locale, active, availableLevels, basePath }: LevelFilterProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      {levels.map((level) => (
+      {levels.filter((level) => level === "all" || availableLevels.includes(level)).map((level) => (
         <Link
           className={`focus-ring hp-wrap rounded-sm border px-3 py-2 text-sm font-black transition ${
             active === level

@@ -58,7 +58,29 @@
     "invalidCredentials": "Incorrect email or password.",
     "tooManyAttempts": "Too many attempts. Wait a few minutes before trying again.",
     "accountExists": "An account already uses this email address.",
-    "genericError": "The request could not be completed. Check the fields and try again."
+    "genericError": "The request could not be completed. Check the fields and try again.",
+    "forgotPassword": "Forgot password?",
+    "passwordRule": "At least 12 characters, including a letter and a number.",
+    "verificationSent": "Account created. Check your email to verify your address.",
+    "settings": {
+      "danger": "Sensitive area",
+      "delete": "Permanently delete my account",
+      "deleteHelp": "Enter DELETE and your password. Progress, badges, and history will be deleted.",
+      "handle": "Public handle",
+      "password": "Current password",
+      "newPassword": "New password",
+      "privacy": "Public profile",
+      "privacyHelp": "Private by default. Enable only if you want to appear in the directory.",
+      "save": "Save",
+      "security": "Security",
+      "change": "Change password",
+      "verify": "Resend verification email",
+      "verified": "Email verified",
+      "saved": "Preferences saved.",
+      "genericError": "The request failed.",
+      "emailSent": "Email sent.",
+      "emailUnavailable": "Delivery unavailable."
+    }
   },
   "ethics": {
     "title": "HardenPath rules of engagement",

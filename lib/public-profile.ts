@@ -6,7 +6,7 @@ import type { Locale } from "@/lib/i18n-client";
 
 const publicUserSelect = {
   id: true,
-  name: true,
+  publicHandle: true,
   streakDays: true
 } as const;
 
@@ -42,19 +42,17 @@ export type PublicProfile = PublicProfileSummary & {
   }[];
 };
 
-function getPublicName(name?: string | null) {
-  const trimmed = name?.trim();
-
-  return trimmed && trimmed.length > 0 ? trimmed : "Apprenant HardenPath";
+function getPublicName(publicHandle?: string | null) {
+  return publicHandle ? `@${publicHandle}` : "Apprenant HardenPath";
 }
 
-function summarizeProgress(user: { id: string; name: string | null; streakDays: number }, completedSlugs: Set<string>, badgeCount: number): PublicProfileSummary {
+function summarizeProgress(user: { id: string; publicHandle: string | null; streakDays: number }, completedSlugs: Set<string>, badgeCount: number): PublicProfileSummary {
   const completedCourses = courses.filter((course) => completedSlugs.has(course.slug)).length;
   const totalCourses = courses.length;
 
   return {
     id: user.id,
-    name: getPublicName(user.name),
+    name: getPublicName(user.publicHandle),
     streakDays: user.streakDays,
     completedCourses,
     totalCourses,
@@ -64,7 +62,7 @@ function summarizeProgress(user: { id: string; name: string | null; streakDays: 
 }
 
 export async function searchPublicLearners(query: string): Promise<PublicProfileSummary[]> {
-  const search = query.trim();
+  const search = query.trim().replace(/^@/, "").slice(0, 64);
 
   if (search.length < 2) {
     return [];
@@ -72,13 +70,14 @@ export async function searchPublicLearners(query: string): Promise<PublicProfile
 
   const users = await prisma.user.findMany({
     where: {
-      name: {
+      publicHandle: {
         contains: search,
         mode: "insensitive"
-      }
+      },
+      publicProfileEnabled: true
     },
     orderBy: {
-      name: "asc"
+      publicHandle: "asc"
     },
     select: {
       ...publicUserSelect,
@@ -117,8 +116,8 @@ export async function searchPublicLearners(query: string): Promise<PublicProfile
 }
 
 export async function getPublicLearnerProfile(userId: string, locale: Locale): Promise<PublicProfile | null> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
+  const user = await prisma.user.findFirst({
+    where: { id: userId, publicProfileEnabled: true },
     select: publicUserSelect
   });
 

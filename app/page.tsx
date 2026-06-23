@@ -27,7 +27,8 @@ export default async function HomePage() {
   const dictionary = await getDictionary(locale);
   const session = await getServerSession(authOptions);
   const stats = await getLearningStats(session?.user?.id);
-  const completedSteps = session ? Math.min(stats.completedCourses, 5) : 0;
+  const isAuthenticated = Boolean(session?.user?.id);
+  const completedSteps = isAuthenticated ? Math.min(stats.completedCourses, 5) : 0;
   const pathSteps =
     locale === "fr"
       ? ["Cadre", "Fondations", "Pratique", "Validation", "Badge"]
@@ -110,7 +111,7 @@ export default async function HomePage() {
         <LearningPulse
           badgeCount={stats.badgeCount}
           completedCourses={stats.completedCourses}
-          isAuthenticated={Boolean(session)}
+          isAuthenticated={isAuthenticated}
           locale={locale}
           streakDays={stats.streakDays}
           totalCourses={stats.totalCourses}
@@ -168,9 +169,9 @@ export default async function HomePage() {
                 index={index}
                 key={category.slug}
                 locale={locale}
-                locked={!session}
+                locked={!isAuthenticated}
                 moduleCount={getCoursesByCategory(category.slug).length}
-                progress={session ? stats.categoryProgress[category.slug] ?? 0 : undefined}
+                progress={isAuthenticated ? stats.categoryProgress[category.slug] ?? 0 : undefined}
               />
             ))}
           </div>

@@ -1,9 +1,12 @@
-import { ProgressStatus } from "@prisma/client";
+import { Prisma, ProgressStatus } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { userHasPremium } from "@/lib/learning";
+import { consumeUserRateLimit } from "@/lib/request-rate-limit";
+import { nextStreak } from "@/lib/streak";
 
 const completeSchema = z.object({
   courseSlug: z.string().min(1)
@@ -15,8 +18,16 @@ export async function POST(request: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Authentication required." }, { status: 401 });
   }
+  const userId = session.user.id;
 
-  const parsed = completeSchema.safeParse(await request.json());
+  const rateLimit = await consumeUserRateLimit("progress", userId, 30, 10 * 60 * 1_000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many progress requests." }, { status: 429 });
+  }
+
+  let body: unknown;
+  try { body = await request.json(); } catch { return NextResponse.json({ error: "Invalid JSON." }, { status: 400 }); }
+  const parsed = completeSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid progress payload." }, { status: 400 });
@@ -24,17 +35,21 @@ export async function POST(request: Request) {
 
   const course = await prisma.course.findUnique({
     where: { slug: parsed.data.courseSlug },
-    select: { categorySlug: true, id: true, slug: true }
+    select: { categorySlug: true, id: true, isPremium: true, slug: true }
   });
 
   if (!course) {
     return NextResponse.json({ error: "Course is not available yet." }, { status: 404 });
   }
 
+  if (course.isPremium && !(await userHasPremium(userId))) {
+    return NextResponse.json({ error: "A premium subscription is required." }, { status: 403 });
+  }
+
   const passedAttempts = await prisma.quizAttempt.findMany({
     where: {
       passed: true,
-      userId: session.user.id,
+      userId,
       quiz: {
         courseId: course.id,
         slug: "validation"
@@ -51,42 +66,42 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "A perfect validation quiz score is required before completing this module." }, { status: 403 });
   }
 
-  const existing = await prisma.progress.findFirst({
-    where: {
-      userId: session.user.id,
-      courseId: course.id,
-      lessonId: null
-    },
-    select: { id: true }
-  });
-
-  const progress = existing
-    ? await prisma.progress.update({
-        where: { id: existing.id },
-        data: {
-          status: ProgressStatus.COMPLETED,
-          percent: 100,
-          completedAt: new Date()
-        },
-        select: {
-          percent: true,
-          status: true
-        }
-      })
-    : await prisma.progress.create({
-        data: {
-          userId: session.user.id,
-          courseId: course.id,
-          lessonId: null,
-          status: ProgressStatus.COMPLETED,
-          percent: 100,
-          completedAt: new Date()
-        },
-        select: {
-          percent: true,
-          status: true
-        }
+  const completedAt = new Date();
+  const progress = await prisma.$transaction(
+    async (transaction) => {
+      const previous = await transaction.progress.findFirst({
+        where: { courseId: course.id, lessonId: null, userId },
+        select: { status: true }
       });
+      const rows = await transaction.$queryRaw<Array<{ percent: number; status: ProgressStatus }>>`
+        INSERT INTO "Progress" ("id", "userId", "courseId", "lessonId", "status", "percent", "completedAt", "updatedAt")
+        VALUES (${crypto.randomUUID()}, ${userId}, ${course.id}, NULL, 'COMPLETED'::"ProgressStatus", 100, ${completedAt}, ${completedAt})
+        ON CONFLICT ("userId", "courseId", "lessonId") DO UPDATE SET
+          "status" = 'COMPLETED'::"ProgressStatus",
+          "percent" = 100,
+          "completedAt" = EXCLUDED."completedAt",
+          "updatedAt" = EXCLUDED."updatedAt"
+        RETURNING "percent", "status"
+      `;
+
+      if (previous?.status !== ProgressStatus.COMPLETED) {
+        const user = await transaction.user.findUniqueOrThrow({
+          where: { id: userId },
+          select: { lastLearningAt: true, streakDays: true }
+        });
+        await transaction.user.update({
+          where: { id: userId },
+          data: {
+            lastLearningAt: completedAt,
+            streakDays: nextStreak(user.streakDays, user.lastLearningAt, completedAt)
+          }
+        });
+      }
+
+      return rows[0];
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable }
+  );
 
   const starterBadge = await prisma.badge.findUnique({
     where: { slug: `${course.categorySlug}-starter` },
@@ -98,7 +113,7 @@ export async function POST(request: Request) {
         where: {
           userId_badgeId: {
             badgeId: starterBadge.id,
-            userId: session.user.id
+            userId
           }
         },
         update: {},
@@ -108,7 +123,7 @@ export async function POST(request: Request) {
             courseSlug: course.slug,
             reason: "first_category_module_completed"
           },
-          userId: session.user.id
+          userId
         },
         select: {
           badge: {

@@ -118,12 +118,14 @@ export async function getCompletedCourseSlugs(userId?: string) {
 }
 
 export async function userHasPremium(userId: string) {
+  const now = new Date();
   const subscription = await prisma.subscription.findFirst({
     where: {
       userId,
       status: {
         in: [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING]
       },
+      OR: [{ currentPeriodEnd: null }, { currentPeriodEnd: { gt: now } }],
       plan: {
         slug: "premium"
       }
