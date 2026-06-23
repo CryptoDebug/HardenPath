@@ -21,6 +21,7 @@ type AccountDictionary = {
   sessionActive: string;
   databaseUnavailable: string;
   invalidCredentials: string;
+  tooManyAttempts: string;
   accountExists: string;
   genericError: string;
 };
@@ -80,7 +81,9 @@ function AuthForms({ dictionary }: AuthPanelProps) {
 
         if (!response.ok) {
           const message =
-            payload?.code === "ACCOUNT_EXISTS"
+            payload?.code === "RATE_LIMITED"
+              ? dictionary.tooManyAttempts
+              : payload?.code === "ACCOUNT_EXISTS"
               ? dictionary.accountExists
               : payload?.code === "DATABASE_UNAVAILABLE"
                 ? dictionary.databaseUnavailable
@@ -97,6 +100,11 @@ function AuthForms({ dictionary }: AuthPanelProps) {
       });
 
       if (!result?.ok) {
+        if (result?.status === 429) {
+          setFeedback({ message: dictionary.tooManyAttempts, tone: "error" });
+          return;
+        }
+
         const databaseState = await getDatabaseState();
         const message =
           databaseState === "available"
