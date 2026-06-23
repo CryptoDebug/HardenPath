@@ -14,7 +14,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html data-scroll-behavior="smooth" lang={locale}>
-      <body>
+      <body suppressHydrationWarning>
         <Navbar locale={locale} dictionary={dictionary.nav} />
         <main>{children}</main>
       </body>
