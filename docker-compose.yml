@@ -5,29 +5,52 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-hardenpath}
       POSTGRES_USER: ${POSTGRES_USER:-hardenpath}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hardenpath_dev_password}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hardenpath} -d ${POSTGRES_DB:-hardenpath}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  app:
-    build: .
-    restart: unless-stopped
+  migrate:
+    build:
+      context: .
+      target: migrator
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-hardenpath}:${POSTGRES_PASSWORD:-hardenpath_dev_password}@db:5432/${POSTGRES_DB:-hardenpath}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-hardenpath}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-hardenpath}?schema=public
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      target: runner
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-hardenpath}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-hardenpath}?schema=public
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-with-openssl-rand-base64-32}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NEXTAUTH_SECRET must be set}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      REQUIRE_EMAIL_VERIFICATION: ${REQUIRE_EMAIL_VERIFICATION:-false}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
     ports:
       - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:3000/api/health/database || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
 volumes:
   postgres-data:

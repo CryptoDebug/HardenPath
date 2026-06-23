@@ -35,7 +35,8 @@ const nextConfig = {
     ];
   },
   poweredByHeader: false,
-  reactStrictMode: true
+  reactStrictMode: true,
+  output: "standalone"
 };
 
 export default nextConfig;

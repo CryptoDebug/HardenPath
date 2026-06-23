@@ -12,7 +12,13 @@ const levelMap = {
 async function main() {
   await prisma.plan.upsert({
     where: { slug: "free" },
-    update: {},
+    update: {
+      nameFr: "Gratuit",
+      nameEn: "Free",
+      priceCents: 0,
+      currency: "EUR",
+      features: ["free_courses", "basic_badges", "community_content"]
+    },
     create: {
       slug: "free",
       nameFr: "Gratuit",
@@ -24,7 +30,13 @@ async function main() {
 
   await prisma.plan.upsert({
     where: { slug: "premium" },
-    update: {},
+    update: {
+      nameFr: "Premium",
+      nameEn: "Premium",
+      priceCents: 900,
+      currency: "EUR",
+      features: ["premium_courses", "premium_exercises", "advanced_badges", "certificates"]
+    },
     create: {
       slug: "premium",
       nameFr: "Premium",
@@ -70,6 +82,11 @@ async function main() {
     });
   }
 
+  await prisma.course.updateMany({
+    where: { slug: { notIn: courses.map((course) => course.slug) } },
+    data: { published: false }
+  });
+
   for (const course of courses) {
     const createdCourse = await prisma.course.upsert({
       where: { slug: course.slug },
@@ -83,7 +100,9 @@ async function main() {
         visibility: course.isPremium ? ContentVisibility.PREMIUM : ContentVisibility.PUBLIC,
         isPremium: course.isPremium,
         requiredPlan: course.isPremium ? "premium" : "free",
-        published: true
+        published: true,
+        contentPathFr: `content/courses/${course.categorySlug}.json#${course.slug}`,
+        contentPathEn: `content/courses/${course.categorySlug}.json#${course.slug}`
       },
       create: {
         slug: course.slug,
@@ -97,8 +116,8 @@ async function main() {
         isPremium: course.isPremium,
         requiredPlan: course.isPremium ? "premium" : "free",
         published: true,
-        contentPathFr: `content/courses/fr/${course.slug}.mdx`,
-        contentPathEn: `content/courses/en/${course.slug}.mdx`
+        contentPathFr: `content/courses/${course.categorySlug}.json#${course.slug}`,
+        contentPathEn: `content/courses/${course.categorySlug}.json#${course.slug}`
       }
     });
 
@@ -108,7 +127,9 @@ async function main() {
         titleFr: course.title.fr,
         titleEn: course.title.en,
         visibility: course.isPremium ? ContentVisibility.PREMIUM : ContentVisibility.PUBLIC,
-        isPremium: course.isPremium
+        isPremium: course.isPremium,
+        contentPathFr: `content/courses/${course.categorySlug}.json#${course.slug}`,
+        contentPathEn: `content/courses/${course.categorySlug}.json#${course.slug}`
       },
       create: {
         courseId: createdCourse.id,
@@ -118,8 +139,8 @@ async function main() {
         titleEn: course.title.en,
         visibility: course.isPremium ? ContentVisibility.PREMIUM : ContentVisibility.PUBLIC,
         isPremium: course.isPremium,
-        contentPathFr: `content/courses/fr/${course.slug}.mdx`,
-        contentPathEn: `content/courses/en/${course.slug}.mdx`
+        contentPathFr: `content/courses/${course.categorySlug}.json#${course.slug}`,
+        contentPathEn: `content/courses/${course.categorySlug}.json#${course.slug}`
       }
     });
 
@@ -129,7 +150,8 @@ async function main() {
         titleFr: "Validation",
         titleEn: "Validation",
         isPremium: course.isPremium,
-        questions: course.quiz
+        questions: course.quiz,
+        passingScore: 100
       },
       create: {
         courseId: createdCourse.id,
@@ -137,7 +159,7 @@ async function main() {
         titleFr: "Validation",
         titleEn: "Validation",
         isPremium: course.isPremium,
-        passingScore: 70,
+        passingScore: 100,
         questions: course.quiz
       }
     });
