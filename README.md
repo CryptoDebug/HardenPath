@@ -27,6 +27,8 @@ When reusing or deploying HardenPath publicly, credit the original project as:
 
 Contributions are welcome when they preserve the legal, ethical, and educational intent of the project.
 
+Privacy behavior and operator responsibilities are documented in [`PRIVACY.md`](PRIVACY.md).
+
 ## Getting Started
 
 ### Requirements
@@ -106,6 +108,7 @@ Course pages require a user account so progress, quiz attempts, and completions 
 
 ```bash
 npm run lint
+npm test
 npm run build
 ```
 
@@ -142,13 +145,25 @@ Reinstall dependencies with `npm install`.
 
 ## Self-Hosting
 
-For a full local stack:
+For a full local stack, including automatic migrations and idempotent catalog seeding:
 
 ```bash
 docker compose up --build
 ```
 
-For production deployment, replace `NEXTAUTH_SECRET`, use strong PostgreSQL credentials, run a production build, and put the app behind HTTPS.
+Docker Compose now refuses to start without `POSTGRES_PASSWORD` and `NEXTAUTH_SECRET`. For production deployment, use unique strong values, put the app behind HTTPS, and set `TRUST_PROXY=true` only when the proxy overwrites forwarded-address headers.
+
+Optional account verification and password-reset email uses the Resend HTTP API. Set `RESEND_API_KEY`, `EMAIL_FROM`, and `REQUIRE_EMAIL_VERIFICATION=true` after verifying the sender domain. Without these variables, local accounts remain usable and the email delivery actions stay disabled.
+
+Run the complete local verification suite with:
+
+```bash
+npm test
+npm run test:integration
+npm run test:e2e
+```
+
+Integration tests require a migrated and seeded PostgreSQL database. End-to-end tests install Chromium once with `npx playwright install chromium`.
 
 The app service in `docker-compose.yml` connects to PostgreSQL through the internal Docker hostname `db`. Local Prisma commands connect to `localhost:5432` through `DATABASE_URL`.
 
