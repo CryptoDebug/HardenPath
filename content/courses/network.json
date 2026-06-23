@@ -1,0 +1,1130 @@
+[
+  {
+    "slug": "tcpip-basics",
+    "categorySlug": "network",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Bases TCP/IP pour lire un réseau",
+      "en": "TCP/IP basics for reading a network"
+    },
+    "summary": {
+      "fr": "Comprendre adresses IP, ports, protocoles, sous-réseaux et échanges client/serveur.",
+      "en": "Understand IP addresses, ports, protocols, subnets, and client/server exchanges."
+    },
+    "objectives": {
+      "fr": [
+        "Lire une adresse IPv4 et un masque",
+        "Différencier TCP, UDP et ICMP",
+        "Relier un port à un service attendu"
+      ],
+      "en": [
+        "Read an IPv4 address and mask",
+        "Differentiate TCP, UDP, and ICMP",
+        "Map a port to an expected service"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : IP veut dire adresse d'une interface, comme une etiquette de livraison. Reseau veut dire groupe d'adresses qui peuvent se parler directement. Masque veut dire règle de decoupe entre la partie réseau et la partie machine. Passerelle veut dire sortie vers un autre réseau. Port veut dire porte logique d'un service, pas un cable physique."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : tu vois 192.168.10.25/24 avec une passerelle 192.168.10.1. Tu lis d'abord le /24 : le réseau est 192.168.10.0. Tu compares ensuite la passerelle : elle est dans le même réseau, donc elle peut être jointe directement. Puis tu regardes la cible : 192.168.20.10 n'est pas dans le même réseau, donc le poste devra passer par la passerelle."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : croire qu'une IP identifie toute la machine ou toute la personne. En réalité, une machine peut avoir plusieurs interfaces, donc plusieurs IP. Autre piège : voir un port 443 et conclure trop vite que tout est sain. 443 suggère HTTPS, mais il faut vérifier le service, le certificat, les journaux et le contexte."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : si tu peux dire en une phrase qui parle à qui, par quel protocole, vers quel port, et pourquoi la passerelle intervient ou non, tu as compris la lecture de base. Si tu bloques, reviens aux cinq mots : IP, masque, réseau, passerelle, port."
+        },
+        {
+          "title": "Adresse, réseau et hôte",
+          "body": "Une adresse IPv4 identifie une interface, pas une personne ni une machine entière. Le masque indique quelle partie représente le réseau. Par exemple, 192.168.10.42/24 appartient au réseau 192.168.10.0 et peut joindre directement les adresses du même segment avant de passer par une passerelle."
+        },
+        {
+          "title": "Ports et services",
+          "body": "Un port décrit une porte logique sur une machine. Un serveur web écoute souvent sur 80 ou 443, SSH sur 22, DNS sur 53. Le port n'est pas une preuve absolue : il donne une hypothèse à vérifier avec le contexte, les bannières, les journaux ou la configuration."
+        },
+        {
+          "title": "TCP, UDP, ICMP",
+          "body": "TCP établit une session et confirme les échanges. UDP envoie sans session persistante, utile pour DNS ou certains flux temps réel. ICMP sert surtout au diagnostic réseau. Savoir quel protocole porte un échange aide à choisir la bonne observation."
+        },
+        {
+          "title": "Méthode de lecture",
+          "body": "Quand tu observes un réseau, note d'abord l'adresse source, l'adresse destination, le protocole, le port et le rôle supposé. Tu obtiens une phrase simple : 'ce client interroge ce service pour cette raison probable'."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Une adresse IP identifie une interface sur un réseau. Un masque découpe cette adresse entre partie réseau et partie hôte. Un port identifie une application ou un service attendu sur une machine. Un protocole définit les règles de l'échange : TCP privilégie la fiabilité, UDP la simplicité, ICMP le diagnostic."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Tu arrives sur un petit réseau de lab. Un poste 192.168.10.25 n'atteint plus l'intranet 192.168.20.10. Avant de conclure à une panne, tu vérifies le masque, la passerelle, le port demandé et le protocole. Cette lecture évite de confondre problème d'adressage, filtrage réseau et service indisponible."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: IP means an interface address, like a delivery label. Network means a group of addresses that can talk directly. Mask means the split rule between the network part and the machine part. Gateway means exit toward another network. Port means a logical service door, not a physical cable."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: you see 192.168.10.25/24 with gateway 192.168.10.1. First read /24: the network is 192.168.10.0. Then compare the gateway: it is in the same network, so it can be reached directly. Then inspect the target: 192.168.20.10 is not in the same network, so the host will use the gateway."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking an IP identifies a whole machine or a person. A machine can have several interfaces, therefore several IPs. Another trap: seeing port 443 and concluding everything is healthy. 443 suggests HTTPS, but you still verify service, certificate, logs, and context."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: if you can say in one sentence who talks to whom, through which protocol, toward which port, and why the gateway is or is not involved, you understand the base reading. If stuck, return to five words: IP, mask, network, gateway, port."
+        },
+        {
+          "title": "Address, network, host",
+          "body": "An IPv4 address identifies an interface, not a person or an entire machine. The mask tells which part represents the network. For example, 192.168.10.42/24 belongs to network 192.168.10.0 and can directly reach addresses on that segment before using a gateway."
+        },
+        {
+          "title": "Ports and services",
+          "body": "A port is a logical door on a machine. Web servers often listen on 80 or 443, SSH on 22, DNS on 53. A port is not proof by itself: it gives a hypothesis to verify through context, banners, logs, or configuration."
+        },
+        {
+          "title": "TCP, UDP, ICMP",
+          "body": "TCP establishes a session and confirms exchanges. UDP sends without a persistent session, useful for DNS or some real-time flows. ICMP is mostly used for diagnostics. Knowing the protocol helps choose the right observation."
+        },
+        {
+          "title": "Reading method",
+          "body": "When observing a network, first record source address, destination address, protocol, port, and expected role. You get a simple sentence: 'this client queries this service for this likely reason'."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An IP address identifies an interface on a network. A mask splits that address between network and host parts. A port identifies an expected application or service on a machine. A protocol defines exchange rules: TCP favors reliability, UDP favors simplicity, and ICMP supports diagnostics."
+        },
+        {
+          "title": "Scenario",
+          "body": "You enter a small lab network. A workstation at 192.168.10.25 can no longer reach the intranet at 192.168.20.10. Before calling it an outage, you check the mask, gateway, requested port, and protocol. That reading avoids confusing addressing, filtering, and unavailable service."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "RFC 791 - Internet Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc791"
+        }
+      ],
+      "en": [
+        {
+          "label": "RFC 791 - Internet Protocol",
+          "url": "https://www.rfc-editor.org/rfc/rfc791"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Diagnostic d'un poste isolé",
+          "body": "On te donne 192.168.10.25/24, passerelle 192.168.10.1, service attendu 192.168.20.10:443. Écris les 5 vérifications à faire dans l'ordre, puis précise ce que chaque résultat te permet de conclure ou non.",
+          "solution": "Correction guidée : 1. Vérifie que 192.168.10.25/24 est cohérent avec le réseau local 192.168.10.0. 2. Vérifie que la passerelle 192.168.10.1 est dans le même réseau et répond. 3. Vérifie la résolution ou l'adresse cible 192.168.20.10. 4. Teste l'accès TCP 443 sans conclure trop vite si ça échoue. 5. Compare avec un autre poste ou un journal réseau. Conclusion : tu peux distinguer problème local, routage, filtrage ou service indisponible, mais pas identifier la cause exacte sans preuve supplémentaire."
+        },
+        {
+          "title": "Mini glossaire réseau",
+          "body": "Définis IP, masque, passerelle, port, protocole et service avec une phrase simple et un exemple de lab pour chacun.",
+          "solution": "Correction guidée : IP = adresse d'une interface, exemple 192.168.10.25. Masque = découpe réseau/hôte, exemple /24. Passerelle = sortie vers un autre réseau, exemple 192.168.10.1. Port = porte logique d'un service, exemple 443 pour HTTPS. Protocole = règle d'échange, exemple TCP. Service = application attendue derrière un port, exemple intranet web."
+        }
+      ],
+      "en": [
+        {
+          "title": "Isolated workstation diagnostic",
+          "body": "Given 192.168.10.25/24, gateway 192.168.10.1, expected service 192.168.20.10:443. Write the 5 checks to perform in order, then state what each result lets you conclude or not.",
+          "solution": "Guided correction: 1. Check that 192.168.10.25/24 fits local network 192.168.10.0. 2. Check that gateway 192.168.10.1 is on the same network and responds. 3. Verify target 192.168.20.10. 4. Test TCP 443 without over-concluding if it fails. 5. Compare with another host or network logs. Conclusion: you can separate local issue, routing, filtering, or unavailable service, but not prove root cause without more evidence."
+        },
+        {
+          "title": "Network mini glossary",
+          "body": "Define IP, mask, gateway, port, protocol, and service with one plain sentence and one lab example for each.",
+          "solution": "Guided correction: IP = interface address, example 192.168.10.25. Mask = network/host split, example /24. Gateway = exit to another network, example 192.168.10.1. Port = logical service door, example 443 for HTTPS. Protocol = exchange rules, example TCP. Service = expected application behind a port, example intranet web."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un poste en /24 essaie de joindre une adresse dans un autre /24. Quelle vérification vient en premier ?",
+          "options": [
+            "La passerelle configurée et joignable",
+            "La couleur du câble",
+            "Le nom commercial du service"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Tu vois du trafic vers 10.0.0.8:53 en UDP. Quelle phrase est la plus prudente ?",
+          "options": [
+            "Le poste interroge probablement un service DNS, à confirmer",
+            "Le poste est forcément compromis",
+            "Le port 53 prouve un serveur web"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un port ouvert répond, mais la bannière ne correspond pas au service attendu. Que fais-tu ?",
+          "options": [
+            "Tu notes une hypothèse et tu vérifies avec le contexte",
+            "Tu ignores la différence",
+            "Tu déclares le service identifié avec certitude"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A /24 workstation tries to reach an address in another /24. Which check comes first?",
+          "options": [
+            "The configured and reachable gateway",
+            "The cable color",
+            "The service brand name"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "You see traffic to 10.0.0.8:53 over UDP. Which statement is most careful?",
+          "options": [
+            "The host is likely querying DNS, to confirm",
+            "The host is certainly compromised",
+            "Port 53 proves a web server"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "An open port responds, but its banner does not match the expected service. What do you do?",
+          "options": [
+            "Record a hypothesis and verify with context",
+            "Ignore the difference",
+            "Declare the service identified with certainty"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "network-map-first-steps",
+    "categorySlug": "network",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Lire un réseau avant d'agir",
+      "en": "Read a network before acting"
+    },
+    "summary": {
+      "fr": "Construire une carte fiable des hôtes, flux, services et zones avant tout diagnostic actif.",
+      "en": "Build a reliable map of hosts, flows, services, and zones before any active diagnostic."
+    },
+    "objectives": {
+      "fr": [
+        "Identifier les rôles des hôtes",
+        "Relier ports, flux et services",
+        "Produire une carte exploitable"
+      ],
+      "en": [
+        "Identify host roles",
+        "Connect ports, flows, and services",
+        "Produce an actionable map"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Bases TCP/IP",
+          "courseSlug": "tcpip-basics"
+        },
+        {
+          "label": "Laboratoire local autorisé",
+          "courseSlug": "local-lab-vm-setup"
+        }
+      ],
+      "en": [
+        {
+          "label": "TCP/IP basics",
+          "courseSlug": "tcpip-basics"
+        },
+        {
+          "label": "Authorized local lab",
+          "courseSlug": "local-lab-vm-setup"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : hôte veut dire machine vue sur le réseau. Flux veut dire communication entre une source et une destination. Service veut dire application joignable, comme DNS ou web. Zone veut dire groupe logique, par exemple postes, serveurs ou invites. Hypothèse veut dire idée plausible mais pas encore prouvée."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : tu observes un poste, un DNS, une passerelle et un serveur web. Tu ne dessines pas seulement des icônes : tu notes poste vers DNS en UDP/53, poste vers web en TCP/443, poste vers passerelle pour sortir. Chaque flèche doit avoir une raison probable et une preuve ou une question."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre carte et décoration. Une carte utile n'est pas celle qui impressionne, c'est celle qui évite de se tromper. Si tu mets une machine en serveur sans preuve, marque confiance faible. Si tu ne sais pas pourquoi un flux existe, garde-le comme inconnue."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : une bonne carte débutant contient machines, rôles supposés, flux principaux, inconnues et prochaine vérification. Quand tu peux expliquer chaque flèche en une phrase simple, tu progresses vraiment."
+        },
+        {
+          "title": "Observer avant tester",
+          "body": "Commence par ce que tu peux voir sans perturber : plan d'adressage, noms d'hôtes, interfaces, journaux, services attendus. Le but n'est pas de trouver une faille, mais de comprendre le terrain."
+        },
+        {
+          "title": "Classifier les hôtes",
+          "body": "Classe chaque machine en rôle probable : poste client, serveur applicatif, DNS, passerelle, stockage, supervision. Ajoute une colonne 'confiance' pour éviter de transformer une supposition en certitude."
+        },
+        {
+          "title": "Lire les flux",
+          "body": "Un flux utile contient source, destination, protocole, port, fréquence et raison probable. Si tu ne peux pas expliquer pourquoi un flux existe, il mérite une note ou une vérification."
+        },
+        {
+          "title": "Carte minimale",
+          "body": "Une carte de réseau n'a pas besoin d'être belle. Elle doit être vérifiable : zones, machines, services, flux principaux, inconnues et prochaine action."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Un actif est un élément qui porte une fonction. Un flux est une communication observée ou attendue. Une zone regroupe des machines avec un niveau d'exposition ou de confiance similaire. Une inconnue est une information à vérifier, pas une faiblesse à inventer."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "On te demande pourquoi un serveur de fichiers reçoit des connexions depuis un poste invité. Au lieu de scanner au hasard, tu construis une carte : source, destination, protocole, port, fréquence, rôle supposé et niveau de confiance. La carte révèle si le flux est attendu ou à investiguer."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: host means a machine seen on the network. Flow means communication between a source and a destination. Service means reachable application, such as DNS or web. Zone means logical group, such as workstations, servers, or guests. Hypothesis means plausible idea not yet proven."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: you observe a workstation, DNS, gateway, and web server. You do not only draw icons: record workstation to DNS over UDP/53, workstation to web over TCP/443, workstation to gateway for exit. Every arrow needs a likely reason and evidence or a question."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing map with decoration. A useful map is not the one that impresses; it is the one that prevents mistakes. If you mark a machine as server without proof, set confidence low. If you cannot explain a flow, keep it as an unknown."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: a beginner map contains machines, likely roles, main flows, unknowns, and next verification. When you can explain every arrow in a simple sentence, you are truly progressing."
+        },
+        {
+          "title": "Observe before testing",
+          "body": "Start with what you can see without disruption: addressing plan, hostnames, interfaces, logs, expected services. The goal is not to find a flaw, but to understand the terrain."
+        },
+        {
+          "title": "Classify hosts",
+          "body": "Classify each machine by likely role: workstation, application server, DNS, gateway, storage, monitoring. Add a confidence column so assumptions do not become certainties."
+        },
+        {
+          "title": "Read flows",
+          "body": "A useful flow contains source, destination, protocol, port, frequency, and likely reason. If you cannot explain why a flow exists, it deserves a note or verification."
+        },
+        {
+          "title": "Minimal map",
+          "body": "A network map does not need to be pretty. It must be verifiable: zones, machines, services, main flows, unknowns, and next action."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An asset carries a function. A flow is observed or expected communication. A zone groups machines with similar exposure or trust. An unknown is information to verify, not a weakness to invent."
+        },
+        {
+          "title": "Scenario",
+          "body": "You are asked why a file server receives connections from a guest workstation. Instead of scanning randomly, you build a map: source, destination, protocol, port, frequency, expected role, and confidence. The map shows whether the flow is expected or worth investigating."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST NICE Framework",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nice"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST NICE Framework",
+          "url": "https://www.nist.gov/itl/applied-cybersecurity/nice"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Carte orientée décision",
+          "body": "À partir de 5 machines fictives, crée une carte avec zones, rôles, flux attendus, flux douteux et prochaine action. Ajoute un niveau de confiance pour chaque rôle.",
+          "solution": "Correction guidée : ta carte doit montrer les zones, les 5 machines, le rôle supposé de chacune, les flux attendus, les flux douteux, une prochaine vérification et un niveau de confiance. La meilleure carte n'est pas la plus belle : c'est celle qui aide à décider."
+        },
+        {
+          "title": "Flux à expliquer",
+          "body": "Choisis trois flux de lab. Pour chacun, écris une phrase : 'qui parle à qui, sur quoi, pourquoi probablement, et comment vérifier'.",
+          "solution": "Correction guidée : pour chaque flux, écris une phrase complète : source, destination, protocole/port, raison probable, preuve disponible, vérification suivante. Exemple : 'poste invité vers DNS en UDP/53, résolution probable, à confirmer par journaux DNS'."
+        }
+      ],
+      "en": [
+        {
+          "title": "Decision-oriented map",
+          "body": "From 5 fictional machines, create a map with zones, roles, expected flows, doubtful flows, and next action. Add a confidence level for each role.",
+          "solution": "Guided correction: your map should show zones, the 5 machines, expected role for each, expected flows, doubtful flows, next verification, and confidence level. The best map is not the prettiest: it helps decide."
+        },
+        {
+          "title": "Explain the flow",
+          "body": "Choose three lab flows. For each, write: 'who talks to whom, over what, likely why, and how to verify'.",
+          "solution": "Guided correction: for each flow, write a complete sentence: source, destination, protocol/port, likely reason, available evidence, next check. Example: 'guest workstation to DNS over UDP/53, likely resolution, confirm with DNS logs'."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Une machine inconnue parle au serveur DNS. Quelle note est la plus utile ?",
+          "options": [
+            "Source, destination, port, fréquence, rôle supposé et confiance",
+            "Seulement 'trafic suspect'",
+            "Uniquement l'adresse IP"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Tu n'es pas sûr du rôle d'un hôte. Que fais-tu sur la carte ?",
+          "options": [
+            "Tu marques l'hypothèse et le niveau de confiance",
+            "Tu inventes un rôle définitif",
+            "Tu retires l'hôte"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un flux est inattendu mais faible. Quelle décision est proportionnée ?",
+          "options": [
+            "Le documenter et définir une vérification",
+            "Tout bloquer sans contexte",
+            "L'ignorer car il est faible"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "An unknown machine talks to the DNS server. Which note is most useful?",
+          "options": [
+            "Source, destination, port, frequency, expected role, and confidence",
+            "Only 'suspicious traffic'",
+            "Only the IP address"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "You are unsure about a host role. What do you put on the map?",
+          "options": [
+            "The hypothesis and confidence level",
+            "A final invented role",
+            "Remove the host"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A flow is unexpected but low volume. What is proportionate?",
+          "options": [
+            "Document it and define a verification",
+            "Block everything without context",
+            "Ignore it because it is low volume"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "dns-dhcp-foundations",
+    "categorySlug": "network",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "DNS et DHCP sans jargon",
+      "en": "DNS and DHCP without jargon"
+    },
+    "summary": {
+      "fr": "Comprendre comment un poste trouve un nom, obtient une adresse et rejoint le réseau.",
+      "en": "Understand how a host resolves a name, gets an address, and joins the network."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "DNS transforme un nom lisible en adresse. DHCP distribue automatiquement une adresse, un masque, une passerelle et souvent des serveurs DNS. Bail veut dire durée de location d'une adresse. Résolution veut dire recherche du nom. Cache veut dire réponse gardée temporairement."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Un poste ouvre intranet.local. Il demande d'abord au DNS où se trouve ce nom. Si le poste n'a pas d'adresse, il demande d'abord au DHCP une configuration. Tu lis donc l'ordre : obtenir une identité réseau, connaître la sortie, puis trouver le service par son nom."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Confondre DNS et Internet. DNS peut exister dans un lab local et ne prouve pas que le service est accessible. Autre erreur : changer une IP à la main sans noter le DHCP, ce qui peut créer des conflits."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Quand un poste ne joint pas un service par nom, vérifie l'adresse du poste, le bail DHCP, la passerelle, le serveur DNS, la résolution du nom, puis seulement l'accès au service."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "DNS turns a readable name into an address. DHCP automatically gives an address, mask, gateway, and often DNS servers. Lease means temporary address rental. Resolution means name lookup. Cache means an answer kept temporarily."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "A workstation opens intranet.local. It first asks DNS where that name is. If it has no address, it first asks DHCP for configuration. Read the order: get network identity, know the exit, then find the service by name."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Do not confuse DNS with the Internet. DNS can exist in a local lab and does not prove the service is reachable. Another mistake is changing an IP manually without checking DHCP, creating conflicts."
+        },
+        {
+          "title": "Method to remember",
+          "body": "When a host cannot reach a service by name, check host address, DHCP lease, gateway, DNS server, name resolution, then service access."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Diagnostic DNS/DHCP",
+          "body": "Un poste a une adresse automatique bizarre et ne résout pas intranet.local. Liste les contrôles dans l'ordre et ce que chaque résultat permet de conclure.",
+          "solution": "Correction : vérifier si l'adresse vient du DHCP attendu, contrôler masque/passerelle/DNS, tester la résolution du nom, tester l'adresse directe du service, puis comparer avec un autre poste. Cela sépare problème d'adressage, DNS ou service."
+        }
+      ],
+      "en": [
+        {
+          "title": "DNS/DHCP diagnostic",
+          "body": "A host has an odd automatic address and cannot resolve intranet.local. List checks in order and what each result proves.",
+          "solution": "Correction: check whether the address came from expected DHCP, verify mask/gateway/DNS, test name resolution, test direct service address, compare with another host. This separates addressing, DNS, or service issues."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un poste n'a pas d'adresse correcte. Que vérifier d'abord ?",
+          "options": [
+            "Le bail ou serveur DHCP attendu",
+            "Le certificat TLS",
+            "La couleur du navigateur"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "DNS sert principalement à...",
+          "options": [
+            "Associer un nom à une adresse",
+            "Chiffrer un fichier",
+            "Donner un rôle admin"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un nom qui se résout prouve-t-il que le service fonctionne ?",
+          "options": [
+            "Non, il faut tester l'accès au service",
+            "Oui, toujours",
+            "Seulement si le nom est court"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A host has no correct address. What do you check first?",
+          "options": [
+            "Expected DHCP lease or server",
+            "TLS certificate",
+            "Browser color"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "DNS mainly...",
+          "options": [
+            "Maps a name to an address",
+            "Encrypts a file",
+            "Grants admin role"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Does name resolution prove the service works?",
+          "options": [
+            "No, test service access",
+            "Yes, always",
+            "Only if the name is short"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "subnet-vlan-basics",
+    "categorySlug": "network",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Sous-réseaux, VLAN et zones",
+      "en": "Subnets, VLANs, and zones"
+    },
+    "summary": {
+      "fr": "Lire une séparation réseau sans se perdre dans les calculs.",
+      "en": "Read network separation without getting lost in calculations."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Sous-réseau veut dire groupe d'adresses. VLAN veut dire séparation logique sur un équipement réseau. Zone veut dire ensemble avec une intention : postes, serveurs, invites, administration. Segmentation veut dire limiter les communications inutiles."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Un réseau a une zone invites, une zone postes et une zone serveurs. Les invites vont vers Internet, mais pas vers les serveurs internes. Tu lis la segmentation comme une carte de confiance : qui peut parler à qui, pour quelle raison, avec quelle preuve."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Croire qu'un VLAN est une sécurité magique. Il aide à séparer, mais les règles, routes, pare-feu et tests décident ce qui passe vraiment."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Pour chaque zone, note son rôle, ses adresses, les flux autorisés, les flux interdits et le niveau de confiance. Une zone sans intention claire finit toujours par devenir floue."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Subnet means address group. VLAN means logical separation on network equipment. Zone means a group with intent: workstations, servers, guests, administration. Segmentation means limiting unnecessary communications."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "A network has guest, workstation, and server zones. Guests go to the Internet but not internal servers. Read segmentation as a trust map: who may talk to whom, why, with which proof."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Do not treat a VLAN as magic security. It helps separate, but rules, routes, firewalls, and tests decide what truly passes."
+        },
+        {
+          "title": "Method to remember",
+          "body": "For every zone, record role, addresses, allowed flows, forbidden flows, and trust level. A zone without clear intent becomes blurry."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Carte de zones",
+          "body": "Dessine postes, serveurs, invites et administration. Écris trois flux autorisés et trois flux interdits avec justification.",
+          "solution": "Correction : les flux autorisés doivent avoir un besoin clair, par exemple postes vers DNS ou web interne. Les interdits protègent les zones sensibles, par exemple invites vers administration. Chaque flèche doit avoir une raison."
+        }
+      ],
+      "en": [
+        {
+          "title": "Zone map",
+          "body": "Draw workstations, servers, guests, and administration. Write three allowed and three forbidden flows with justification.",
+          "solution": "Correction: allowed flows need a clear need, such as workstations to DNS or internal web. Forbidden flows protect sensitive zones, such as guests to administration. Every arrow needs a reason."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Une zone réseau doit surtout avoir...",
+          "options": [
+            "Une intention claire",
+            "Un nom impressionnant",
+            "Une couleur unique"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un VLAN suffit-il à prouver qu'un flux est bloqué ?",
+          "options": [
+            "Non, il faut vérifier routes et règles",
+            "Oui, toujours",
+            "Seulement le lundi"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "La segmentation sert à...",
+          "options": [
+            "Limiter les communications inutiles",
+            "Supprimer les sauvegardes",
+            "Éviter toute documentation"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A network zone mainly needs...",
+          "options": [
+            "Clear intent",
+            "An impressive name",
+            "One color"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Does a VLAN prove a flow is blocked?",
+          "options": [
+            "No, verify routes and rules",
+            "Yes, always",
+            "Only on Monday"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Segmentation is used to...",
+          "options": [
+            "Limit unnecessary communications",
+            "Remove backups",
+            "Avoid documentation"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "routing-firewall-basics",
+    "categorySlug": "network",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Routage et filtrage de base",
+      "en": "Basic routing and filtering"
+    },
+    "summary": {
+      "fr": "Comprendre pourquoi un paquet passe, bloqué ou prend le mauvais chemin.",
+      "en": "Understand why a packet passes, blocks, or takes the wrong path."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Route veut dire chemin vers un réseau. Table de routage veut dire liste des chemins connus. Pare-feu veut dire décision autoriser ou bloquer selon source, destination, port, protocole et contexte. État veut dire mémoire d'une connexion."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Un poste peut joindre le DNS mais pas l'application interne. Tu regardes si la route existe, si la passerelle sait revenir, si une règle bloqué le port, puis si le service écoute. Tu ne changes pas trois choses à la fois."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Conclure 'pare-feu' dès qu'un test échoue. Un échec peut venir d'une route absente, d'un retour impossible, d'un service fermé ou d'une résolution incorrecte."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Lis dans cet ordre : source, destination, route aller, route retour, règle, service, journal. Cette séquence évite les diagnostics au hasard."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Route means path to a network. Routing table means known paths. Firewall means allow or block decision based on source, destination, port, protocol, and context. State means memory of a connection."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "A workstation reaches DNS but not the internal app. Check whether route exists, gateway can return, a rule blocks the port, then whether service listens. Do not change three things at once."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Do not conclude 'firewall' whenever a test fails. Failure can come from missing route, impossible return path, closed service, or wrong resolution."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Read in this order: source, destination, outbound route, return route, rule, service, log. This avoids random diagnosis."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Flux bloqué",
+          "body": "Un poste en 10.10.1.20 ne joint pas 10.10.5.10:443. Écris les contrôles sans supposer que le pare-feu est coupable.",
+          "solution": "Correction : vérifier IP et masque source, route vers 10.10.5.0, route retour, résolution si nom utilisé, règle source/destination/port, et écoute du service 443. Les journaux confirment ou infirment le filtrage."
+        }
+      ],
+      "en": [
+        {
+          "title": "Blocked flow",
+          "body": "A host 10.10.1.20 cannot reach 10.10.5.10:443. Write checks without assuming the firewall is guilty.",
+          "solution": "Correction: verify source IP/mask, route to 10.10.5.0, return route, resolution if using a name, source/destination/port rule, and service listening on 443. Logs confirm or refute filtering."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Avant d'accuser le pare-feu, que vérifier ?",
+          "options": [
+            "Routes aller et retour",
+            "La police du terminal",
+            "Le nom du ticket"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une règle de filtrage lit souvent...",
+          "options": [
+            "Source, destination, protocole et port",
+            "Le prénom de l'utilisateur",
+            "Le modèle de souris"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Changer plusieurs choses à la fois rend le diagnostic...",
+          "options": [
+            "Moins fiable",
+            "Plus prouvé",
+            "Automatique"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "Before blaming the firewall, check...",
+          "options": [
+            "Outbound and return routes",
+            "Terminal font",
+            "Ticket name"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A filtering rule often reads...",
+          "options": [
+            "Source, destination, protocol, and port",
+            "User first name",
+            "Mouse model"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Changing many things at once makes diagnosis...",
+          "options": [
+            "Less reliable",
+            "More proven",
+            "Automatic"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "network-troubleshooting-method",
+    "categorySlug": "network",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Méthode de diagnostic réseau",
+      "en": "Network troubleshooting method"
+    },
+    "summary": {
+      "fr": "Apprendre une routine simple pour ne pas chercher au hasard.",
+      "en": "Learn a simple routine to avoid random troubleshooting."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Diagnostic veut dire isoler une cause probable. Symptôme veut dire ce que l'utilisateur voit. Preuve veut dire résultat observé. Hypothèse veut dire cause possible. Reproduction veut dire refaire le problème dans un cadre contrôle."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "On te dit 'Internet ne marche pas'. Tu transformes la phrase en tests : le poste a-t-il une IP, une passerelle, un DNS, une route, un accès par IP, un accès par nom, un problème sur tous les sites ou un seul ?"
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Chercher une solution avant de définir le symptôme. Sans symptôme précis, tu peux réparer quelque chose qui n'était pas cassé."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Écris symptôme, périmètre, dernier changement, test local, test passerelle, test DNS, test service, comparaison, conclusion. Chaque ligne doit ajouter une preuve."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Diagnosis means isolating a likely cause. Symptom means what the user sees. Evidence means observed result. Hypothesis means possible cause. Reproduction means replaying the issue in a controlled way."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Someone says 'Internet does not work'. Turn it into tests: does the host have IP, gateway, DNS, route, access by IP, access by name, all sites failing or one?"
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Looking for a solution before defining the symptom. Without a precise symptom, you may fix something that was not broken."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Write symptom, scope, last change, local test, gateway test, DNS test, service test, comparison, conclusion. Every line must add evidence."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Practical Networking - Fundamentals",
+          "url": "https://www.practicalnetworking.net/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Routine en 8 lignes",
+          "body": "Un utilisateur ne joint pas une application interne. Rédige une routine de diagnostic en 8 lignes maximum.",
+          "solution": "Correction : symptôme exact, poste concerné, dernier changement, IP/masque, passerelle, résolution DNS, test port/service, comparaison avec un autre poste, conclusion provisoire."
+        }
+      ],
+      "en": [
+        {
+          "title": "8-line routine",
+          "body": "A user cannot reach an internal application. Write a troubleshooting routine in eight lines maximum.",
+          "solution": "Correction: exact symptom, affected host, last change, IP/mask, gateway, DNS resolution, port/service test, comparison with another host, provisional conclusion."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un symptôme utile doit être...",
+          "options": [
+            "Précis et observable",
+            "Dramatique",
+            "Sans contexte"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une hypothèse devient plus solide avec...",
+          "options": [
+            "Une preuve",
+            "Une intuition seule",
+            "Un emoji"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Comparer avec un autre poste sert à...",
+          "options": [
+            "Réduire le périmètre",
+            "Remplacer les journaux",
+            "Changer le hasard"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A useful symptom must be...",
+          "options": [
+            "Precise and observable",
+            "Dramatic",
+            "Without context"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A hypothesis becomes stronger with...",
+          "options": [
+            "Evidence",
+            "Intuition only",
+            "An emoji"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Comparing with another host helps...",
+          "options": [
+            "Reduce scope",
+            "Replace logs",
+            "Change luck"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

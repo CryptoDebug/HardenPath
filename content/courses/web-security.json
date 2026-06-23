@@ -1,0 +1,1341 @@
+[
+  {
+    "slug": "http-basics",
+    "categorySlug": "web-security",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 50,
+    "title": {
+      "fr": "Comprendre HTTP avant la sécurité web",
+      "en": "Understand HTTP before web security"
+    },
+    "summary": {
+      "fr": "Lire requêtes, réponses, méthodes, en-têtes, statuts et cookies.",
+      "en": "Read requests, responses, methods, headers, statuses, and cookies."
+    },
+    "objectives": {
+      "fr": [
+        "Lire une requête HTTP",
+        "Interpréter un code de statut",
+        "Comprendre le rôle des en-têtes"
+      ],
+      "en": [
+        "Read an HTTP request",
+        "Interpret a status code",
+        "Understand header roles"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : client veut dire navigateur ou application qui demande. Serveur veut dire système qui repond. Requête veut dire message envoyé par le client. Réponse veut dire message renvoye par le serveur. Méthode veut dire intention HTTP, comme GET pour lire ou POST pour envoyer. Statut veut dire résultat, comme 200, 302 ou 404."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : tu cliques sur connexion. Le navigateur envoie POST /login avec des champs. Le serveur repond 302 et ajoute un cookie. Le navigateur suit vers /dashboard. Tu lis donc une histoire : envoi d'identifiants, création possible de session, redirection, puis page cible."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : croire que le navigateur decide de la sécurité. Le navigateur aide, mais le serveur doit vérifier. Un bouton cache, un champ disabled ou une validation HTML ne suffisent jamais. Tout ce qui compte doit être contrôle côté serveur."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : quand tu lis une trace HTTP, sépare méthode, chemin, statut, en-têtes, cookie et corps. Si tu peux raconter le dialogue sans inventer, tu as la base pour comprendre la sécurité web."
+        },
+        {
+          "title": "Requête et réponse",
+          "body": "HTTP est un dialogue. Le client envoie une méthode, un chemin, des en-têtes et parfois un corps. Le serveur répond avec un statut, des en-têtes et un contenu. La sécurité web commence par savoir lire ce dialogue sans deviner."
+        },
+        {
+          "title": "Méthodes",
+          "body": "GET demande une ressource, POST transmet des données, PUT/PATCH modifient, DELETE supprime. La méthode ne garantit pas l'intention réelle : elle doit être cohérente avec les contrôles côté serveur."
+        },
+        {
+          "title": "En-têtes et cookies",
+          "body": "Les en-têtes décrivent le contexte : type de contenu, cache, origine, session. Un cookie de session sert souvent de preuve temporaire d'authentification. Il doit être protégé et limité."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Une requête décrit ce que le client demande. Une réponse décrit ce que le serveur renvoie. Un code 2xx indique généralement une réussite, 3xx une redirection, 4xx un problème côté demande, 5xx un problème côté serveur. Un en-tête ajoute du contexte à l'échange."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un utilisateur dit que 'le site est cassé'. Tu captures une transaction : POST /login, réponse 302, cookie de session, redirection vers /dashboard. Ce n'est pas cassé : c'est peut-être une connexion réussie. Lire HTTP évite de juger seulement à l'écran."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: client means browser or application that asks. Server means system that answers. Request means message sent by the client. Response means message returned by the server. Method means HTTP intent, such as GET to read or POST to send. Status means result, such as 200, 302, or 404."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: you click sign in. The browser sends POST /login with fields. The server answers 302 and adds a cookie. The browser follows /dashboard. You can read the story: credentials sent, possible session created, redirect, then target page."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking the browser decides security. The browser helps, but the server must verify. A hidden button, disabled field, or HTML validation is never enough. Everything that matters must be checked server-side."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: when reading HTTP, separate method, path, status, headers, cookie, and body. If you can tell the dialogue without inventing, you have the base for web security."
+        },
+        {
+          "title": "Request and response",
+          "body": "HTTP is a dialogue. The client sends a method, path, headers, and sometimes a body. The server responds with a status, headers, and content. Web security starts by reading this dialogue without guessing."
+        },
+        {
+          "title": "Methods",
+          "body": "GET requests a resource, POST sends data, PUT/PATCH modify, DELETE removes. The method does not guarantee actual intent: it must align with server-side controls."
+        },
+        {
+          "title": "Headers and cookies",
+          "body": "Headers describe context: content type, cache, origin, session. A session cookie often acts as temporary proof of authentication. It must be protected and limited."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "A request describes what the client asks for. A response describes what the server returns. 2xx usually means success, 3xx redirection, 4xx a request-side issue, 5xx a server-side issue. A header adds exchange context."
+        },
+        {
+          "title": "Scenario",
+          "body": "A user says 'the site is broken'. You capture: POST /login, 302 response, session cookie, redirect to /dashboard. That may not be broken: it may be a successful sign-in. Reading HTTP prevents judging only by the screen."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "MDN - HTTP",
+          "url": "https://developer.mozilla.org/fr/docs/Web/HTTP"
+        }
+      ],
+      "en": [
+        {
+          "label": "MDN - HTTP",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Lecture d'une connexion",
+          "body": "Décris une transaction de connexion fictive avec méthode, chemin, statut, cookie, redirection et conclusion. Sépare ce qui est observé de ce qui est supposé.",
+          "solution": "Correction guidée : une bonne réponse sépare méthode, chemin, statut, cookie, redirection et conclusion. Exemple : POST /login -> 302 -> Set-Cookie -> /dashboard. Observation : redirection et session créées. Hypothèse prudente : connexion réussie, à confirmer avec la page cible et les journaux."
+        },
+        {
+          "title": "Glossaire HTTP terrain",
+          "body": "Définis méthode, chemin, statut, en-tête, cookie et corps de requête avec un exemple d'usage défensif.",
+          "solution": "Correction guidée : méthode = intention HTTP, chemin = ressource, statut = résultat, en-tête = contexte, cookie = état côté client, corps = données envoyées. Pour chaque définition, donne un usage défensif : diagnostic, contrôle de session, erreur, cache ou validation."
+        }
+      ],
+      "en": [
+        {
+          "title": "Read a sign-in transaction",
+          "body": "Describe a fictional sign-in transaction with method, path, status, cookie, redirect, and conclusion. Separate observation from assumption.",
+          "solution": "Guided correction: a good answer separates method, path, status, cookie, redirect, and conclusion. Example: POST /login -> 302 -> Set-Cookie -> /dashboard. Observation: redirect and session created. Careful hypothesis: sign-in succeeded, confirm with target page and logs."
+        },
+        {
+          "title": "Field HTTP glossary",
+          "body": "Define method, path, status, header, cookie, and request body with one defensive use example.",
+          "solution": "Guided correction: method = HTTP intent, path = resource, status = result, header = context, cookie = client-side state, body = sent data. For each definition, give a defensive use: diagnosis, session control, error handling, cache, or validation."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "POST /login renvoie 302 puis un cookie de session. Quelle interprétation est la plus prudente ?",
+          "options": [
+            "La connexion a peut-être réussi et redirige",
+            "Le serveur est forcément en erreur",
+            "Le cookie prouve une faille"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une API renvoie 403 sur une action admin. Que signifie le plus probablement ce statut ?",
+          "options": [
+            "La demande est comprise mais non autorisée",
+            "Le serveur n'existe pas",
+            "Le navigateur est trop lent"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un cookie de session est transmis sans protection suffisante. Quel risque défensif notes-tu ?",
+          "options": [
+            "Vol ou réutilisation de session",
+            "Augmentation du débit",
+            "Erreur de typographie"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "POST /login returns 302 and a session cookie. What is the most careful interpretation?",
+          "options": [
+            "Sign-in may have succeeded and redirected",
+            "The server is certainly failing",
+            "The cookie proves a vulnerability"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "An API returns 403 for an admin action. What does that most likely mean?",
+          "options": [
+            "The request is understood but not authorized",
+            "The server does not exist",
+            "The browser is too slow"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A session cookie is sent without sufficient protection. What defensive risk do you note?",
+          "options": [
+            "Session theft or reuse",
+            "Higher bandwidth",
+            "A typo"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "web-form-basics",
+    "categorySlug": "web-security",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 40,
+    "title": {
+      "fr": "Formulaires web et validation",
+      "en": "Web forms and validation"
+    },
+    "summary": {
+      "fr": "Comprendre champs, soumission, validation client et validation serveur.",
+      "en": "Understand fields, submission, client validation, and server validation."
+    },
+    "objectives": {
+      "fr": [
+        "Identifier les données envoyées",
+        "Distinguer validation client et serveur",
+        "Construire une checklist de formulaire"
+      ],
+      "en": [
+        "Identify submitted data",
+        "Separate client and server validation",
+        "Build a form checklist"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Bases HTTP",
+          "courseSlug": "http-basics"
+        }
+      ],
+      "en": [
+        {
+          "label": "HTTP basics",
+          "courseSlug": "http-basics"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : formulaire veut dire zone ou l'utilisateur envoie des données. Champ veut dire une information, comme email. Validation veut dire vérification d'une règle. Type veut dire nature attendue, comme texte ou nombre. Longueur veut dire taille maximale. Contrat serveur veut dire liste de ce que le serveur accepte vraiment."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : un formulaire d'inscription demande email, mot de passe et nom. Le serveur vérifie format email, longueur du nom, robustesse du mot de passe et refuse un champ rôle=admin ajoute à la main. Le formulaire n'est donc pas une confiance : c'est une demande que le serveur doit contrôler."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : penser que si le champ n'apparait pas à l'écran, il ne peut pas être envoyé. Un utilisateur peut modifier une requête. Le serveur doit ignorer ou refuser les champs inattendus et ne jamais déduire un droit depuis une donnée libre."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : pour chaque champ, demande-toi quoi vérifier, qui a le droit de l'envoyer, quelle limite appliquer et quel message d'erreur afficher. Si tu peux faire cette table, tu sais penser comme un défenseur."
+        },
+        {
+          "title": "Le formulaire comme contrat",
+          "body": "Un formulaire définit ce que l'interface demande, mais pas ce que le serveur doit accepter. L'utilisateur, le navigateur ou un outil de test peuvent envoyer autre chose que ce que l'écran montre."
+        },
+        {
+          "title": "Validation côté client",
+          "body": "La validation dans le navigateur améliore l'expérience, mais elle ne protège pas l'application. Elle peut être contournée ou modifiée. Elle doit donc être répétée côté serveur."
+        },
+        {
+          "title": "Validation côté serveur",
+          "body": "Le serveur vérifie types, longueurs, valeurs autorisées, droits de l'utilisateur et intention de l'action. Une bonne validation donne une erreur claire sans exposer d'information sensible."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "La validation client aide l'utilisateur avant l'envoi. La validation serveur décide ce qui est accepté. Une contrainte vérifie type, longueur, format, valeur autorisée ou droit. Un message d'erreur utile corrige sans révéler d'information sensible."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un champ 'quantité' accepte seulement 1 à 10 dans l'interface. Un test envoie 999 directement au serveur. Si le serveur accepte, le problème n'est pas l'interface : c'est l'absence de validation côté serveur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: form means an area where the user sends data. Field means one piece of information, such as email. Validation means checking a rule. Type means expected nature, such as text or number. Length means maximum size. Server contract means what the server truly accepts."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: a sign-up form asks for email, password, and name. The server checks email format, name length, password strength, and rejects a manually added role=admin field. The form is not trust: it is a request the server must control."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking that if a field is not visible, it cannot be sent. A user can modify a request. The server must ignore or reject unexpected fields and never infer rights from free input."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: for every field, ask what to verify, who may send it, what limit applies, and which error message to show. If you can build that table, you think like a defender."
+        },
+        {
+          "title": "The form as a contract",
+          "body": "A form defines what the interface asks for, but not what the server should accept. The user, browser, or a test tool can send something different from what the screen shows."
+        },
+        {
+          "title": "Client-side validation",
+          "body": "Browser validation improves experience, but it does not protect the application. It can be bypassed or modified. It must therefore be repeated server-side."
+        },
+        {
+          "title": "Server-side validation",
+          "body": "The server checks types, lengths, allowed values, user rights, and action intent. Good validation returns a clear error without exposing sensitive information."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "Client validation helps the user before sending. Server validation decides what is accepted. A constraint checks type, length, format, allowed value, or rights. A useful error helps correction without revealing sensitive information."
+        },
+        {
+          "title": "Scenario",
+          "body": "A 'quantity' field allows only 1 to 10 in the interface. A test sends 999 directly to the server. If the server accepts it, the issue is not the interface: it is missing server-side validation."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Input Validation Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Input Validation Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Contrat de formulaire",
+          "body": "Pour un formulaire d'inscription, écris le contrat serveur : champs, types, longueurs, erreurs, droits, cas limites et données à ne jamais accepter.",
+          "solution": "Correction guidée : le contrat serveur doit refuser les champs inconnus, vérifier types, longueurs, formats, droits et intention. Pour l'inscription : email valide, mot de passe assez robuste, nom borné, aucun rôle fourni par le client, erreurs claires et journalisation sobre."
+        },
+        {
+          "title": "Cas limite",
+          "body": "Imagine trois entrées problématiques : email très long, nom vide, rôle 'admin' ajouté dans la requête. Explique la réponse serveur attendue.",
+          "solution": "Correction guidée : email trop long -> rejet avec limite claire. Nom vide -> rejet côté serveur même si le navigateur l'avait bloqué. rôle=admin -> ignoré ou rejeté car non autorisé. Dans les trois cas, pas de donnée sensible dans le message d'erreur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Form contract",
+          "body": "For a registration form, write the server contract: fields, types, lengths, errors, rights, edge cases, and data that must never be accepted.",
+          "solution": "Guided correction: the server contract should reject unknown fields and verify types, lengths, formats, rights, and intent. For registration: valid email, sufficiently robust password, bounded name, no role accepted from client, clear errors, and sober logging."
+        },
+        {
+          "title": "Edge case",
+          "body": "Imagine three problematic inputs: very long email, empty name, role 'admin' added to the request. Explain the expected server response.",
+          "solution": "Guided correction: very long email -> reject with clear limit. Empty name -> reject server-side even if browser should block it. role=admin -> ignore or reject as unauthorized. In all three cases, avoid sensitive data in the error message."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Le navigateur bloqué un champ vide, mais une requête directe l'envoie quand même. Où doit se trouver la protection décisive ?",
+          "options": [
+            "Côté serveur",
+            "Uniquement dans le HTML",
+            "Dans la couleur du bouton"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un utilisateur ajoute rôle=admin dans la soumission. Quelle réponse est saine ?",
+          "options": [
+            "Ignorer ou rejeter ce champ non autorisé",
+            "Créer un compte admin",
+            "Masquer l'erreur sans journal"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une erreur dit 'email déjà utilisé par alice@example.com'. Quel problème ?",
+          "options": [
+            "Elle révèle trop d'information",
+            "Elle est trop courte",
+            "Elle utilise HTTP"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "The browser blocks an empty field, but a direct request sends it anyway. Where must the decisive protection live?",
+          "options": [
+            "On the server",
+            "Only in HTML",
+            "In the button color"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A user adds role=admin to submission. What is a healthy response?",
+          "options": [
+            "Ignore or reject the unauthorized field",
+            "Create an admin account",
+            "Hide the error without logs"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "An error says 'email already used by alice@example.com'. What is the issue?",
+          "options": [
+            "It reveals too much information",
+            "It is too short",
+            "It uses HTTP"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "web-auth-foundations",
+    "categorySlug": "web-security",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Fondations de l'authentification web",
+      "en": "Web authentication foundations"
+    },
+    "summary": {
+      "fr": "Sessions, cookies, mots de passe, MFA, erreurs courantes et checklist défensive.",
+      "en": "Sessions, cookies, passwords, MFA, common mistakes, and defensive checklist."
+    },
+    "objectives": {
+      "fr": [
+        "Expliquer une session web",
+        "Identifier les contrôles essentiels",
+        "Évaluer un flux de connexion"
+      ],
+      "en": [
+        "Explain a web session",
+        "Identify essential controls",
+        "Evaluate a sign-in flow"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Bases HTTP",
+          "courseSlug": "http-basics"
+        },
+        {
+          "label": "Formulaires web",
+          "courseSlug": "web-form-basics"
+        }
+      ],
+      "en": [
+        {
+          "label": "HTTP basics",
+          "courseSlug": "http-basics"
+        },
+        {
+          "label": "Web forms",
+          "courseSlug": "web-form-basics"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : authentification veut dire prouver qui tu es. Autorisation veut dire vérifier ce que tu as le droit de faire. Session veut dire souvenir temporaire côté application. Cookie de session veut dire preuve stockée côté navigateur. Role veut dire niveau de droit, comme user ou admin."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : Alice se connecté, puis demande /factures/42. Le serveur ne doit pas seulement voir qu'Alice est connectée. Il doit vérifier que la facture 42 appartient à Alice ou que son rôle autorise l'accès. Connexion et autorisation sont deux questions différentes."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre connecté et autorisé. Un utilisateur connecté n'a pas automatiquement accès à tout. Autre piège : faire confiance a un rôle envoyé par le client. Le rôle fiable vient du serveur, de la base ou d'un jeton vérifie."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : devant chaque action sensible, pose deux questions : qui es-tu, puis as-tu le droit ici et maintenant. Si les deux réponses sont séparées, ton modèle mental est solide."
+        },
+        {
+          "title": "Authentification, session, autorisation",
+          "body": "L'authentification répond à 'qui es-tu ?'. La session garde cet état pendant une durée limitée. L'autorisation répond à 'as-tu le droit de faire cette action ?'. Les confondre crée des failles de logique."
+        },
+        {
+          "title": "Mot de passe et MFA",
+          "body": "Un bon flux limite les essais, protège les secrets, propose MFA quand le risque le justifie et évite les messages qui révèlent trop d'information. Le but n'est pas de rendre la connexion pénible, mais robuste."
+        },
+        {
+          "title": "Session cookie",
+          "body": "Un cookie de session doit être limité, protégé contre l'accès inutile, renouvelé avec prudence et invalidé à la déconnexion. La durée de vie doit correspondre au risque de l'application."
+        },
+        {
+          "title": "Checklist",
+          "body": "Vérifie : validation serveur, limitation des essais, gestion des erreurs, renouvellement de session, séparation des droits, récupération de compte, journaux utiles et procédure de révocation."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Authentification : prouver une identité. Session : conserver temporairement cet état. Autorisation : décider ce que cette identité peut faire. MFA : demander un facteur supplémentaire quand le risque le justifie."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un utilisateur standard modifié l'URL /users/12 en /users/13 et voit un autre profil. Le mot de passe n'est pas en cause : l'utilisateur est authentifié, mais l'autorisation de l'action n'est pas correctement vérifiée."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: authentication means proving who you are. Authorization means checking what you are allowed to do. Session means temporary application memory. Session cookie means proof stored in the browser. Role means right level, such as user or admin."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: Alice signs in, then requests /invoices/42. The server must not only see that Alice is signed in. It must check that invoice 42 belongs to Alice or that her role allows access. Sign-in and authorization are two different questions."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing signed in and authorized. A signed-in user does not automatically access everything. Another trap: trusting a role sent by the client. A reliable role comes from the server, database, or verified token."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: before every sensitive action, ask two questions: who are you, then are you allowed here and now. If both answers are separate, your mental model is solid."
+        },
+        {
+          "title": "Authentication, session, authorization",
+          "body": "Authentication answers 'who are you?'. The session keeps that state for a limited time. Authorization answers 'are you allowed to do this action?'. Confusing them creates logic flaws."
+        },
+        {
+          "title": "Password and MFA",
+          "body": "A good flow limits attempts, protects secrets, offers MFA when risk justifies it, and avoids messages that reveal too much. The goal is not painful sign-in, but robustness."
+        },
+        {
+          "title": "Session cookie",
+          "body": "A session cookie should be limited, protected from unnecessary access, renewed carefully, and invalidated on sign-out. Lifetime should match application risk."
+        },
+        {
+          "title": "Checklist",
+          "body": "Check: server validation, attempt limiting, error handling, session renewal, rights separation, account recovery, useful logs, and revocation process."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "Authentication proves identity. Session keeps that state temporarily. Authorization decides what that identity can do. MFA asks for an extra factor when risk justifies it."
+        },
+        {
+          "title": "Scenario",
+          "body": "A standard user changes /users/12 to /users/13 and sees another profile. The password is not the issue: the user is authenticated, but action authorization is not properly checked."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Authentication Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Authentication Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Scénario de droits",
+          "body": "Décris un flux où l'utilisateur est connecté mais ne doit pas accéder à une ressource. Écris les contrôles serveur attendus et les journaux utiles.",
+          "solution": "Correction guidée : décris un utilisateur authentifié qui demande une ressource appartenant à quelqu'un d'autre. Le serveur doit vérifier propriétaire, rôle, action demandée, état de session et journaliser l'échec sans exposer la ressource."
+        },
+        {
+          "title": "Table auth/session/autorisation",
+          "body": "Pour connexion, changement d'email, suppression de compte et accès admin, indique le contrôle principal, le risque et la réponse en cas d'échec.",
+          "solution": "Correction guidée : connexion = authentification et limitation des essais. Changement d'email = session récente, MFA ou confirmation. Suppression = autorisation forte et confirmation. Accès admin = rôle serveur vérifié, jamais un champ envoyé par le client."
+        }
+      ],
+      "en": [
+        {
+          "title": "Rights scenario",
+          "body": "Describe a flow where the user is signed in but must not access a resource. Write expected server checks and useful logs.",
+          "solution": "Guided correction: describe an authenticated user requesting someone else's resource. The server should check owner, role, requested action, session state, and log the failure without exposing the resource."
+        },
+        {
+          "title": "Auth/session/authorization table",
+          "body": "For sign-in, email change, account deletion, and admin access, list the main check, risk, and failure response.",
+          "solution": "Guided correction: sign-in = authentication and attempt limiting. Email change = recent session, MFA or confirmation. Deletion = strong authorization and confirmation. Admin access = server-verified role, never a client-sent field."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un utilisateur connecté accède à une facture qui ne lui appartient pas. Quelle famille de problème ?",
+          "options": [
+            "Autorisation",
+            "Authentification uniquement",
+            "Compression HTTP"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Après déconnexion, l'ancien cookie fonctionne encore. Quel contrôle manque ?",
+          "options": [
+            "Invalidation ou révocation de session",
+            "Validation du nom",
+            "Changement de police"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "MFA doit être demandé pour quelle action en priorité ?",
+          "options": [
+            "Action sensible comme changer l'email ou retirer des fonds",
+            "Lire une page publique",
+            "Afficher le logo"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A signed-in user accesses an invoice they do not own. What problem family is this?",
+          "options": [
+            "Authorization",
+            "Authentication only",
+            "HTTP compression"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "After sign-out, the old cookie still works. What check is missing?",
+          "options": [
+            "Session invalidation or revocation",
+            "Name validation",
+            "Font change"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "MFA should be prioritized for which action?",
+          "options": [
+            "Sensitive action like changing email or withdrawing funds",
+            "Reading a public page",
+            "Displaying the logo"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "tls-browser-security-basics",
+    "categorySlug": "web-security",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "TLS, cadenas et confiance web",
+      "en": "TLS, padlock, and web trust"
+    },
+    "summary": {
+      "fr": "Comprendre ce que le cadenas prouve et ne prouve pas.",
+      "en": "Understand what the padlock proves and does not prove."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "TLS chiffre le transport, certificat lie un nom a une clé, navigateur vérifie une chaîne de confiance. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un utilisateur voit un cadenas mais doute du site. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : croire que cadenas veut dire site légitime et contenu sans risque. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : nom de domaine, certificat, redirection, contenu attendu et contexte."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "TLS encrypts transport, certificate binds a name to a key, browser verifies a trust chain. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a user sees a padlock but doubts the site. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking a padlock means legitimate site and risk-free content. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: domain name, certificate, redirect, expected content, and context."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : nom de domaine, certificat, redirection, contenu attendu et contexte."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: domain name, certificate, redirect, expected content, and context."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "nom de domaine, certificat, redirection, contenu attendu et contexte",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "domain name, certificate, redirect, expected content, and context",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "access-control-basics",
+    "categorySlug": "web-security",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Controle d'accès web",
+      "en": "Web access control"
+    },
+    "summary": {
+      "fr": "Distinguer être connecté, être propriétaire et être autorisé.",
+      "en": "Separate being signed in, being owner, and being authorized."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Controle d'accès veut dire vérifier une action sur une ressource pour un utilisateur donne. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : Alice tente d'ouvrir une ressource appartenant à Bob dans un lab autorisé. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : vérifier seulement la connexion sans vérifier la ressource demandee. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : utilisateur, ressource, action, propriétaire, rôle et décision serveur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Access control means verifying an action on a resource for a given user. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: Alice tries to open Bob's resource inside an authorized lab. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: checking only sign-in without checking the requested resource. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: user, resource, action, owner, role, and server decision."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : utilisateur, ressource, action, propriétaire, rôle et décision serveur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: user, resource, action, owner, role, and server decision."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "utilisateur, ressource, action, propriétaire, rôle et décision serveur",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "user, resource, action, owner, role, and server decision",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "api-security-basics",
+    "categorySlug": "web-security",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Bases de sécurité API",
+      "en": "API security basics"
+    },
+    "summary": {
+      "fr": "Lire une API comme un contrat entre client et serveur.",
+      "en": "Read an API as a contract between client and server."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "API veut dire interface, endpoint veut dire point d'entrée, schéma veut dire format attendu, token veut dire preuve d'accès. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une application mobile envoie des données a une API. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : faire confiance au client parce qu'il est officiel. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : schéma valide, authentification, autorisation, limites et journal serveur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "API means interface, endpoint means entry point, schema means expected format, token means access proof. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a mobile app sends data to an API. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: trusting the client because it is official. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: valid schema, authentication, authorization, limits, and server log."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : schéma valide, authentification, autorisation, limites et journal serveur."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: valid schema, authentication, authorization, limits, and server log."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "schéma valide, authentification, autorisation, limites et journal serveur",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "valid schema, authentication, authorization, limits, and server log",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "web-logging-error-basics",
+    "categorySlug": "web-security",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 50,
+    "title": {
+      "fr": "Erreurs web et journaux utiles",
+      "en": "Web errors and useful logs"
+    },
+    "summary": {
+      "fr": "Savoir lire une erreur sans exposer trop d'information.",
+      "en": "Read an error without exposing too much information."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Erreur veut dire résultat inattendu, journal veut dire trace interne, message utilisateur doit aider sans révéler de secret. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une page renvoie 500 pendant qu'un utilisateur se connecté. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : afficher la trace technique complète à l'utilisateur. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : code statut, identifiant de correlation, journal serveur et message sobre."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Error means unexpected result, log means internal trace, user message should help without revealing secrets. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a page returns 500 while a user signs in. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: showing the full technical trace to the user. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: status code, correlation id, server log, and sober message."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Cheat Sheet Series",
+          "url": "https://cheatsheetseries.owasp.org/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : code statut, identifiant de correlation, journal serveur et message sobre."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: status code, correlation id, server log, and sober message."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "code statut, identifiant de correlation, journal serveur et message sobre",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "status code, correlation id, server log, and sober message",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,889 @@
+[
+  {
+    "slug": "infrastructure-asset-baseline",
+    "categorySlug": "hardware-infrastructure",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Inventaire d'infrastructure utile",
+      "en": "Useful infrastructure inventory"
+    },
+    "summary": {
+      "fr": "Identifier machines, rôles, dépendances, sauvegardes et exposition.",
+      "en": "Identify machines, roles, dependencies, backups, and exposure."
+    },
+    "objectives": {
+      "fr": [
+        "Classer les actifs",
+        "Décrire dépendances et exposition",
+        "Repérer les priorités de durcissement"
+      ],
+      "en": [
+        "Classify assets",
+        "Describe dependencies and exposure",
+        "Identify hardening priorities"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Bases TCP/IP",
+          "courseSlug": "tcpip-basics"
+        }
+      ],
+      "en": [
+        {
+          "label": "TCP/IP basics",
+          "courseSlug": "tcpip-basics"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : actif veut dire élément important, comme serveur, base, application ou sauvegarde. Baseline veut dire état de reference. Proprietaire veut dire personne responsable. Exposition veut dire qui peut atteindre l'actif. Criticite veut dire impact si l'actif tombe ou fuit."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : une base de données interne n'est pas seulement un nom. Tu notes son rôle, les applications qui l'utilisent, qui la gère, où elle est exposée, comment elle est sauvegardée et ce qui reste inconnu. La valeur est dans le contexte."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : faire une liste d'actifs sans priorité. Dix noms ne disent pas quoi protéger d'abord. Un actif peu visible mais sans sauvegarde testée peut être plus urgent qu'un poste connu et bien géré."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : pour chaque actif, tu dois pouvoir repondre : à quoi sert-il, qui en depend, qui y accede, que se passe-t-il s'il tombe, quelle preuve manque. La baseline devient alors utile."
+        },
+        {
+          "title": "Actif et rôle",
+          "body": "Un actif n'est pas seulement une machine. C'est un élément qui porte une fonction : authentifier, stocker, router, sauvegarder, publier ou superviser."
+        },
+        {
+          "title": "Dépendances",
+          "body": "Un service dépend souvent d'un DNS, d'un compte, d'un disque, d'une sauvegarde ou d'un autre service. Une panne de dépendance devient une panne du service."
+        },
+        {
+          "title": "Priorité",
+          "body": "Commence par ce qui est exposé, critique ou mal compris. Un inventaire sert à décider quoi protéger d'abord."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Un actif porte une fonction. Une dépendance est ce dont il a besoin pour fonctionner. Une exposition décrit qui peut l'atteindre. Une priorité combine criticité, exposition, fragilité et incertitude."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Une petite équipe possède un serveur web, une base de données, un NAS et un compte d'administration partagé. L'inventaire utile ne liste pas seulement des noms : il montre que le NAS dépend du compte admin et que la base n'a pas de sauvegarde vérifiée."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: asset means important element, such as server, database, application, or backup. Baseline means reference state. Owner means responsible person. Exposure means who can reach the asset. Criticality means impact if the asset fails or leaks."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: an internal database is not only a name. Record its role, applications that use it, who manages it, where it is exposed, how it is backed up, and what remains unknown. The value is in context."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: building an asset list without priority. Ten names do not say what to protect first. A less visible asset without tested backup can be more urgent than a known and well-managed workstation."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: for every asset, you should answer: what it does, who depends on it, who reaches it, what happens if it fails, which proof is missing. Then the baseline becomes useful."
+        },
+        {
+          "title": "Asset and role",
+          "body": "An asset is not just a machine. It carries a function: authenticate, store, route, backup, publish, or monitor."
+        },
+        {
+          "title": "Dependencies",
+          "body": "A service often depends on DNS, an account, a disk, a backup, or another service. Dependency failure becomes service failure."
+        },
+        {
+          "title": "Priority",
+          "body": "Start with what is exposed, critical, or poorly understood. Inventory helps decide what to protect first."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An asset carries a function. A dependency is what it needs to operate. Exposure describes who can reach it. Priority combines criticality, exposure, fragility, and uncertainty."
+        },
+        {
+          "title": "Scenario",
+          "body": "A small team has a web server, database, NAS, and shared admin account. A useful inventory does not only list names: it shows the NAS depends on the admin account and the database has no verified backup."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CIS Controls - Inventory",
+          "url": "https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets"
+        }
+      ],
+      "en": [
+        {
+          "label": "CIS Controls - Inventory",
+          "url": "https://www.cisecurity.org/controls/inventory-and-control-of-enterprise-assets"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Inventaire en contexte",
+          "body": "Crée une fiche pour 4 actifs : rôle, propriétaire, dépendances, exposition, sauvegarde, priorité et inconnue la plus dangereuse.",
+          "solution": "Correction guidée : pour chaque actif, indique rôle, propriétaire, dépendances, exposition, sauvegarde, priorité et inconnue dangereuse. Une fiche utile explique pourquoi l'actif compte, pas seulement son nom."
+        },
+        {
+          "title": "Décision de protection",
+          "body": "À partir de ton inventaire, choisis l'actif à traiter en premier et justifie avec exposition, impact et incertitude.",
+          "solution": "Correction guidée : choisis l'actif avec le meilleur mélange d'exposition, impact et incertitude. Exemple : une base peu documentée sans restauration testée peut passer avant un poste moins exposé."
+        }
+      ],
+      "en": [
+        {
+          "title": "Context inventory",
+          "body": "Create a sheet for 4 assets: role, owner, dependencies, exposure, backup, priority, and most dangerous unknown.",
+          "solution": "Guided correction: for each asset, state role, owner, dependencies, exposure, backup, priority, and dangerous unknown. A useful sheet explains why the asset matters, not only its name."
+        },
+        {
+          "title": "Protection decision",
+          "body": "From your inventory, choose the first asset to handle and justify with exposure, impact, and uncertainty.",
+          "solution": "Guided correction: choose the asset with the strongest mix of exposure, impact, and uncertainty. Example: a poorly documented database without tested restore can come before a less exposed workstation."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un serveur peu critique est exposé à Internet et mal compris. Pourquoi peut-il être prioritaire ?",
+          "options": [
+            "Son exposition et l'incertitude augmentent le risque",
+            "Son nom est court",
+            "Il a peu d'utilisateurs"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une sauvegarde existe mais n'a jamais été restaurée. Comment la noter ?",
+          "options": [
+            "Dépendance incertaine à vérifier",
+            "Protection prouvée",
+            "Information inutile"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un compte admin partagé apparaît dans l'inventaire. Quel risque principal ?",
+          "options": [
+            "Responsabilité et révocation difficiles",
+            "Connexion plus rapide",
+            "Moins de dépendances"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A low-criticality server is internet-exposed and poorly understood. Why can it be priority?",
+          "options": [
+            "Exposure and uncertainty increase risk",
+            "Its name is short",
+            "It has few users"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A backup exists but has never been restored. How do you record it?",
+          "options": [
+            "Uncertain dependency to verify",
+            "Proven protection",
+            "Useless information"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A shared admin account appears in inventory. What is the main risk?",
+          "options": [
+            "Accountability and revocation are difficult",
+            "Faster sign-in",
+            "Fewer dependencies"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "workstation-server-roles",
+    "categorySlug": "hardware-infrastructure",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 50,
+    "title": {
+      "fr": "Postes, serveurs et rôles",
+      "en": "Workstations, servers, and roles"
+    },
+    "summary": {
+      "fr": "Comprendre qui fait quoi dans une infrastructure simple.",
+      "en": "Understand who does what in a simple infrastructure."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Un poste sert à un utilisateur, un serveur rend un service, une appliance a souvent un rôle spécialisé. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois classer cinq machines inconnues sans les modifier. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : juger une machine uniquement par son nom ou son apparence. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : rôle observé, service attendu, propriétaire et dépendances."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "A workstation serves a user, a server provides a service, and an appliance often has a specialized role. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must classify five unknown machines without modifying them. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: judging a machine only by name or appearance. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: observed role, expected service, owner, and dependencies."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ],
+      "en": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : rôle observé, service attendu, propriétaire et dépendances."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: observed role, expected service, owner, and dependencies."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "rôle observé, service attendu, propriétaire et dépendances",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "observed role, expected service, owner, and dependencies",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "storage-backup-restore-basics",
+    "categorySlug": "hardware-infrastructure",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Stockage, sauvegarde et restauration",
+      "en": "Storage, backup, and restore"
+    },
+    "summary": {
+      "fr": "Savoir lire ce qui est stocke, sauvegarde et vraiment restaurable.",
+      "en": "Learn what is stored, backed up, and truly restorable."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Stockage veut dire données conservées, sauvegarde veut dire copie de protection, restauration veut dire retour testé. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une équipe dit avoir des sauvegardes mais personne n'a teste la restauration. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre sauvegarde présente et restauration fiable. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : date du dernier test de restauration, périmètre sauvegarde et temps de reprise."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Storage means kept data, backup means protective copy, restore means tested return. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a team says backups exist but nobody tested restoration. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing existing backup with reliable restoration. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: last restore test date, backup scope, and recovery time."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ],
+      "en": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : date du dernier test de restauration, périmètre sauvegarde et temps de reprise."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: last restore test date, backup scope, and recovery time."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "date du dernier test de restauration, périmètre sauvegarde et temps de reprise",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "last restore test date, backup scope, and recovery time",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "identity-directory-basics",
+    "categorySlug": "hardware-infrastructure",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Identite, annuaire et droits",
+      "en": "Identity, directory, and rights"
+    },
+    "summary": {
+      "fr": "Lire comptes, groupes, rôles et droits sans confondre les niveaux.",
+      "en": "Read accounts, groups, roles, and rights without mixing levels."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Identite veut dire compte, annuaire veut dire source centrale, groupe veut dire collection de comptes, droit veut dire action autorisée. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un utilisateur a accès a un partage qu'il ne devrait pas voir. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : retirer des droits au hasard sans comprendre le groupe qui les donne. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : chaîne compte -> groupe -> ressource -> permission effective."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Identity means account, directory means central source, group means account collection, right means allowed action. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a user can access a share they should not see. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: removing rights randomly without understanding which group grants them. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: chain account -> group -> resource -> effective permission."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ],
+      "en": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : chaîne compte -> groupe -> ressource -> permission effective."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: chain account -> group -> resource -> effective permission."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "chaîne compte -> groupe -> ressource -> permission effective",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "chain account -> group -> resource -> effective permission",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "cloud-exposure-basics",
+    "categorySlug": "hardware-infrastructure",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Exposition cloud et services publics",
+      "en": "Cloud exposure and public services"
+    },
+    "summary": {
+      "fr": "Distinguer service interne, service publié et mauvaise exposition.",
+      "en": "Separate internal service, published service, and bad exposure."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Cloud veut dire infrastructure louee ou geree, exposition veut dire accessible depuis un périmètre donne, public veut dire joignable depuis Internet. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu inventories les services publics d'une petite application. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : penser qu'un service cloud est protege parce qu'il appartient a un fournisseur connu. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : liste des ports publics, propriétaire, raison métier et règle d'accès."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Cloud means rented or managed infrastructure, exposure means reachable from a given scope, public means reachable from the Internet. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you inventory public services for a small application. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking a cloud service is protected because it belongs to a known provider. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: public ports, owner, business reason, and access rule."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ],
+      "en": [
+        {
+          "label": "CIS Controls",
+          "url": "https://www.cisecurity.org/controls"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : liste des ports publics, propriétaire, raison métier et règle d'accès."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: public ports, owner, business reason, and access rule."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "liste des ports publics, propriétaire, raison métier et règle d'accès",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "public ports, owner, business reason, and access rule",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

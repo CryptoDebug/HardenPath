@@ -1,0 +1,700 @@
+[
+  {
+    "slug": "ethical-red-team-scope-and-reporting",
+    "categorySlug": "ethical-red-team",
+    "level": "intermediate",
+    "isPremium": true,
+    "estimatedMinutes": 85,
+    "title": {
+      "fr": "Cadrage et rapport d'un test autorisé",
+      "en": "Scoping and reporting an authorized test"
+    },
+    "summary": {
+      "fr": "Définir un périmètre, travailler en laboratoire ou mission autorisée, et produire un rapport utile.",
+      "en": "Define scope, work in a lab or authorized mission, and produce a useful report."
+    },
+    "objectives": {
+      "fr": [
+        "Rédiger un périmètre clair",
+        "Identifier les limites éthiques et opérationnelles",
+        "Transformer une observation en recommandation"
+      ],
+      "en": [
+        "Write clear scope",
+        "Identify ethical and operational limits",
+        "Turn an observation into a recommendation"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Laboratoire local autorisé",
+          "courseSlug": "local-lab-vm-setup"
+        },
+        {
+          "label": "Notes de lab exploitables",
+          "courseSlug": "ctf-evidence-notes"
+        }
+      ],
+      "en": [
+        {
+          "label": "Authorized local lab",
+          "courseSlug": "local-lab-vm-setup"
+        },
+        {
+          "label": "Useful lab notes",
+          "courseSlug": "ctf-evidence-notes"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Autorisation explicite",
+          "body": "Un test offensif n'est acceptable que dans un cadre autorisé : lab personnel, CTF, environnement fourni ou mission validée. Le périmètre doit préciser cibles, dates, contacts, limites et actions interdites."
+        },
+        {
+          "title": "Preuve utile",
+          "body": "Une preuve doit montrer le risque sans causer de dommage. Elle contient contexte, impact, étapes de validation dans l'environnement autorisé, limites et niveau de confiance."
+        },
+        {
+          "title": "Rapport",
+          "body": "Un bon rapport aide à corriger. Pour chaque constat : description, impact, preuve, recommandation, priorité et vérification attendue. Le ton reste factuel, jamais spectaculaire."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Le périmètre fixe les cibles, dates, limites et contacts. Une preuve responsable montre le risque sans dommage. Une recommandation transforme l'observation en action défensive. Une règle d'arrêt protège la mission et les personnes."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un client autorise un test sur app.example.test mais pas sur le VPN ni les comptes employés. Si tu découvres un lien vers le VPN, la bonne décision n'est pas d'explorer : tu notes, demandes clarification et restes dans le périmètre."
+        }
+      ],
+      "en": [
+        {
+          "title": "Explicit authorization",
+          "body": "An offensive test is acceptable only in an authorized frame: personal lab, CTF, provided environment, or validated mission. Scope must define targets, dates, contacts, limits, and forbidden actions."
+        },
+        {
+          "title": "Useful evidence",
+          "body": "Evidence should show risk without causing damage. It includes context, impact, validation steps inside the authorized environment, limits, and confidence level."
+        },
+        {
+          "title": "Report",
+          "body": "A good report helps remediation. For each finding: description, impact, evidence, recommendation, priority, and expected verification. Tone stays factual, never theatrical."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "Scope fixes targets, dates, limits, and contacts. Responsible evidence shows risk without damage. A recommendation turns observation into defensive action. A stop rule protects the mission and people."
+        },
+        {
+          "title": "Scenario",
+          "body": "A client authorizes testing app.example.test but not VPN or employee accounts. If you discover a link to the VPN, the right decision is not to explore: record it, ask for clarification, and stay in scope."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Périmètre exploitable",
+          "body": "Écris une fiche de mission : objectifs, cibles autorisées, cibles interdites, horaires, contacts, preuves acceptables, règle d'arrêt et livrables.",
+          "solution": "Correction guidée : une fiche solide contient objectifs, cibles autorisées, cibles interdites, dates, contacts, limites techniques, preuves acceptables, règle d'arrêt et livrables. Tout élément hors périmètre doit être clarifié avant action."
+        },
+        {
+          "title": "Transformer une preuve",
+          "body": "À partir d'une observation fictive, rédige impact, preuve responsable, recommandation, priorité et vérification attendue.",
+          "premium": true,
+          "solution": "Correction guidée : observation -> impact -> preuve minimale -> recommandation -> priorité -> vérification attendue. La preuve doit démontrer le risque sans exposer de secret ni causer de dommage."
+        }
+      ],
+      "en": [
+        {
+          "title": "Usable scope",
+          "body": "Write a mission sheet: goals, authorized targets, forbidden targets, hours, contacts, acceptable evidence, stop rule, and deliverables.",
+          "solution": "Guided correction: a strong sheet contains goals, authorized targets, forbidden targets, dates, contacts, technical limits, acceptable evidence, stop rule, and deliverables. Anything out of scope must be clarified before action."
+        },
+        {
+          "title": "Turn evidence into remediation",
+          "body": "From a fictional observation, write impact, responsible evidence, recommendation, priority, and expected verification.",
+          "premium": true,
+          "solution": "Guided correction: observation -> impact -> minimal evidence -> recommendation -> priority -> expected verification. Evidence should demonstrate risk without exposing secrets or causing damage."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Pendant une mission autorisée, tu trouves une cible proche mais hors périmètre. Que fais-tu ?",
+          "options": [
+            "Tu documentes et demandes clarification sans tester",
+            "Tu testes vite avant d'oublier",
+            "Tu l'ignores dans le rapport"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une preuve montre un risque mais expose des données sensibles. Quelle approche ?",
+          "options": [
+            "Réduire la preuve au minimum utile et protéger le détail",
+            "Publier tout pour convaincre",
+            "Supprimer le constat"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une recommandation utile doit être...",
+          "options": [
+            "Actionnable et vérifiable",
+            "Spectaculaire",
+            "Vague pour rester flexible"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "During an authorized mission, you find a nearby but out-of-scope target. What do you do?",
+          "options": [
+            "Document and ask for clarification without testing",
+            "Test quickly before forgetting",
+            "Ignore it in the report"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Evidence shows risk but exposes sensitive data. What approach?",
+          "options": [
+            "Reduce evidence to the useful minimum and protect detail",
+            "Publish everything to convince",
+            "Delete the finding"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A useful recommendation must be...",
+          "options": [
+            "Actionable and verifiable",
+            "Spectacular",
+            "Vague to stay flexible"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "rules-of-engagement-basics",
+    "categorySlug": "ethical-red-team",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Règles d'engagement et autorisation",
+      "en": "Rules of engagement and authorization"
+    },
+    "summary": {
+      "fr": "Comprendre les limites avant toute pratique offensive.",
+      "en": "Understand limits before any offensive practice."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Règles d'engagement définissent cibles, dates, actions autorisées, interdits, contacts et arrêt. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu prepares un exercice dans un lab fourni. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : tester une cible proche mais hors périmètre. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : périmètre ecrit, autorisation, limites, contact et règle d'arrêt."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Rules of engagement define targets, dates, allowed actions, forbidden actions, contacts, and stop. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you prepare an exercise in a provided lab. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: testing a nearby but out-of-scope target. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: written scope, authorization, limits, contact, and stop rule."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : périmètre ecrit, autorisation, limites, contact et règle d'arrêt."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: written scope, authorization, limits, contact, and stop rule."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "périmètre ecrit, autorisation, limites, contact et règle d'arrêt",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "written scope, authorization, limits, contact, and stop rule",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "authorized-recon-method",
+    "categorySlug": "ethical-red-team",
+    "level": "intermediate",
+    "isPremium": true,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Reconnaissance autorisée et inventaire",
+      "en": "Authorized reconnaissance and inventory"
+    },
+    "summary": {
+      "fr": "Observer un périmètre autorisé sans dépasser le cadre.",
+      "en": "Observe an authorized scope without exceeding it."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Reconnaissance veut dire collecte d'informations dans un cadre autorisé, inventaire veut dire liste vérifiable. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois inventorier un lab sans tester hors scope. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre observation autorisée et curiosité sans limite. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : source, cible autorisée, observation, limite et prochaine validation permise."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Reconnaissance means information collection in an authorized scope, inventory means verifiable list. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must inventory a lab without testing out of scope. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing authorized observation with unlimited curiosity. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: source, authorized target, observation, limit, and next allowed validation."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : source, cible autorisée, observation, limite et prochaine validation permise."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: source, authorized target, observation, limit, and next allowed validation."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "source, cible autorisée, observation, limite et prochaine validation permise",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "source, authorized target, observation, limit, and next allowed validation",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "responsible-validation-basics",
+    "categorySlug": "ethical-red-team",
+    "level": "intermediate",
+    "isPremium": true,
+    "estimatedMinutes": 75,
+    "title": {
+      "fr": "Validation responsable d'un risque",
+      "en": "Responsible risk validation"
+    },
+    "summary": {
+      "fr": "Prouver assez pour corriger, pas plus.",
+      "en": "Prove enough to fix, not more."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Validation veut dire confirmer un risque dans la limite autorisée, preuve minimale veut dire montrer sans exposer. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une observation de lab indique un accès trop large. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : chercher une preuve spectaculaire au lieu d'une preuve suffisante. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : impact, étapes limitées, preuve minimale, recommandation et vérification."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Validation means confirming risk within authorized limits, minimal evidence means showing without exposing. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a lab observation suggests overly broad access. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: seeking spectacular proof instead of sufficient proof. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: impact, limited steps, minimal evidence, recommendation, and verification."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Testing Guide",
+          "url": "https://owasp.org/www-project-web-security-testing-guide/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : impact, étapes limitées, preuve minimale, recommandation et vérification."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: impact, limited steps, minimal evidence, recommendation, and verification."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "impact, étapes limitées, preuve minimale, recommandation et vérification",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "impact, limited steps, minimal evidence, recommendation, and verification",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

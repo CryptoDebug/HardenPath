@@ -1,0 +1,887 @@
+[
+  {
+    "slug": "opsec-public-footprint-review",
+    "categorySlug": "opsec",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Revue d'empreinte publique",
+      "en": "Public footprint review"
+    },
+    "summary": {
+      "fr": "Identifier ce qu'un profil, un domaine ou une organisation expose volontairement ou par habitude.",
+      "en": "Identify what a profile, domain, or organization exposes voluntarily or by habit."
+    },
+    "objectives": {
+      "fr": [
+        "Distinguer information publique et information sensible",
+        "Construire une fiche d'exposition",
+        "Choisir des mesures de réduction réalistes"
+      ],
+      "en": [
+        "Distinguish public and sensitive information",
+        "Build an exposure sheet",
+        "Choose realistic reduction measures"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : OpSec veut dire sécurité opérationnelle, donc limiter ce que tes habitudes révèlent. Empreinte publique veut dire informations visibles par tous. Corrélation veut dire relier plusieurs petits indices. Réduction veut dire enlever, flouter ou séparer ce qui expose trop."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : une ville seule semble banale, un outil publié semble banal, un horaire semble banal. Ensemble, ville + outil + horaires + employeur peuvent aider quelqu'un à te cibler. L'analyse OpSec regarde les combinaisons, pas seulement les détails isolés."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : supprimer au hasard ou paniquer. L'objectif n'est pas de disparaitre, mais de choisir ce qui reste public. Une bonne réduction garde ce qui sert ton objectif et retire ce qui donne trop de contexte inutile."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : pour chaque info publique, demande : qui peut la voir, que peut-on deviner avec, quel autre indice la renforce, est-elle nécessaire. Cette grille simple donne un vrai contrôle."
+        },
+        {
+          "title": "Ce qu'est l'empreinte",
+          "body": "L'empreinte publique regroupe les informations accessibles sans intrusion : profils, biographies, documents publiés, noms d'outils, adresses, habitudes, technologies annoncées et liens entre personnes. Le travail OpSec consiste à comprendre ce que ces informations permettent de déduire."
+        },
+        {
+          "title": "Classer le risque",
+          "body": "Une information n'est pas dangereuse toute seule par nature. Elle devient sensible si elle aide à usurper une identité, deviner un processus, cibler une personne ou contourner une protection. Classe chaque élément en contexte, exposition, utilité pour un tiers et mesure de réduction."
+        },
+        {
+          "title": "Réduire sans disparaître",
+          "body": "La bonne OpSec ne consiste pas à tout supprimer. Elle consiste à publier moins de détails inutiles, séparer les identités, limiter les métadonnées, éviter les routines trop visibles et vérifier régulièrement ce qui reste public."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Une empreinte publique est l'ensemble des informations accessibles sans intrusion. Une corrélation relie plusieurs détails faibles. Une réduction de risque supprime, limite ou sépare une information exploitable."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un profil public affiche ville, employeur, technologies, horaires de publication et photos de badge floutées. Pris séparément, chaque détail semble banal. Ensemble, ils peuvent aider à cibler une personne ou deviner un processus interne."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: OpSec means operational security, limiting what your habits reveal. Public footprint means information visible to everyone. Correlation means connecting several small clues. Reduction means removing, blurring, or separating what exposes too much."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: a city alone looks ordinary, a published tool looks ordinary, a schedule looks ordinary. Together, city + tool + schedule + employer can help someone target you. OpSec analysis reads combinations, not only isolated details."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: deleting randomly or panicking. The goal is not to disappear, but to choose what stays public. Good reduction keeps what serves your goal and removes unnecessary context."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: for every public detail, ask: who can see it, what can be guessed from it, which other clue reinforces it, is it necessary. This simple grid gives real control."
+        },
+        {
+          "title": "What footprint means",
+          "body": "Public footprint includes information reachable without intrusion: profiles, biographies, published documents, tool names, addresses, habits, announced technologies, and links between people. OpSec work is understanding what can be inferred from it."
+        },
+        {
+          "title": "Classify risk",
+          "body": "Information is not automatically dangerous by itself. It becomes sensitive if it helps impersonation, process guessing, personal targeting, or bypassing a protection. Class each item by context, exposure, usefulness to a third party, and reduction measure."
+        },
+        {
+          "title": "Reduce without disappearing",
+          "body": "Good OpSec is not deleting everything. It is publishing fewer unnecessary details, separating identities, limiting metadata, avoiding visible routines, and checking regularly what remains public."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "A public footprint is the set of information reachable without intrusion. Correlation links several weak details. Risk reduction removes, limits, or separates exploitable information."
+        },
+        {
+          "title": "Scenario",
+          "body": "A public profile shows city, employer, technologies, posting schedule, and blurred badge photos. Separately, each detail seems ordinary. Together, they can help target a person or infer an internal process."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CNIL - Maîtriser son identité numérique",
+          "url": "https://www.cnil.fr/fr/maitriser-mes-données"
+        }
+      ],
+      "en": [
+        {
+          "label": "EFF - Surveillance Self-Defense",
+          "url": "https://ssd.eff.org/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Revue par corrélation",
+          "body": "Analyse un profil de test : note 10 informations, puis regroupe celles qui deviennent sensibles quand elles sont combinées.",
+          "solution": "Correction guidée : note les 10 informations, puis combine-les. Une ville + horaires + employeur + outil interne peut devenir sensible même si chaque détail semble banal. La réponse attendue classe exposition, utilité pour un tiers et réduction."
+        },
+        {
+          "title": "Plan de réduction",
+          "body": "Pour chaque information risquée, propose une action : retirer, généraliser, séparer l'identité, limiter l'audience ou surveiller.",
+          "solution": "Correction guidée : associe une action à chaque risque : supprimer si inutile, généraliser si trop précis, séparer les identités si corrélable, limiter l'audience si personnel, surveiller si nécessaire."
+        }
+      ],
+      "en": [
+        {
+          "title": "Correlation review",
+          "body": "Analyze a test profile: record 10 pieces of information, then group those that become sensitive when combined.",
+          "solution": "Guided correction: record the 10 pieces of information, then combine them. City + schedule + employer + internal tool can become sensitive even if each detail looks ordinary. Expected answer classifies exposure, third-party usefulness, and reduction."
+        },
+        {
+          "title": "Reduction plan",
+          "body": "For each risky piece of information, propose an action: remove, generalize, separate identity, limit audience, or monitor.",
+          "solution": "Guided correction: attach one action to each risk: remove if useless, generalize if too precise, separate identities if correlatable, limit audience if personal, monitor if necessary."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Une bio publique mentionne ville, outil interne et horaires. Quel risque réaliste ?",
+          "options": [
+            "Corrélation utile pour ciblage ou usurpation",
+            "Aucun, chaque détail est banal",
+            "Uniquement un problème esthétique"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Tu veux réduire ton empreinte sans disparaître. Quelle action est saine ?",
+          "options": [
+            "Généraliser les détails inutiles et séparer les identités",
+            "Tout publier puis espérer",
+            "Supprimer seulement les anciennes photos"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une information devient sensible surtout quand...",
+          "options": [
+            "Elle aide une déduction ou une action contre toi",
+            "Elle contient moins de 5 mots",
+            "Elle est en français"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A public bio mentions city, internal tool, and schedule. What realistic risk appears?",
+          "options": [
+            "Useful correlation for targeting or impersonation",
+            "None, each detail is ordinary",
+            "Only an aesthetic issue"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "You want to reduce footprint without disappearing. What is healthy?",
+          "options": [
+            "Generalize unnecessary details and separate identities",
+            "Publish everything and hope",
+            "Only delete old photos"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Information becomes sensitive especially when...",
+          "options": [
+            "It helps an inference or action against you",
+            "It has fewer than 5 words",
+            "It is in French"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "password-mfa-hygiene",
+    "categorySlug": "opsec",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 45,
+    "title": {
+      "fr": "Mots de passe, gestionnaire et MFA",
+      "en": "Passwords, manager, and MFA"
+    },
+    "summary": {
+      "fr": "Construire une hygiène simple et durable pour les comptes.",
+      "en": "Build simple and durable account hygiene."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Un mot de passe unique limite la réutilisation, un gestionnaire stocke, le MFA ajoute une preuve supplémentaire. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois sécuriser les comptes essentiels d'un débutant. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : utiliser le même mot de passe partout puis croire que le MFA repare tout. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : comptes prioritaires, mots de passe uniques, MFA actif et méthode de récupération."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "A unique password limits reuse, a manager stores it, MFA adds another proof. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must secure a beginner's essential accounts. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: using the same password everywhere and thinking MFA fixes everything. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: priority accounts, unique passwords, active MFA, and recovery method."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : comptes prioritaires, mots de passe uniques, MFA actif et méthode de récupération."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: priority accounts, unique passwords, active MFA, and recovery method."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "comptes prioritaires, mots de passe uniques, MFA actif et méthode de récupération",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "priority accounts, unique passwords, active MFA, and recovery method",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "browser-device-hygiene",
+    "categorySlug": "opsec",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 50,
+    "title": {
+      "fr": "Hygiene navigateur et appareil",
+      "en": "Browser and device hygiene"
+    },
+    "summary": {
+      "fr": "Limiter les risques quotidiens sans tomber dans la paranoïa.",
+      "en": "Reduce everyday risk without paranoia."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Navigateur, extensions, mises à jour, verrouillage et sauvegarde forment la base d'un poste sain. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu fais une revue d'un ordinateur personnel avant une formation. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : installer trop d'extensions ou ignorer les mises à jour parce que tout semble fonctionner. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : liste d'extensions, état de mise à jour, verrouillage, sauvegarde et comptes connectes."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Browser, extensions, updates, locking, and backup form the base of a healthy device. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you review a personal computer before training. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: installing too many extensions or ignoring updates because everything seems to work. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: extension list, update state, lock, backup, and signed-in accounts."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : liste d'extensions, état de mise à jour, verrouillage, sauvegarde et comptes connectes."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: extension list, update state, lock, backup, and signed-in accounts."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "liste d'extensions, état de mise à jour, verrouillage, sauvegarde et comptes connectes",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "extension list, update state, lock, backup, and signed-in accounts",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "phishing-social-engineering-basics",
+    "categorySlug": "opsec",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Phishing et manipulation sociale",
+      "en": "Phishing and social manipulation"
+    },
+    "summary": {
+      "fr": "Reconnaître les signaux sans accuser trop vite.",
+      "en": "Recognize signals without accusing too fast."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Phishing veut dire tentative de tromperie, urgence veut dire pression, lien veut dire action demandee, contexte veut dire cohérence avec la situation. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un message demande une connexion urgente pour éviter une suspension. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : cliquer pour vérifier ou transférer le message sans contexte. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : expéditeur, domaine, demande, urgence, canal alternatif et signalement."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Phishing means deception attempt, urgency means pressure, link means requested action, context means consistency with the situation. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a message asks for urgent login to avoid suspension. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: clicking to verify or forwarding without context. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: sender, domain, request, urgency, alternate channel, and reporting."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : expéditeur, domaine, demande, urgence, canal alternatif et signalement."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: sender, domain, request, urgency, alternate channel, and reporting."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "expéditeur, domaine, demande, urgence, canal alternatif et signalement",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "sender, domain, request, urgency, alternate channel, and reporting",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "personal-threat-model-basics",
+    "categorySlug": "opsec",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Mini threat model personnel",
+      "en": "Personal mini threat model"
+    },
+    "summary": {
+      "fr": "Choisir des protections adaptées a sa vraie situation.",
+      "en": "Choose protections adapted to the real situation."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Threat model veut dire modèle de menace : quoi protéger, contre qui, avec quelles limites. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu veux réduire ton exposition publique sans supprimer toute ta vie numérique. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : copier les protections d'une autre personne sans avoir les memes menaces. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : actifs personnels, adversaires plausibles, impacts et actions proportionnées."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Threat model means threat model: what to protect, against whom, with which limits. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you want to reduce public exposure without deleting your digital life. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: copying someone else's protections without having the same threats. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: personal assets, plausible adversaries, impacts, and proportionate actions."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Privacy Framework",
+          "url": "https://www.nist.gov/privacy-framework"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : actifs personnels, adversaires plausibles, impacts et actions proportionnées."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: personal assets, plausible adversaries, impacts, and proportionate actions."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "actifs personnels, adversaires plausibles, impacts et actions proportionnées",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "personal assets, plausible adversaries, impacts, and proportionate actions",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,865 @@
+[
+  {
+    "slug": "blue-team-alert-triage",
+    "categorySlug": "blue-team",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 80,
+    "title": {
+      "fr": "Triage d'alerte Blue Team",
+      "en": "Blue Team alert triage"
+    },
+    "summary": {
+      "fr": "Qualifier une alerte, vérifier son contexte et décider d'une action proportionnée.",
+      "en": "Qualify an alert, verify its context, and choose a proportionate action."
+    },
+    "objectives": {
+      "fr": [
+        "Décrire le signal d'une alerte",
+        "Chercher le contexte utile",
+        "Décider entre faux positif, surveillance et escalade"
+      ],
+      "en": [
+        "Describe an alert signal",
+        "Look for useful context",
+        "Decide between false positive, monitoring, and escalation"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Inventaire d'infrastructure utile",
+          "courseSlug": "infrastructure-asset-baseline"
+        },
+        {
+          "label": "Première chronologie forensic",
+          "courseSlug": "forensics-timeline-first-pass"
+        }
+      ],
+      "en": [
+        {
+          "label": "Useful infrastructure inventory",
+          "courseSlug": "infrastructure-asset-baseline"
+        },
+        {
+          "label": "First forensic timeline",
+          "courseSlug": "forensics-timeline-first-pass"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Le signal",
+          "body": "Une alerte est un signal, pas une vérité. Commence par nommer ce qui l'a déclenchée : source, règle, actif concerné, heure, sévérité annoncée et comportement observé."
+        },
+        {
+          "title": "Le contexte change tout",
+          "body": "La même alerte n'a pas la même gravité sur un poste de test, un serveur exposé ou un compte administrateur. Le triage cherche le contexte minimal : rôle de l'actif, utilisateur, historique récent et impact possible."
+        },
+        {
+          "title": "Décision proportionnée",
+          "body": "Une bonne décision est justifiable : faux positif documenté, surveillance avec critère de sortie, ou escalade avec preuves. L'objectif est de réduire l'incertitude sans bloquer inutilement l'activité."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Une alerte est un signal. Un faux positif est une alerte expliquée sans incident. L'escalade transmet un cas avec preuves suffisantes. Un critère de sortie dit quand arrêter la surveillance ou changer d'action."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Une alerte signale une connexion admin à 02:13. Avant de paniquer, tu vérifies le rôle du compte, l'historique, la source, le changement planifié éventuel et les actions après connexion. Le triage réduit l'incertitude avant l'escalade."
+        }
+      ],
+      "en": [
+        {
+          "title": "The signal",
+          "body": "An alert is a signal, not truth. Start by naming what triggered it: source, rule, affected asset, time, announced severity, and observed behavior."
+        },
+        {
+          "title": "Context changes everything",
+          "body": "The same alert does not carry the same severity on a test workstation, an exposed server, or an admin account. Triage looks for minimal context: asset role, user, recent history, and possible impact."
+        },
+        {
+          "title": "Proportionate decision",
+          "body": "A good decision is justifiable: documented false positive, monitoring with exit criteria, or escalation with evidence. The goal is reducing uncertainty without unnecessarily blocking activity."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An alert is a signal. A false positive is an explained alert without incident. Escalation transfers a case with enough evidence. An exit criterion says when to stop monitoring or change action."
+        },
+        {
+          "title": "Scenario",
+          "body": "An alert reports an admin sign-in at 02:13. Before panicking, you check account role, history, source, possible planned change, and actions after sign-in. Triage reduces uncertainty before escalation."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "CISA Incident Response Playbook",
+          "url": "https://www.cisa.gov/resources-tools/resources/federal-government-cybersecurity-incident-and-vulnerability-response-playbooks"
+        }
+      ],
+      "en": [
+        {
+          "label": "CISA Incident Response Playbook",
+          "url": "https://www.cisa.gov/resources-tools/resources/federal-government-cybersecurity-incident-and-vulnerability-response-playbooks"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Ticket de triage complet",
+          "body": "Rédige un ticket avec signal, contexte, hypothèses, preuves présentes, preuves manquantes, décision et critère de sortie.",
+          "solution": "Correction guidée : le ticket doit inclure signal, actif, utilisateur, heure, source, contexte récent, hypothèses, preuves disponibles, preuves manquantes, décision et critère de sortie. Sans critère, la surveillance n'a pas de fin."
+        },
+        {
+          "title": "Trois décisions",
+          "body": "Pour trois alertes fictives, choisis faux positif, surveillance ou escalade. Justifie avec contexte et preuve.",
+          "solution": "Correction guidée : faux positif si le contexte explique clairement. Surveillance si l'incertitude reste mais l'impact immédiat est limité. Escalade si preuves, impact ou privilèges justifient une décision rapide."
+        }
+      ],
+      "en": [
+        {
+          "title": "Complete triage ticket",
+          "body": "Write a ticket with signal, context, hypotheses, available evidence, missing evidence, decision, and exit criterion.",
+          "solution": "Guided correction: the ticket should include signal, asset, user, time, source, recent context, hypotheses, available evidence, missing evidence, decision, and exit criterion. Without criteria, monitoring has no end."
+        },
+        {
+          "title": "Three decisions",
+          "body": "For three fictional alerts, choose false positive, monitoring, or escalation. Justify with context and evidence.",
+          "solution": "Guided correction: false positive if context clearly explains it. Monitoring if uncertainty remains but immediate impact is limited. Escalation if evidence, impact, or privileges justify fast decision."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Une alerte critique touche un serveur de test isolé. Quelle question change la priorité ?",
+          "options": [
+            "Quel est le rôle réel et l'exposition de l'actif ?",
+            "Quelle est la couleur de l'alerte ?",
+            "Combien de mots dans le titre ?"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Tu escalades une alerte. Que doit contenir le dossier ?",
+          "options": [
+            "Signal, contexte, preuves et décision demandée",
+            "Seulement 'urgent'",
+            "Une capture sans explication"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une surveillance est choisie. Qu'est-ce qui manque souvent ?",
+          "options": [
+            "Un critère de sortie clair",
+            "Un logo",
+            "Un score arbitraire"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A critical alert affects an isolated test server. Which question changes priority?",
+          "options": [
+            "What is the asset's real role and exposure?",
+            "What color is the alert?",
+            "How many words are in the title?"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "You escalate an alert. What must the case contain?",
+          "options": [
+            "Signal, context, evidence, and requested decision",
+            "Only 'urgent'",
+            "A screenshot without explanation"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Monitoring is chosen. What is often missing?",
+          "options": [
+            "A clear exit criterion",
+            "A logo",
+            "An arbitrary score"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "security-logging-basics",
+    "categorySlug": "blue-team",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Journaux de sécurité utiles",
+      "en": "Useful security logs"
+    },
+    "summary": {
+      "fr": "Comprendre ce qu'il faut journaliser et pourquoi.",
+      "en": "Understand what to log and why."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Journal utile contient qui, quoi, quand, où, résultat et contexte. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois choisir les journaux minimum pour une petite application. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : journaliser trop peu ou stocker des secrets dans les journaux. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : événement, identifiant, horodatage, résultat, correlation et absence de secret."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "A useful log contains who, what, when, where, result, and context. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must choose minimum logs for a small application. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: logging too little or storing secrets in logs. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: event, identifier, timestamp, result, correlation, and no secret."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : événement, identifiant, horodatage, résultat, correlation et absence de secret."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: event, identifier, timestamp, result, correlation, and no secret."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "événement, identifiant, horodatage, résultat, correlation et absence de secret",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "event, identifier, timestamp, result, correlation, and no secret",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "siem-dashboard-basics",
+    "categorySlug": "blue-team",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "SIEM et tableaux de bord",
+      "en": "SIEM and dashboards"
+    },
+    "summary": {
+      "fr": "Lire un tableau de bord comme une aide à la décision.",
+      "en": "Read a dashboard as decision support."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "SIEM centralise des signaux, tableau de bord résume, requête cherche, alerte demande qualification. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un tableau affiche beaucoup d'alertes mais peu de contexte. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : croire que plus d'alertes veut dire meilleure détection. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : source du signal, volume, tendance, exemple, faux positifs et décision."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "SIEM centralizes signals, dashboard summarizes, query searches, alert requires qualification. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a dashboard shows many alerts but little context. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: thinking more alerts means better detection. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: signal source, volume, trend, example, false positives, and decision."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : source du signal, volume, tendance, exemple, faux positifs et décision."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: signal source, volume, trend, example, false positives, and decision."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "source du signal, volume, tendance, exemple, faux positifs et décision",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "signal source, volume, trend, example, false positives, and decision",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "incident-response-first-hour",
+    "categorySlug": "blue-team",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Premiere heure de réponse a incident",
+      "en": "First hour of incident response"
+    },
+    "summary": {
+      "fr": "Savoir quoi faire sans empirer la situation.",
+      "en": "Know what to do without making the situation worse."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Incident veut dire événement avec impact potentiel, triage veut dire prioriser, confinement veut dire limiter l'impact. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une alerte crédible arrive sur un poste important. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : éteindre ou nettoyer trop vite sans preuve ni coordination. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : chronologie initiale, actifs touchés, impact, décision et responsable."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Incident means event with possible impact, triage means prioritizing, containment means limiting impact. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a credible alert arrives on an important workstation. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: shutting down or cleaning too fast without evidence or coordination. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: initial timeline, affected assets, impact, decision, and owner."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : chronologie initiale, actifs touchés, impact, décision et responsable."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: initial timeline, affected assets, impact, decision, and owner."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "chronologie initiale, actifs touchés, impact, décision et responsable",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "initial timeline, affected assets, impact, decision, and owner",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "detection-rule-lifecycle",
+    "categorySlug": "blue-team",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Cycle de vie d'une règle de détection",
+      "en": "Detection rule lifecycle"
+    },
+    "summary": {
+      "fr": "Créer, tester, ajuster et documenter une détection.",
+      "en": "Create, test, tune, and document a detection."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Détection veut dire signal utile, règle veut dire condition, test veut dire vérification, tuning veut dire réduction du bruit. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une nouvelle règle produit trop de faux positifs. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : désactiver la règle sans apprendre pourquoi elle bruite. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : objectif, logique, exemples vrais/faux, seuil, exception et revue."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Detection means useful signal, rule means condition, test means verification, tuning means noise reduction. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a new rule produces too many false positives. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: disabling the rule without learning why it is noisy. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: objective, logic, true/false examples, threshold, exception, and review."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Computer Security Incident Handling Guide",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : objectif, logique, exemples vrais/faux, seuil, exception et revue."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: objective, logic, true/false examples, threshold, exception, and review."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "objectif, logique, exemples vrais/faux, seuil, exception et revue",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "objective, logic, true/false examples, threshold, exception, and review",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

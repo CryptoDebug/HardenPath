@@ -1,0 +1,1082 @@
+[
+  {
+    "slug": "linux-shell-basics",
+    "categorySlug": "linux",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Shell Linux pour l'analyse",
+      "en": "Linux shell for analysis"
+    },
+    "summary": {
+      "fr": "Se déplacer, lire, filtrer, comprendre permissions et journaux sans casser le système.",
+      "en": "Navigate, read, filter, understand permissions and logs without breaking the system."
+    },
+    "objectives": {
+      "fr": [
+        "Utiliser les commandes de lecture",
+        "Comprendre permissions et propriétaires",
+        "Filtrer un journal simple"
+      ],
+      "en": [
+        "Use reading commands",
+        "Understand permissions and owners",
+        "Filter a simple log"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : shell veut dire interface texte pour parler au système. Commande veut dire instruction. Repertoire veut dire dossier. Fichier veut dire données stockées. Droit veut dire qui peut lire, ecrire ou exécuter. Journal veut dire trace d'événements."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : tu arrives dans un dossier inconnu. Tu utilises pwd pour savoir où tu es, ls -la pour voir les fichiers, file pour comprendre leur type, puis less pour lire sans modifier. Tu avances comme un analyste : observer, comprendre, conclure doucement."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : lancer une commande destructive avant d'avoir observé. En sécurité, lire vaut souvent mieux qu'agir. Évite de supprimer, de déplacer ou de modifier tant que tu ne sais pas ce que représente le fichier et quel impact aurait le changement."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : si tu peux expliquer une ligne ls -la avec propriétaire, groupe, droits et nom du fichier, tu as la base. Si tu peux lire un journal sans le modifier, tu gagnes un vrai reflexe d'analyse."
+        },
+        {
+          "title": "Lire avant modifier",
+          "body": "En sécurité, la première compétence Linux est l'observation. pwd, ls, cat, less, head, tail, file et stat permettent de comprendre où tu es, ce que tu regardes et quelles métadonnées entourent un fichier."
+        },
+        {
+          "title": "Permissions",
+          "body": "Les permissions se lisent par utilisateur, groupe et autres. Le propriétaire n'est pas forcément le seul à pouvoir agir. Pour analyser un problème, note toujours propriétaire, groupe, droits et chemin complet."
+        },
+        {
+          "title": "Filtrage",
+          "body": "grep, sort, uniq, cut et wc transforment un gros journal en information lisible. La bonne question n'est pas 'quelle commande lancer ?', mais 'quelle observation je veux extraire ?'."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Un chemin absolu part de /. Un chemin relatif part de l'endroit où tu te trouves. Les permissions se lisent pour propriétaire, groupe et autres. Un journal est une source d'événements, pas une conclusion."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un service ne démarre plus. Tu ne modifies rien au départ : tu localises le fichier, lis les permissions, observes les derniers journaux, puis formules une hypothèse. Cette discipline évite d'ajouter une panne à la panne."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: shell means text interface to talk to the system. Command means instruction. Directory means folder. File means stored data. Permission means who can read, write, or execute. Log means event trace."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: you enter an unknown folder. Use pwd to know where you are, ls -la to see files, file to understand their type, then less to read without modifying. You move like an analyst: observe, understand, conclude carefully."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: running a destructive command before observing. In security, reading is often better than acting. Avoid deleting, moving, or modifying until you know what the file represents and what the change would impact."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: if you can explain an ls -la line with owner, group, permissions, and file name, you have the base. If you can read a log without modifying it, you gain a real analysis reflex."
+        },
+        {
+          "title": "Read before modifying",
+          "body": "In security, the first Linux skill is observation. pwd, ls, cat, less, head, tail, file, and stat help understand where you are, what you read, and which metadata surrounds a file."
+        },
+        {
+          "title": "Permissions",
+          "body": "Permissions are read by user, group, and others. The owner is not always the only actor. To analyze an issue, always record owner, group, rights, and full path."
+        },
+        {
+          "title": "Filtering",
+          "body": "grep, sort, uniq, cut, and wc turn a large log into readable information. The right question is not 'which command?', but 'which observation do I need?'."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An absolute path starts at /. A relative path starts where you are. Permissions are read for owner, group, and others. A log is a source of events, not a conclusion."
+        },
+        {
+          "title": "Scenario",
+          "body": "A service no longer starts. You change nothing at first: locate the file, read permissions, observe recent logs, then form a hypothesis. This discipline avoids adding a failure to the failure."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Linux man-pages",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux man-pages",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Enquête sans modification",
+          "body": "Écris une procédure de 8 commandes maximum pour comprendre un fichier suspect : emplacement, type, taille, propriétaire, permissions, dernières lignes associées.",
+          "solution": "Correction guidée : commence par pwd, ls -la, file, stat, puis lis sans modifier avec less/head/tail. Ensuite seulement, filtre les journaux utiles. La conclusion doit dire ce qui est observé, ce qui est hypothèse et ce qu'il faut vérifier."
+        },
+        {
+          "title": "Lecture de permissions",
+          "body": "Pour trois exemples de droits fictifs, explique qui peut lire, écrire, exécuter, et quel risque cela crée pour un service.",
+          "solution": "Correction guidée : pour chaque droit, lis propriétaire/groupe/autres. Indique qui peut lire, écrire, exécuter. Le risque principal apparaît quand un fichier sensible est modifiable par un groupe trop large ou par 'others'."
+        }
+      ],
+      "en": [
+        {
+          "title": "Investigation without modification",
+          "body": "Write a procedure of up to 8 commands to understand a suspicious file: location, type, size, owner, permissions, related recent lines.",
+          "solution": "Guided correction: start with pwd, ls -la, file, stat, then read without modifying using less/head/tail. Only then filter useful logs. The conclusion should state what is observed, what is hypothesis, and what must be verified."
+        },
+        {
+          "title": "Permission reading",
+          "body": "For three fictional permission examples, explain who can read, write, execute, and what risk that creates for a service.",
+          "solution": "Guided correction: for each permission set, read owner/group/others. State who can read, write, execute. The main risk appears when a sensitive file is writable by a broad group or by 'others'."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Tu analyses un fichier inconnu sur un serveur. Quel réflexe vient avant suppression ?",
+          "options": [
+            "Observer type, chemin, propriétaire et contexte",
+            "Supprimer pour gagner du temps",
+            "Changer toutes les permissions"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un journal montre une erreur à 10:42. Quelle conclusion est correcte ?",
+          "options": [
+            "C'est un indice à corréler",
+            "C'est forcément la cause racine",
+            "Il faut ignorer l'heure"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Un fichier de configuration est modifiable par 'others'. Quel risque ?",
+          "options": [
+            "Modification non prévue par un utilisateur non autorisé",
+            "Lecture plus rapide",
+            "Moins de logs"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "You analyze an unknown file on a server. What comes before deletion?",
+          "options": [
+            "Observe type, path, owner, and context",
+            "Delete it to save time",
+            "Change all permissions"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A log shows an error at 10:42. What conclusion is correct?",
+          "options": [
+            "It is a clue to correlate",
+            "It is certainly the root cause",
+            "The time should be ignored"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A configuration file is writable by 'others'. What is the risk?",
+          "options": [
+            "Unexpected modification by an unauthorized user",
+            "Faster reading",
+            "Fewer logs"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "linux-service-hardening",
+    "categorySlug": "linux",
+    "level": "intermediate",
+    "isPremium": true,
+    "estimatedMinutes": 75,
+    "title": {
+      "fr": "Durcir un service Linux local",
+      "en": "Harden a local Linux service"
+    },
+    "summary": {
+      "fr": "Réduire les droits d'un service, limiter son exposition et préparer un retour arrière.",
+      "en": "Reduce service privileges, limit exposure, and prepare rollback."
+    },
+    "objectives": {
+      "fr": [
+        "Appliquer le moindre privilège",
+        "Limiter fichiers et réseau",
+        "Préparer une procédure de retour arrière"
+      ],
+      "en": [
+        "Apply least privilege",
+        "Limit files and network",
+        "Prepare a rollback procedure"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Shell Linux pour l'analyse",
+          "courseSlug": "linux-shell-basics"
+        },
+        {
+          "label": "Laboratoire local autorisé",
+          "courseSlug": "local-lab-vm-setup"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux shell for analysis",
+          "courseSlug": "linux-shell-basics"
+        },
+        {
+          "label": "Authorized local lab",
+          "courseSlug": "local-lab-vm-setup"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Surface de service",
+          "body": "Un service expose un port, lit des fichiers, écrit des données et tourne sous une identité. Le durcissement consiste à réduire chaque capacité au besoin strict."
+        },
+        {
+          "title": "Utilisateur dédié",
+          "body": "Un service ne devrait pas utiliser un compte humain ni un compte administrateur. Un utilisateur dédié limite les dégâts si le service se comporte mal ou reçoit une entrée inattendue."
+        },
+        {
+          "title": "Journaux et rollback",
+          "body": "Avant de durcir, note l'état initial et garde une méthode de retour arrière. Après changement, vérifie démarrage, journaux, accès attendu et absence de droits inutiles."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Le moindre privilège donne seulement les droits nécessaires. La surface d'exposition regroupe ports, fichiers, comptes et actions accessibles. Un rollback est une méthode de retour arrière testable."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Un service de lab tourne en root alors qu'il lit seulement un dossier et écoute localement. Tu crées un utilisateur dédié, limites les fichiers accessibles, vérifies le port exposé et gardes un plan de retour arrière avant de changer la configuration."
+        }
+      ],
+      "en": [
+        {
+          "title": "Service surface",
+          "body": "A service exposes a port, reads files, writes data, and runs under an identity. Hardening reduces each capability to strict need."
+        },
+        {
+          "title": "Dedicated user",
+          "body": "A service should not use a human account or administrator account. A dedicated user limits damage if the service misbehaves or receives unexpected input."
+        },
+        {
+          "title": "Logs and rollback",
+          "body": "Before hardening, record initial state and keep a rollback method. After changes, verify startup, logs, expected access, and absence of unnecessary rights."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "Least privilege gives only necessary rights. Exposure surface includes ports, files, accounts, and available actions. A rollback is a testable return method."
+        },
+        {
+          "title": "Scenario",
+          "body": "A lab service runs as root while it only reads a directory and listens locally. You create a dedicated user, limit accessible files, verify exposed port, and keep a rollback plan before changing configuration."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "systemd.exec",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html"
+        }
+      ],
+      "en": [
+        {
+          "label": "systemd.exec",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Plan de durcissement progressif",
+          "body": "Pour un service fictif, écris l'état initial, les droits nécessaires, les droits à retirer, la vérification après changement et le rollback.",
+          "solution": "Correction guidée : note l'état initial, l'utilisateur actuel, les ports exposés, les fichiers nécessaires, les droits à retirer, le test après changement et le rollback. Ne retire pas tout d'un coup : durcis, testes, documentes."
+        },
+        {
+          "title": "Analyse d'exposition",
+          "body": "Liste port, utilisateur, fichiers lus, fichiers écrits, journaux et dépendances. Pour chaque élément, indique 'nécessaire', 'à vérifier' ou 'à retirer'.",
+          "solution": "Correction guidée : classe chaque élément. Port attendu : nécessaire. Fichier lu par le service : nécessaire si justifié. Écriture hors dossier prévu : à retirer. Journaux : nécessaires. Dépendance inconnue : à vérifier avant changement."
+        }
+      ],
+      "en": [
+        {
+          "title": "Progressive hardening plan",
+          "body": "For a fictional service, write initial state, required rights, rights to remove, post-change verification, and rollback.",
+          "solution": "Guided correction: record initial state, current user, exposed ports, required files, rights to remove, post-change test, and rollback. Do not remove everything at once: harden, test, document."
+        },
+        {
+          "title": "Exposure analysis",
+          "body": "List port, user, read files, written files, logs, and dependencies. For each, mark 'necessary', 'to verify', or 'to remove'.",
+          "solution": "Guided correction: classify each item. Expected port: necessary. File read by service: necessary if justified. Write access outside expected directory: remove. Logs: necessary. Unknown dependency: verify before change."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Un service web local tourne en root sans besoin clair. Quelle action est la plus saine ?",
+          "options": [
+            "Créer un utilisateur dédié et tester",
+            "Laisser ainsi par confort",
+            "Supprimer les journaux"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Avant de durcir un service en production, que prépares-tu ?",
+          "options": [
+            "État initial, test et rollback",
+            "Seulement une intention",
+            "Un changement irréversible"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Après changement, le service démarre mais n'écrit plus ses logs. Quelle lecture ?",
+          "options": [
+            "Un droit nécessaire a peut-être été retiré",
+            "Le durcissement est forcément parfait",
+            "Les logs ne servent jamais"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "A local web service runs as root without a clear need. What is the healthiest action?",
+          "options": [
+            "Create a dedicated user and test",
+            "Leave it for comfort",
+            "Delete logs"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Before hardening a production service, what do you prepare?",
+          "options": [
+            "Initial state, test, and rollback",
+            "Only an intention",
+            "An irreversible change"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "After change, the service starts but no longer writes logs. What does that suggest?",
+          "options": [
+            "A necessary right may have been removed",
+            "Hardening is certainly perfect",
+            "Logs are never useful"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "linux-filesystem-permissions",
+    "categorySlug": "linux",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Fichiers, dossiers et permissions Linux",
+      "en": "Linux files, directories, and permissions"
+    },
+    "summary": {
+      "fr": "Lire les droits sans casser le système.",
+      "en": "Read permissions without breaking the system."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Utilisateur, groupe, autres, lecture, ecriture et exécution forment la base des droits Linux. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois comprendre pourquoi un script ne s'execute pas. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : mettre 777 pour aller vite. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : sortie ls -la, propriétaire, groupe, droits et besoin réel."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "User, group, others, read, write, and execute form the base of Linux permissions. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must understand why a script does not execute. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: using 777 to go faster. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: ls -la output, owner, group, permissions, and real need."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : sortie ls -la, propriétaire, groupe, droits et besoin réel."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: ls -la output, owner, group, permissions, and real need."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "sortie ls -la, propriétaire, groupe, droits et besoin réel",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "ls -la output, owner, group, permissions, and real need",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "linux-process-service-logs",
+    "categorySlug": "linux",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Processus, services et journaux Linux",
+      "en": "Linux processes, services, and logs"
+    },
+    "summary": {
+      "fr": "Comprendre ce qui tourne et ce que le système raconte.",
+      "en": "Understand what runs and what the system says."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Processus veut dire programme en cours, service veut dire processus géré, journal veut dire trace d'état ou d'erreur. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un service attendu ne repond plus dans un lab. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : redemarrer sans lire l'état ni le journal. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : état du service, port attendu, journal récent et changement connu."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Process means running program, service means managed process, log means state or error trace. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: an expected service no longer responds in a lab. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: restarting without reading state or logs. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: service state, expected port, recent log, and known change."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : état du service, port attendu, journal récent et changement connu."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: service state, expected port, recent log, and known change."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "état du service, port attendu, journal récent et changement connu",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "service state, expected port, recent log, and known change",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "linux-networking-tools",
+    "categorySlug": "linux",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Commandes réseau Linux utiles",
+      "en": "Useful Linux network commands"
+    },
+    "summary": {
+      "fr": "Utiliser les commandes de lecture réseau sans bruit inutile.",
+      "en": "Use network reading commands without useless noise."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "ip, ss, ping, dig et curl aident à lire adresse, ports, résolution et service. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois vérifier pourquoi un serveur local ne repond pas. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : lancer des tests actifs trop larges au lieu de lire l'état local. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : interface, route, port en écoute, résolution et réponse applicative."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "ip, ss, ping, dig, and curl help read address, ports, resolution, and service. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must verify why a local server does not respond. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: running overly broad active tests instead of reading local state. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: interface, route, listening port, resolution, and application response."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : interface, route, port en écoute, résolution et réponse applicative."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: interface, route, listening port, resolution, and application response."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "interface, route, port en écoute, résolution et réponse applicative",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "interface, route, listening port, resolution, and application response",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "linux-updates-backups-basics",
+    "categorySlug": "linux",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Mises à jour et sauvegardes Linux",
+      "en": "Linux updates and backups"
+    },
+    "summary": {
+      "fr": "Gerer le changement sans perdre l'état du système.",
+      "en": "Manage change without losing system state."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mise à jour veut dire changement logiciel, sauvegarde veut dire retour possible, rollback veut dire plan de retour arrière. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu prepares une mise à jour d'un petit service. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : mettre à jour sans savoir restaurer. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : état initial, sauvegarde, commande prévue, test après changement et rollback."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Update means software change, backup means possible return, rollback means backout plan. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you prepare an update for a small service. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: updating without knowing how to restore. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: initial state, backup, planned command, post-change test, and rollback."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux man-pages project",
+          "url": "https://www.kernel.org/doc/man-pages/"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : état initial, sauvegarde, commande prévue, test après changement et rollback."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: initial state, backup, planned command, post-change test, and rollback."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "état initial, sauvegarde, commande prévue, test après changement et rollback",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "initial state, backup, planned command, post-change test, and rollback",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

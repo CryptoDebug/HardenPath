@@ -1,0 +1,132 @@
+[
+  {
+    "slug": "network",
+    "icon": "Route",
+    "title": {
+      "fr": "Réseau",
+      "en": "Networking"
+    },
+    "description": {
+      "fr": "Protocoles, adressage, flux, segmentation et diagnostic défensif.",
+      "en": "Protocols, addressing, flows, segmentation, and defensive diagnostics."
+    },
+    "color": "mint"
+  },
+  {
+    "slug": "hardware-infrastructure",
+    "icon": "Server",
+    "title": {
+      "fr": "Hardware / Infrastructure",
+      "en": "Hardware / Infrastructure"
+    },
+    "description": {
+      "fr": "Machines, services, sauvegardes, exposition et durcissement.",
+      "en": "Machines, services, backups, exposure, and hardening."
+    },
+    "color": "amber"
+  },
+  {
+    "slug": "opsec",
+    "icon": "Fingerprint",
+    "title": {
+      "fr": "OpSec / Empreinte numérique",
+      "en": "OpSec / Digital footprint"
+    },
+    "description": {
+      "fr": "Hygiène numérique, exposition publique, confidentialité et réduction de traces.",
+      "en": "Digital hygiene, public exposure, privacy, and trace reduction."
+    },
+    "color": "coral"
+  },
+  {
+    "slug": "web-security",
+    "icon": "GlobeLock",
+    "title": {
+      "fr": "Web Security",
+      "en": "Web Security"
+    },
+    "description": {
+      "fr": "HTTP, formulaires, sessions, authentification et défense applicative.",
+      "en": "HTTP, forms, sessions, authentication, and application defense."
+    },
+    "color": "mint"
+  },
+  {
+    "slug": "linux",
+    "icon": "Terminal",
+    "title": {
+      "fr": "Linux",
+      "en": "Linux"
+    },
+    "description": {
+      "fr": "Shell, permissions, services, journaux, durcissement et exploitation quotidienne.",
+      "en": "Shell, permissions, services, logs, hardening, and daily operations."
+    },
+    "color": "amber"
+  },
+  {
+    "slug": "cryptography",
+    "icon": "KeyRound",
+    "title": {
+      "fr": "Cryptographie",
+      "en": "Cryptography"
+    },
+    "description": {
+      "fr": "Hash, chiffrement, signatures, mots de passe et erreurs courantes.",
+      "en": "Hashing, encryption, signatures, passwords, and common mistakes."
+    },
+    "color": "coral"
+  },
+  {
+    "slug": "forensics",
+    "icon": "Search",
+    "title": {
+      "fr": "Forensics",
+      "en": "Forensics"
+    },
+    "description": {
+      "fr": "Collecte, chronologie, artefacts, journaux et préservation de preuves.",
+      "en": "Collection, timelines, artifacts, logs, and evidence preservation."
+    },
+    "color": "mint"
+  },
+  {
+    "slug": "blue-team",
+    "icon": "Shield",
+    "title": {
+      "fr": "Blue Team",
+      "en": "Blue Team"
+    },
+    "description": {
+      "fr": "Détection, triage, réponse à incident et amélioration continue.",
+      "en": "Detection, triage, incident response, and continuous improvement."
+    },
+    "color": "amber"
+  },
+  {
+    "slug": "ethical-red-team",
+    "icon": "Crosshair",
+    "title": {
+      "fr": "Red Team éthique",
+      "en": "Ethical Red Team"
+    },
+    "description": {
+      "fr": "Cadrage, autorisation, preuves, reporting et laboratoires contrôlés.",
+      "en": "Scoping, authorization, evidence, reporting, and controlled labs."
+    },
+    "color": "coral"
+  },
+  {
+    "slug": "ctf-labs",
+    "icon": "Flag",
+    "title": {
+      "fr": "CTF / Labs",
+      "en": "CTF / Labs"
+    },
+    "description": {
+      "fr": "Défis isolés, méthode de résolution et validation de compétences.",
+      "en": "Isolated challenges, resolution method, and skill validation."
+    },
+    "color": "mint"
+  }
+]

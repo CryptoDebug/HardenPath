@@ -1,0 +1,887 @@
+[
+  {
+    "slug": "crypto-hashing-and-passwords",
+    "categorySlug": "cryptography",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Hash, sel et mots de passe",
+      "en": "Hashing, salt, and passwords"
+    },
+    "summary": {
+      "fr": "Comprendre ce qu'un hash protège, ce qu'il ne protège pas et pourquoi les mots de passe demandent un traitement spécial.",
+      "en": "Understand what a hash protects, what it does not protect, and why passwords need special handling."
+    },
+    "objectives": {
+      "fr": [
+        "Différencier hash, chiffrement et signature",
+        "Expliquer le rôle d'un sel",
+        "Identifier les erreurs fréquentes de stockage de mots de passe"
+      ],
+      "en": [
+        "Differentiate hashing, encryption, and signatures",
+        "Explain the role of salt",
+        "Identify common password storage mistakes"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : hash veut dire empreinte calculée depuis une donnee. Non réversible veut dire qu'on ne doit pas retrouver le texte original depuis l'empreinte. Sel veut dire valeur unique ajoutée pour casser les comparaisons. Fonction lente veut dire calcul volontairement coûteux pour ralentir les essais."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : deux personnes ont le même mot de passe. Sans sel, le hash peut être identique et donc facile a comparer. Avec un sel différent pour chacun, les empreintes changent. Avec une fonction lente adaptée, tester des millions de mots de passe devient beaucoup plus coûteux."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre hash et chiffrement. Le chiffrement se décrypte avec une clé. Un hash de mot de passe ne doit pas se décrypter. On vérifie un mot de passe en recalculant l'empreinte avec les bons paramètres, pas en récupérant le mot de passe."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : si tu peux expliquer hash, sel et lenteur avec une analogie, puis dire ou l'analogie s'arrete, tu comprends mieux que beaucoup de debutants. Le detail important est la vérification, pas la récupération."
+        },
+        {
+          "title": "Hash n'est pas chiffrement",
+          "body": "Un hash transforme une donnée en empreinte courte et vérifiable. Il ne se déchiffre pas. Deux données identiques donnent la même empreinte avec le même algorithme, ce qui permet de vérifier l'intégrité, mais aussi de comparer des valeurs."
+        },
+        {
+          "title": "Le sel cassé les comparaisons simples",
+          "body": "Un sel est une valeur unique ajoutée avant le calcul. Il empêche deux utilisateurs avec le même mot de passe d'avoir la même empreinte et rend les tables pré-calculées beaucoup moins utiles."
+        },
+        {
+          "title": "Mots de passe",
+          "body": "Les mots de passe humains sont souvent faibles. Ils doivent être traités avec des fonctions dédiées, lentes et paramétrables. La règle pratique : ne jamais stocker un mot de passe en clair, ne pas utiliser un hash rapide seul, et documenter les paramètres."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Un hash produit une empreinte. Un sel rend deux empreintes différentes même si deux mots de passe sont identiques. Une fonction de dérivation de mot de passe est volontairement coûteuse. Le chiffrement est réversible avec une clé, contrairement au hash."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Deux utilisateurs ont le même mot de passe. Sans sel, leurs empreintes se ressemblent et facilitent les comparaisons. Avec un sel unique et une fonction adaptée, chaque stockage devient plus difficile à attaquer massivement."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: hash means fingerprint computed from data. Non-reversible means the original text should not be recovered from the fingerprint. Salt means unique value added to break comparisons. Slow function means intentionally costly computation to slow attempts."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: two people use the same password. Without salt, the hash can be identical and easy to compare. With a different salt for each, fingerprints change. With a suitable slow function, testing millions of passwords becomes much more expensive."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing hash and encryption. Encryption decrypts with a key. A password hash should not decrypt. You verify a password by recomputing the fingerprint with the right parameters, not by recovering the password."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: if you can explain hash, salt, and slowness with an analogy, then say where the analogy stops, you understand more than many beginners. The key detail is verification, not recovery."
+        },
+        {
+          "title": "Hashing is not encryption",
+          "body": "A hash turns data into a short verifiable fingerprint. It is not decrypted. Identical data gives the same fingerprint with the same algorithm, which helps verify integrity but also compare values."
+        },
+        {
+          "title": "Salt breaks simple comparisons",
+          "body": "A salt is a unique value added before calculation. It prevents two users with the same password from having the same fingerprint and makes precomputed tables far less useful."
+        },
+        {
+          "title": "Passwords",
+          "body": "Human passwords are often weak. They need dedicated, slow, configurable functions. Practical rule: never store a password in clear text, do not use a fast hash alone, and document the parameters."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "A hash produces a fingerprint. A salt makes two fingerprints different even if two passwords are identical. A password derivation function is deliberately costly. Encryption is reversible with a key, unlike hashing."
+        },
+        {
+          "title": "Scenario",
+          "body": "Two users have the same password. Without salt, their fingerprints match and comparisons are easier. With unique salt and a suitable function, each stored value becomes harder to attack at scale."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "OWASP Password Storage Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+        }
+      ],
+      "en": [
+        {
+          "label": "OWASP Password Storage Cheat Sheet",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Analyse de stockage",
+          "body": "Compare trois stockages fictifs : mot de passe clair, SHA rapide sans sel, fonction lente avec sel. Pour chacun, note le risque et la correction.",
+          "solution": "Correction guidée : mot de passe clair = critique, correction immédiate. Hash rapide sans sel = comparaisons et attaques rapides, correction avec sel unique et fonction adaptée. Fonction lente avec sel = meilleure base, à documenter avec paramètres."
+        },
+        {
+          "title": "Expliquer sans jargon",
+          "body": "Explique à un collègue non technique la différence entre hash, chiffrement, sel et fonction lente avec une analogie prudente.",
+          "solution": "Correction guidée : hash = empreinte non réversible. Chiffrement = coffre ouvrable avec clé. Sel = valeur unique ajoutée pour casser les comparaisons. Fonction lente = ralentit les essais massifs. L'analogie doit préciser ses limites."
+        }
+      ],
+      "en": [
+        {
+          "title": "Storage analysis",
+          "body": "Compare three fictional storage choices: clear password, fast SHA without salt, slow function with salt. For each, record risk and correction.",
+          "solution": "Guided correction: clear password = critical, immediate correction. Fast hash without salt = comparisons and fast attacks, fix with unique salt and suitable function. Slow function with salt = better baseline, document parameters."
+        },
+        {
+          "title": "Explain without jargon",
+          "body": "Explain to a non-technical colleague the difference between hash, encryption, salt, and slow function using a careful analogy.",
+          "solution": "Guided correction: hash = non-reversible fingerprint. Encryption = locked box opened with a key. Salt = unique value added to break comparisons. Slow function = slows mass attempts. The analogy should state its limits."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Deux utilisateurs ont la même empreinte de mot de passe. Quelle hypothèse défensive ?",
+          "options": [
+            "Sel absent ou mal utilisé",
+            "Chiffrement parfait",
+            "MFA activé"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une équipe veut 'déchiffrer' un hash pour récupérer le mot de passe. Que réponds-tu ?",
+          "options": [
+            "Un hash ne se déchiffre pas ; on vérifie par comparaison contrôlée",
+            "Il suffit de demander la clé",
+            "Il faut changer le port"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Pourquoi une fonction lente aide contre les attaques de mots de passe ?",
+          "options": [
+            "Elle rend chaque essai plus coûteux",
+            "Elle raccourcit le mot de passe",
+            "Elle supprime le besoin de sel"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "Two users have the same password fingerprint. What defensive hypothesis appears?",
+          "options": [
+            "Salt is missing or misused",
+            "Perfect encryption",
+            "MFA enabled"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A team wants to 'decrypt' a hash to recover the password. What do you say?",
+          "options": [
+            "A hash is not decrypted; it is verified by controlled comparison",
+            "Just ask for the key",
+            "Change the port"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Why does a slow function help against password attacks?",
+          "options": [
+            "It makes each attempt more costly",
+            "It shortens the password",
+            "It removes the need for salt"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "symmetric-asymmetric-encryption",
+    "categorySlug": "cryptography",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Chiffrement symétrique et asymétrique",
+      "en": "Symmetric and asymmetric encryption"
+    },
+    "summary": {
+      "fr": "Comprendre les deux grandes familles de chiffrement.",
+      "en": "Understand the two major encryption families."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Symétrique veut dire même clé pour chiffrer et déchiffrer, asymétrique veut dire paire publique/privée. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu expliques comment protéger un message et partager une clé. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : confondre confidentialité, authenticité et intégrité. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : objectif de sécurité, type de clé, propriétaire de la clé et limite du modèle."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Symmetric means same key to encrypt and decrypt, asymmetric means public/private pair. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you explain how to protect a message and share a key. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: confusing confidentiality, authenticity, and integrity. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: security goal, key type, key owner, and model limit."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : objectif de sécurité, type de clé, propriétaire de la clé et limite du modèle."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: security goal, key type, key owner, and model limit."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "objectif de sécurité, type de clé, propriétaire de la clé et limite du modèle",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "security goal, key type, key owner, and model limit",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "pki-certificate-basics",
+    "categorySlug": "cryptography",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Certificats, PKI et confiance",
+      "en": "Certificates, PKI, and trust"
+    },
+    "summary": {
+      "fr": "Lire une chaîne de certificats sans magie.",
+      "en": "Read a certificate chain without magic."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Certificat lie une identité a une clé, autorite signe, chaîne relie le certificat a une racine de confiance. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : un navigateur signale un certificat invalide. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : accepter une alerte certificat pour gagner du temps. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : nom, dates, émetteur, chaîne, usage et contexte du service."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Certificate binds identity to key, authority signs, chain links certificate to a trusted root. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a browser reports an invalid certificate. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: accepting a certificate warning to save time. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: name, dates, issuer, chain, usage, and service context."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : nom, dates, émetteur, chaîne, usage et contexte du service."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: name, dates, issuer, chain, usage, and service context."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "nom, dates, émetteur, chaîne, usage et contexte du service",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "name, dates, issuer, chain, usage, and service context",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "signatures-integrity-basics",
+    "categorySlug": "cryptography",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Signatures et intégrité",
+      "en": "Signatures and integrity"
+    },
+    "summary": {
+      "fr": "Verifier qu'un contenu n'a pas ete modifié et vient de la bonne source.",
+      "en": "Verify content was not modified and comes from the right source."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Intégrité veut dire non modification, signature veut dire preuve liée à une clé privée, vérification utilise la clé publique. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu télécharges un outil de lab et veux vérifier sa provenance. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : vérifier seulement que le fichier se lance. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : hash attendu, signature valide, source officielle et date."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Integrity means not modified, signature means proof linked to a private key, verification uses the public key. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you download a lab tool and want to verify origin. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: checking only that the file runs. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: expected hash, valid signature, official source, and date."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : hash attendu, signature valide, source officielle et date."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: expected hash, valid signature, official source, and date."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "hash attendu, signature valide, source officielle et date",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "expected hash, valid signature, official source, and date",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "key-management-basics",
+    "categorySlug": "cryptography",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 65,
+    "title": {
+      "fr": "Gestion des clés",
+      "en": "Key management"
+    },
+    "summary": {
+      "fr": "Comprendre création, stockage, rotation et révocation.",
+      "en": "Understand creation, storage, rotation, and revocation."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Clé crée un pouvoir, stockage protege ce pouvoir, rotation limite la durée, révocation retire la confiance. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : une équipe trouve une clé ancienne dans un depot prive. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : supprimer la clé sans comprendre où elle est utilisee. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : usage de la clé, date, exposition, rotation, révocation et impact."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "A key creates power, storage protects that power, rotation limits duration, revocation removes trust. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: a team finds an old key in a private repository. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: deleting the key without understanding where it is used. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: key usage, date, exposure, rotation, revocation, and impact."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Cryptographic Standards and Guidelines",
+          "url": "https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : usage de la clé, date, exposition, rotation, révocation et impact."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: key usage, date, exposure, rotation, revocation, and impact."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "usage de la clé, date, exposition, rotation, révocation et impact",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "key usage, date, exposure, rotation, revocation, and impact",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]

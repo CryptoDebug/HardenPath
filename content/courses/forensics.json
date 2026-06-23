@@ -1,0 +1,897 @@
+[
+  {
+    "slug": "forensics-timeline-first-pass",
+    "categorySlug": "forensics",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Première chronologie forensic",
+      "en": "First forensic timeline"
+    },
+    "summary": {
+      "fr": "Construire une chronologie sobre à partir d'horodatages, journaux et artefacts sans surinterpréter.",
+      "en": "Build a sober timeline from timestamps, logs, and artifacts without overinterpreting."
+    },
+    "objectives": {
+      "fr": [
+        "Préserver le contexte d'une preuve",
+        "Aligner plusieurs horodatages",
+        "Séparer fait observé et hypothèse"
+      ],
+      "en": [
+        "Preserve evidence context",
+        "Align several timestamps",
+        "Separate observed fact and hypothesis"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Shell Linux pour l'analyse",
+          "courseSlug": "linux-shell-basics"
+        },
+        {
+          "label": "Notes de lab exploitables",
+          "courseSlug": "ctf-evidence-notes"
+        }
+      ],
+      "en": [
+        {
+          "label": "Linux shell for analysis",
+          "courseSlug": "linux-shell-basics"
+        },
+        {
+          "label": "Useful lab notes",
+          "courseSlug": "ctf-evidence-notes"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Mot par mot : forensic veut dire analyse de traces après un événement. Chronologie veut dire ordre des faits dans le temps. Artefact veut dire trace utile, comme journal, fichier, compte ou connexion. Hypothèse veut dire interprétation. Confiance veut dire force de la preuve."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Exemple guide : tu vois une connexion à 10:03, un fichier modifié à 10:05, puis une alerte à 10:08. Tu ne dis pas tout de suite 'attaque terminee'. Tu écris les faits, la source de chaque fait, le fuseau horaire, puis ce que tu peux supposer prudemment."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : raconter une histoire trop vite. Une chronologie n'est pas un roman, c'est une table de faits. Si l'heure vient de sources différentes ou de fuseaux différents, la conclusion doit rester prudente jusqu'a correlation."
+        },
+        {
+          "title": "Checkpoint débutant",
+          "body": "Checkpoint : chaque ligne devrait contenir heure, source, fait observé, hypothèse, confiance et question ouverte. Quand tu sépares ces colonnes, tu évites de transformer une impression en certitude."
+        },
+        {
+          "title": "Une chronologie n'est pas une histoire",
+          "body": "La chronologie liste d'abord des faits : heure, source, événement, confiance, commentaire. L'histoire vient après, quand plusieurs faits soutiennent une hypothèse."
+        },
+        {
+          "title": "Horodatages et fuseaux",
+          "body": "Deux journaux peuvent utiliser des fuseaux ou formats différents. Note toujours la source du temps, le fuseau supposé et les incertitudes. Un mauvais alignement peut créer une fausse séquence."
+        },
+        {
+          "title": "Confiance",
+          "body": "Chaque ligne mérite un niveau de confiance : observé directement, déduit, probable ou incertain. Cette discipline évite de transformer un indice faible en conclusion forte."
+        },
+        {
+          "title": "Définitions utiles",
+          "body": "Un artefact est une trace observable. Une chronologie ordonne les traces. Une hypothèse explique une séquence possible. Le niveau de confiance indique si l'information est observée, déduite, probable ou incertaine."
+        },
+        {
+          "title": "Mise en situation",
+          "body": "Trois journaux donnent des heures différentes autour d'une connexion suspecte. Avant de raconter une histoire, tu notes source, fuseau, précision et incertitude. La chronologie devient fiable parce qu'elle montre aussi ses limites."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Word by word: forensic means analyzing traces after an event. Timeline means ordering facts in time. Artifact means useful trace, such as log, file, account, or connection. Hypothesis means interpretation. Confidence means strength of evidence."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Guided example: you see a sign-in at 10:03, a file modified at 10:05, then an alert at 10:08. Do not immediately say 'attack complete'. Write the facts, source of each fact, time zone, then what you can carefully infer."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: telling a story too fast. A timeline is not a novel, it is a table of facts. If times come from different sources or time zones, the conclusion stays careful until correlation."
+        },
+        {
+          "title": "Beginner checkpoint",
+          "body": "Checkpoint: every line should contain time, source, observed fact, hypothesis, confidence, and open question. When you separate these columns, you avoid turning an impression into certainty."
+        },
+        {
+          "title": "A timeline is not a story",
+          "body": "A timeline first lists facts: time, source, event, confidence, comment. The story comes later, when several facts support a hypothesis."
+        },
+        {
+          "title": "Timestamps and time zones",
+          "body": "Two logs may use different time zones or formats. Always record time source, assumed time zone, and uncertainty. Bad alignment can create a false sequence."
+        },
+        {
+          "title": "Confidence",
+          "body": "Every line deserves a confidence level: directly observed, inferred, probable, or uncertain. This discipline avoids turning a weak clue into a strong conclusion."
+        },
+        {
+          "title": "Useful definitions",
+          "body": "An artifact is an observable trace. A timeline orders traces. A hypothesis explains a possible sequence. Confidence level shows whether information is observed, inferred, probable, or uncertain."
+        },
+        {
+          "title": "Scenario",
+          "body": "Three logs show different times around a suspicious sign-in. Before telling a story, you record source, time zone, precision, and uncertainty. The timeline becomes reliable because it also shows its limits."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST SP 800-86",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-86/final"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST SP 800-86",
+          "url": "https://csrc.nist.gov/publications/detail/sp/800-86/final"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Chronologie avec incertitude",
+          "body": "Crée 8 événements fictifs avec heure, source, fait observé, hypothèse, confiance et question ouverte. Ajoute un cas où le fuseau horaire change la lecture.",
+          "solution": "Correction guidée : chaque ligne doit contenir heure, source, fait observé, hypothèse, confiance et question ouverte. Si le fuseau change la lecture, note les deux interprétations avant de conclure."
+        },
+        {
+          "title": "Fait vs hypothèse",
+          "body": "Réécris 5 phrases trop affirmatives en séparant ce qui est observé de ce qui est seulement probable.",
+          "solution": "Correction guidée : transforme 'l'attaquant a exécuté X' en 'le journal Y indique l'événement X à telle heure ; hypothèse : exécution par tel compte ; confiance : moyenne ; vérification : corréler avec Z'."
+        }
+      ],
+      "en": [
+        {
+          "title": "Timeline with uncertainty",
+          "body": "Create 8 fictional events with time, source, observed fact, hypothesis, confidence, and open question. Add one case where time zone changes interpretation.",
+          "solution": "Guided correction: each line should contain time, source, observed fact, hypothesis, confidence, and open question. If time zone changes interpretation, record both readings before concluding."
+        },
+        {
+          "title": "Fact vs hypothesis",
+          "body": "Rewrite 5 overly assertive sentences by separating observed facts from what is only probable.",
+          "solution": "Guided correction: turn 'the attacker executed X' into 'log Y shows event X at this time; hypothesis: execution by this account; confidence: medium; verification: correlate with Z'."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Deux logs semblent inverser l'ordre des événements. Quel réflexe ?",
+          "options": [
+            "Vérifier fuseau, source de temps et précision",
+            "Choisir celui qui arrange l'histoire",
+            "Supprimer un log"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une ligne indique 'probable exécution'. Comment la noter ?",
+          "options": [
+            "Comme hypothèse avec niveau de confiance",
+            "Comme fait certain",
+            "Comme donnée inutile"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Pourquoi une chronologie ne doit-elle pas devenir trop vite un récit ?",
+          "options": [
+            "Le récit peut masquer les incertitudes",
+            "Les récits sont interdits",
+            "Les heures suffisent toujours"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "Two logs seem to reverse event order. What is the reflex?",
+          "options": [
+            "Check time zone, time source, and precision",
+            "Choose the one that fits the story",
+            "Delete one log"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A line says 'probable execution'. How do you record it?",
+          "options": [
+            "As a hypothesis with confidence level",
+            "As a certain fact",
+            "As useless data"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Why should a timeline not become a story too quickly?",
+          "options": [
+            "The story can hide uncertainty",
+            "Stories are forbidden",
+            "Times are always enough"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "evidence-preservation-basics",
+    "categorySlug": "forensics",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 55,
+    "title": {
+      "fr": "Préserver une preuve numérique",
+      "en": "Preserving digital evidence"
+    },
+    "summary": {
+      "fr": "Éviter de détruire l'information que l'on veut comprendre.",
+      "en": "Avoid destroying the information you want to understand."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Preuve veut dire élément observable, préservation veut dire limiter les modifications, chaîne veut dire historique de manipulation. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu découvres un poste suspect dans un exercice de lab. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : ouvrir partout et modifier les dates sans le savoir. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : heure, source, action réalisée, copie et personne responsable."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Evidence means observable element, preservation means limiting changes, chain means handling history. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you discover a suspicious host in a lab exercise. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: opening everything and unknowingly modifying timestamps. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: time, source, performed action, copy, and responsible person."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : heure, source, action réalisée, copie et personne responsable."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: time, source, performed action, copy, and responsible person."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "heure, source, action réalisée, copie et personne responsable",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "time, source, performed action, copy, and responsible person",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "system-artifacts-basics",
+    "categorySlug": "forensics",
+    "level": "beginner",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Artefacts système essentiels",
+      "en": "Essential system artifacts"
+    },
+    "summary": {
+      "fr": "Savoir quelles traces chercher au debut.",
+      "en": "Know which traces to look for first."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Artefact peut être journal, fichier, compte, processus, connexion, tâche planifiée ou historique. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois faire une première lecture d'un système de lab. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : chercher une trace spectaculaire avant les traces simples. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : liste d'artefacts, emplacement, heure, signification et limite."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Artifact can be log, file, account, process, connection, scheduled task, or history. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must do a first reading of a lab system. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: searching for spectacular traces before simple traces. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: artifact list, location, time, meaning, and limit."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : liste d'artefacts, emplacement, heure, signification et limite."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: artifact list, location, time, meaning, and limit."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "liste d'artefacts, emplacement, heure, signification et limite",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "artifact list, location, time, meaning, and limit",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "log-correlation-basics",
+    "categorySlug": "forensics",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 70,
+    "title": {
+      "fr": "Corrélation de journaux",
+      "en": "Log correlation"
+    },
+    "summary": {
+      "fr": "Relier plusieurs traces sans inventer l'histoire.",
+      "en": "Connect several traces without inventing the story."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Corrélation veut dire relier des événements par heure, compte, machine, source ou action. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : trois journaux racontent chacun une partie d'un incident. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : aligner les événements sans vérifier fuseau horaire et horloge. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : horodatage normalisé, source, événement, confiance et question ouverte."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Correlation means connecting events by time, account, machine, source, or action. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: three logs each tell part of an incident. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: aligning events without checking time zone and clock. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: normalized timestamp, source, event, confidence, and open question."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : horodatage normalisé, source, événement, confiance et question ouverte."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: normalized timestamp, source, event, confidence, and open question."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "horodatage normalisé, source, événement, confiance et question ouverte",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "normalized timestamp, source, event, confidence, and open question",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  },
+  {
+    "slug": "forensic-reporting-basics",
+    "categorySlug": "forensics",
+    "level": "intermediate",
+    "isPremium": false,
+    "estimatedMinutes": 60,
+    "title": {
+      "fr": "Rapport forensic lisible",
+      "en": "Readable forensic report"
+    },
+    "summary": {
+      "fr": "Transformer une analyse en récit factuel utile.",
+      "en": "Turn analysis into a useful factual narrative."
+    },
+    "objectives": {
+      "fr": [
+        "Comprendre le vocabulaire essentiel",
+        "Lire une situation simple sans paniquer",
+        "Produire une décision ou une note vérifiable"
+      ],
+      "en": [
+        "Understand essential vocabulary",
+        "Read a simple situation without panic",
+        "Produce a verifiable decision or note"
+      ]
+    },
+    "prerequisites": {
+      "fr": [
+        {
+          "label": "Aucun pré requis"
+        }
+      ],
+      "en": [
+        {
+          "label": "No prerequisite"
+        }
+      ]
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Mot par mot",
+          "body": "Rapport veut dire transmission, fait veut dire observation, hypothèse veut dire interprétation, recommandation veut dire prochaine action. Commence par nommer les éléments : acteur, actif, action, preuve, limite et décision. Un débutant progresse quand il transforme un mot vague en question observable."
+        },
+        {
+          "title": "Exemple guidé pas à pas",
+          "body": "Situation : tu dois expliquer une chronologie a une personne non technique. Tu lis d'abord le contexte, tu notes ce qui est certain, tu marques ce qui reste hypothétique, puis tu choisis la vérification la moins risquée."
+        },
+        {
+          "title": "Erreur classique à éviter",
+          "body": "Erreur classique : mélanger certitude, soupçon et conseil dans la même phrase. Le bon reflexe est de ralentir, séparer fait et interprétation, puis garder une trace de la décision."
+        },
+        {
+          "title": "Méthode à retenir",
+          "body": "Méthode : décris le périmètre, liste les preuves disponibles, choisis une seule vérification, note le résultat, puis decide l'étape suivante. La preuve attendue ici est : faits séparés des hypothèses, niveau de confiance et action conseillee."
+        }
+      ],
+      "en": [
+        {
+          "title": "Word by word",
+          "body": "Report means transmission, fact means observation, hypothesis means interpretation, recommendation means next action. Start by naming the elements: actor, asset, action, evidence, limit, and decision. A beginner progresses by turning vague words into observable questions."
+        },
+        {
+          "title": "Guided example step by step",
+          "body": "Situation: you must explain a timeline to a non-technical person. First read context, record what is certain, mark what remains hypothetical, then choose the least risky verification."
+        },
+        {
+          "title": "Common trap to avoid",
+          "body": "Common trap: mixing certainty, suspicion, and advice in one sentence. The right reflex is to slow down, separate fact and interpretation, then keep a trace of the decision."
+        },
+        {
+          "title": "Method to remember",
+          "body": "Method: describe scope, list available evidence, choose one verification, record the result, then decide next step. Expected evidence here is: facts separated from hypotheses, confidence level, and advised action."
+        }
+      ]
+    },
+    "resources": {
+      "fr": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ],
+      "en": [
+        {
+          "label": "NIST Digital Forensics",
+          "url": "https://www.nist.gov/forensics"
+        }
+      ]
+    },
+    "exercises": {
+      "fr": [
+        {
+          "title": "Fiche de mise en situation",
+          "body": "À partir du scenario du cours, rédige une fiche avec contexte, vocabulaire, preuve disponible, hypothèse, vérification et décision prudente.",
+          "solution": "Correction : la fiche doit contenir le contexte, les mots définis, au moins une preuve observable, une hypothèse marquee comme telle, une vérification non destructive et une décision justifiee. Preuve clé : faits séparés des hypothèses, niveau de confiance et action conseillee."
+        }
+      ],
+      "en": [
+        {
+          "title": "Scenario sheet",
+          "body": "Using the course scenario, write a sheet with context, vocabulary, available evidence, hypothesis, verification, and careful decision.",
+          "solution": "Correction: the sheet should contain context, defined words, at least one observable proof, a hypothesis marked as such, a non-destructive verification, and a justified decision. Key evidence: facts separated from hypotheses, confidence level, and advised action."
+        }
+      ]
+    },
+    "quiz": {
+      "fr": [
+        {
+          "question": "Dans cette situation, que faut-il séparer en premier ?",
+          "options": [
+            "Faits observes et interpretations",
+            "Opinion et vitesse",
+            "Couleurs et icônes"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Quelle vérification est la meilleure pour apprendre proprement ?",
+          "options": [
+            "Une vérification limitee, documentee et non destructive",
+            "Un changement massif sans note",
+            "Une supposition rapide"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Une bonne conclusion doit s'appuyer sur...",
+          "options": [
+            "faits séparés des hypothèses, niveau de confiance et action conseillee",
+            "Une impression seule",
+            "Une phrase vague"
+          ],
+          "correctOption": 0
+        }
+      ],
+      "en": [
+        {
+          "question": "In this situation, what should be separated first?",
+          "options": [
+            "Observed facts and interpretations",
+            "Opinion and speed",
+            "Colors and icons"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "Which verification is best for clean learning?",
+          "options": [
+            "A limited, documented, non-destructive check",
+            "A massive undocumented change",
+            "A fast assumption"
+          ],
+          "correctOption": 0
+        },
+        {
+          "question": "A good conclusion should rely on...",
+          "options": [
+            "facts separated from hypotheses, confidence level, and advised action",
+            "A feeling only",
+            "A vague sentence"
+          ],
+          "correctOption": 0
+        }
+      ]
+    }
+  }
+]
