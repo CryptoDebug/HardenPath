@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n-client";
 
 export type ExamQuestion = {
   correctOption: number;
+  disqualifyingOptions?: number[];
   explanation: Record<Locale, string>;
   options: Record<Locale, string[]>;
   question: Record<Locale, string>;
@@ -251,17 +252,18 @@ function buildQuestions(input: ExamInput): ExamQuestion[] {
     },
     {
       question: {
-        fr: "Quelle réponse doit déclencher un échec automatique ?",
-        en: "Which answer should trigger an automatic fail?"
+        fr: "Quelle action choisis-tu face à des traces incomplètes ?",
+        en: "Which action do you choose when evidence is incomplete?"
       },
       options: {
-        fr: ["Supprimer des traces pour simplifier le rapport", "Préserver les preuves disponibles", "Expliquer ce qui manque"],
-        en: ["Delete traces to simplify the report", "Preserve available evidence", "Explain what is missing"]
+        fr: ["Préserver les preuves et expliquer ce qui manque", "Inventer une chronologie plausible", "Supprimer les traces gênantes"],
+        en: ["Preserve evidence and explain what is missing", "Invent a plausible timeline", "Delete inconvenient traces"]
       },
       correctOption: 0,
+      disqualifyingOptions: [2],
       explanation: {
-        fr: "Supprimer ou cacher une trace est incompatible avec une validation professionnelle.",
-        en: "Deleting or hiding a trace is incompatible with professional validation."
+        fr: "Préserver les preuves et documenter les limites est indispensable. Supprimer une trace provoque un échec automatique.",
+        en: "Preserving evidence and documenting limits is mandatory. Deleting evidence triggers an automatic fail."
       }
     },
     {

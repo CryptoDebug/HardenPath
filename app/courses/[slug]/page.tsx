@@ -12,6 +12,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { getCourseCompletion, userHasPremium } from "@/lib/learning";
+import { presentCourseQuestions } from "@/lib/assessment";
 
 export function generateStaticParams() {
   return courses.map((course) => ({ slug: course.slug }));
@@ -54,6 +55,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
       })
     : [];
   const initialQuizPassed = passedAttempts.some((attempt) => attempt.score === attempt.maxScore);
+  const publicQuestions = presentCourseQuestions(course.quiz[locale], `${session?.user?.id ?? "guest"}:${course.slug}`);
 
   if (!session?.user?.id) {
     return (
@@ -164,7 +166,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
             initialCompleted={completion.completed}
             initialQuizPassed={initialQuizPassed}
             locale={locale}
-            questions={course.quiz[locale]}
+            questions={publicQuestions}
           />
 
           <section className="mt-8">

@@ -10,6 +10,7 @@ import { getBeginnerExam, getBeginnerExamRequirement, getBeginnerExamStaticParam
 import { authOptions } from "@/lib/auth";
 import { getLocale } from "@/lib/i18n";
 import { getCompletedCourseSlugs } from "@/lib/learning";
+import { presentExamQuestions } from "@/lib/assessment";
 
 type BeginnerExamPageProps = {
   params: Promise<{
@@ -37,6 +38,10 @@ export default async function BeginnerExamPage({ params }: BeginnerExamPageProps
   const completed = requirement.courseSlugs.filter((slug) => completedSlugs.includes(slug)).length;
   const completionPercent = requirement.total > 0 ? Math.round((completed / requirement.total) * 100) : 0;
   const unlocked = Boolean(session?.user?.id) && completed === requirement.total;
+  const publicExam = {
+    ...exam,
+    questions: presentExamQuestions(exam.questions, locale, `${session?.user?.id ?? "guest"}:${categorySlug}:beginner`)
+  };
 
   const copy = {
     fr: {
@@ -128,7 +133,7 @@ export default async function BeginnerExamPage({ params }: BeginnerExamPageProps
             </p>
           </div>
         ) : (
-          <BeginnerExamPanel exam={exam} locale={locale} />
+          <BeginnerExamPanel exam={publicExam} locale={locale} />
         )}
       </section>
 

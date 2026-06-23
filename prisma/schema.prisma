@@ -42,12 +42,14 @@ model User {
   passwordHash  String?
   role          String          @default("USER")
   streakDays    Int             @default(0)
+  lastLearningAt DateTime?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   accounts      Account[]
   sessions      Session[]
   progress      Progress[]
   quizAttempts  QuizAttempt[]
+  examAttempts  ExamAttempt[]
   userBadges    UserBadge[]
   subscriptions Subscription[]
 }
@@ -154,6 +156,23 @@ model QuizAttempt {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ExamAttempt {
+  id               String   @id @default(cuid())
+  userId           String
+  categorySlug     String
+  level            String
+  score            Int
+  maxScore         Int
+  passed           Boolean
+  disqualified     Boolean  @default(false)
+  answers           Json
+  writtenResponses Json
+  completedAt      DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, categorySlug, completedAt])
+}
+
 model Progress {
   id          String         @id @default(cuid())
   userId      String
@@ -168,6 +187,15 @@ model Progress {
   user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId, lessonId])
+}
+
+model RateLimitBucket {
+  key       String   @id @db.VarChar(128)
+  count     Int
+  resetAt   DateTime
+  updatedAt DateTime @updatedAt
+
+  @@index([resetAt])
 }
 
 model Badge {
@@ -217,4 +245,6 @@ model Subscription {
   updatedAt         DateTime           @updatedAt
   plan              Plan               @relation(fields: [planId], references: [id])
   user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, currentPeriodEnd])
 }

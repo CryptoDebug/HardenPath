@@ -5,10 +5,16 @@ import { getCategory } from "@/content/catalog";
 import { getBeginnerExam, getBeginnerExamRequirement } from "@/content/exams";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { gradeQuestions, hasCompleteAnswerSet } from "@/lib/assessment";
 
 const attemptSchema = z.object({
-  answers: z.array(z.number().int().min(0)),
-  categorySlug: z.string().min(1)
+  answers: z.array(z.object({
+    optionId: z.string().regex(/^o-\d+$/),
+    questionId: z.string().regex(/^q-\d+$/)
+  })),
+  categorySlug: z.string().min(1),
+  locale: z.enum(["fr", "en"]),
+  writtenResponses: z.array(z.string().trim().min(120).max(4_000))
 });
 
 export async function POST(request: Request) {
@@ -31,8 +37,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Exam is not available." }, { status: 404 });
   }
 
-  if (parsed.data.answers.length !== exam.questions.length) {
+  if (!hasCompleteAnswerSet(exam.questions.length, parsed.data.answers)) {
     return NextResponse.json({ error: "All questions must be answered." }, { status: 400 });
+  }
+
+  if (parsed.data.writtenResponses.length !== exam.tasks.length) {
+    return NextResponse.json({ error: "Every written task must be completed." }, { status: 400 });
   }
 
   const requirement = getBeginnerExamRequirement(parsed.data.categorySlug);
@@ -53,9 +63,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "All beginner courses must be completed before taking this exam." }, { status: 403 });
   }
 
-  const correctAnswers = exam.questions.reduce((total, question, index) => total + (parsed.data.answers[index] === question.correctOption ? 1 : 0), 0);
-  const score = Math.round((correctAnswers / exam.questions.length) * 100);
-  const passed = score >= exam.passingScore;
+  const grading = gradeQuestions(exam.questions, parsed.data.answers, parsed.data.locale);
+  const score = Math.round((grading.correct / grading.maxScore) * 100);
+  const passed = !grading.disqualified && score >= exam.passingScore;
   const badgeSlug = `${category.slug}-bronze`;
 
   const badge = passed
@@ -79,6 +89,21 @@ export async function POST(request: Request) {
         }
       })
     : null;
+
+  const savedAttempt = await prisma.examAttempt.create({
+    data: {
+      answers: parsed.data.answers,
+      categorySlug: category.slug,
+      disqualified: grading.disqualified,
+      level: "beginner",
+      maxScore: grading.maxScore,
+      passed,
+      score,
+      userId: session.user.id,
+      writtenResponses: parsed.data.writtenResponses
+    },
+    select: { id: true }
+  });
 
   const awardedBadge = badge
     ? await prisma.userBadge.upsert({
@@ -122,10 +147,13 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     attempt: {
-      maxScore: exam.questions.length,
+      disqualified: grading.disqualified,
+      id: savedAttempt.id,
+      maxScore: grading.maxScore,
       passed,
       score
     },
-    awardedBadge: awardedBadge?.badge ?? null
+    awardedBadge: awardedBadge?.badge ?? null,
+    review: grading.results
   });
 }

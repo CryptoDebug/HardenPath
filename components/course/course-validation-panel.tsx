@@ -3,8 +3,8 @@
 import { useCallback, useState } from "react";
 import { QuizPreview } from "@/components/course/quiz-preview";
 import { CompleteLessonButton } from "@/components/progress/complete-lesson-button";
-import type { QuizQuestion } from "@/content/catalog";
 import type { Locale } from "@/lib/i18n-client";
+import type { AssessmentQuestion } from "@/types/assessment";
 
 type CourseValidationPanelProps = {
   completeLabel: string;
@@ -12,7 +12,7 @@ type CourseValidationPanelProps = {
   initialCompleted: boolean;
   initialQuizPassed: boolean;
   locale: Locale;
-  questions: QuizQuestion[];
+  questions: AssessmentQuestion[];
 };
 
 export function CourseValidationPanel({

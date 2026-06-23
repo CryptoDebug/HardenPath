@@ -2,15 +2,15 @@
 
 import { CheckCircle2, Circle, ListChecks, RotateCcw, Target, XCircle } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { QuizQuestion } from "@/content/catalog";
 import type { Locale } from "@/lib/i18n-client";
+import type { AssessmentAnswer, AssessmentQuestion, AssessmentReview } from "@/types/assessment";
 
 type QuizPreviewProps = {
   courseSlug: string;
   initialPassed?: boolean;
   locale: Locale;
   onPassedChange?: (passed: boolean) => void;
-  questions: QuizQuestion[];
+  questions: AssessmentQuestion[];
 };
 
 const copy = {
@@ -47,19 +47,23 @@ const copy = {
 } satisfies Record<Locale, Record<string, string>>;
 
 export function QuizPreview({ courseSlug, initialPassed = false, locale, onPassedChange, questions }: QuizPreviewProps) {
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [review, setReview] = useState<Record<string, AssessmentReview>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
   const [serverPassed, setServerPassed] = useState(initialPassed);
-  const score = questions.reduce((total, question, index) => total + (answers[index] === question.correctOption ? 1 : 0), 0);
+  const score = Object.values(review).filter((result) => result.correct).length;
   const answeredCount = Object.keys(answers).length;
   const progress = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
   const isComplete = answeredCount === questions.length;
-  const answerList = useMemo(() => questions.map((_, index) => answers[index]), [answers, questions]);
+  const answerList = useMemo<AssessmentAnswer[]>(
+    () => questions.filter((question) => answers[question.id]).map((question) => ({ questionId: question.id, optionId: answers[question.id] })),
+    [answers, questions]
+  );
   const labels = copy[locale];
 
   useEffect(() => {
-    if (!isComplete || answerList.some((answer) => answer === undefined)) {
+    if (!isComplete) {
       if (!initialPassed) {
         onPassedChange?.(false);
       }
@@ -93,8 +97,9 @@ export function QuizPreview({ courseSlug, initialPassed = false, locale, onPasse
         return;
       }
 
-      const payload = (await response.json()) as { attempt?: { passed?: boolean } };
+      const payload = (await response.json()) as { attempt?: { passed?: boolean }; review?: AssessmentReview[] };
       const passed = Boolean(payload.attempt?.passed);
+      setReview(Object.fromEntries((payload.review ?? []).map((result) => [result.questionId, result])));
       setServerPassed((current) => current || passed);
       onPassedChange?.(passed || initialPassed);
     }
@@ -110,6 +115,7 @@ export function QuizPreview({ courseSlug, initialPassed = false, locale, onPasse
 
   function resetAnswers() {
     setAnswers({});
+    setReview({});
     setServerError("");
     if (!initialPassed) {
       setServerPassed(false);
@@ -162,33 +168,36 @@ export function QuizPreview({ courseSlug, initialPassed = false, locale, onPasse
 
       <div className="grid gap-0 divide-y divide-white/10">
         {questions.map((question, index) => (
-          <fieldset className="p-4 sm:p-5" key={question.question}>
+          <fieldset className="p-4 sm:p-5" key={question.id}>
             <legend className="float-left w-full">
               <div className="flex items-start gap-3">
                 <span className="mt-0.5 shrink-0 rounded-sm border border-white/10 bg-white/[0.055] px-2 py-1 font-mono text-[0.7rem] font-bold text-steel">
                   Q{String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="hp-wrap min-w-0 text-base font-black leading-6 text-white">{question.question}</span>
+                <span className="hp-wrap min-w-0 text-base font-black leading-6 text-white">{question.prompt}</span>
               </div>
             </legend>
             <div className="clear-both mt-4 grid gap-2">
-              {question.options.map((option, optionIndex) => (
+              {question.options.map((option) => (
                 <QuizOption
-                  checked={answers[index] === optionIndex}
-                  correct={question.correctOption === optionIndex}
-                  key={option}
+                  checked={answers[question.id] === option.id}
+                  correct={review[question.id]?.correctOptionId === option.id}
+                  key={option.id}
                   name={`question-${index}`}
-                  onSelect={() => setAnswers((current) => ({ ...current, [index]: optionIndex }))}
-                  option={option}
-                  revealed={answers[index] !== undefined}
+                  onSelect={() => {
+                    setAnswers((current) => ({ ...current, [question.id]: option.id }));
+                    setReview({});
+                  }}
+                  option={option.label}
+                  revealed={Boolean(review[question.id])}
                   selectLabel={labels.select}
-                  wrong={answers[index] === optionIndex && answers[index] !== question.correctOption}
+                  wrong={Boolean(review[question.id] && answers[question.id] === option.id && !review[question.id].correct)}
                 />
               ))}
             </div>
-            {answers[index] !== undefined ? (
+            {review[question.id] ? (
               <div className="mt-3 flex items-center gap-2 text-xs font-black uppercase">
-                {answers[index] === question.correctOption ? (
+                {review[question.id].correct ? (
                   <>
                     <CheckCircle2 aria-hidden className="h-4 w-4 text-mint" />
                     <span className="text-mint">{labels.feedbackCorrect}</span>
