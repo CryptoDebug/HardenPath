@@ -3,6 +3,7 @@
 import { signIn, signOut, useSession, SessionProvider } from "next-auth/react";
 import { useState } from "react";
 import { LogIn, LogOut, UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type AccountDictionary = {
   email: string;
@@ -12,6 +13,16 @@ type AccountDictionary = {
   register: string;
   signout: string;
   localAuth: string;
+  signinTitle: string;
+  signinBody: string;
+  registerTitle: string;
+  registerBody: string;
+  submitting: string;
+  sessionActive: string;
+  databaseUnavailable: string;
+  invalidCredentials: string;
+  accountExists: string;
+  genericError: string;
 };
 
 type AuthPanelProps = {
@@ -19,45 +30,72 @@ type AuthPanelProps = {
 };
 
 function AuthForms({ dictionary }: AuthPanelProps) {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [mode, setMode] = useState<"signin" | "register">("signin");
-  const [message, setMessage] = useState("");
+  const [feedback, setFeedback] = useState<{ message: string; tone: "error" | "success" } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  function changeMode(nextMode: "signin" | "register") {
+    setMode(nextMode);
+    setFeedback(null);
+  }
 
   async function handleSubmit(formData: FormData) {
-    setMessage("");
+    setFeedback(null);
+    setIsSubmitting(true);
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
 
-    if (mode === "register") {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: String(formData.get("name")),
-          email,
-          password
-        })
+    try {
+      if (mode === "register") {
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: String(formData.get("name")),
+            email,
+            password
+          })
+        });
+        const payload = (await response.json().catch(() => null)) as { code?: string } | null;
+
+        if (!response.ok) {
+          const message =
+            payload?.code === "ACCOUNT_EXISTS"
+              ? dictionary.accountExists
+              : payload?.code === "DATABASE_UNAVAILABLE"
+                ? dictionary.databaseUnavailable
+                : dictionary.genericError;
+          setFeedback({ message, tone: "error" });
+          return;
+        }
+      }
+
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false
       });
 
-      if (!response.ok) {
-        setMessage("Account creation failed.");
+      if (!result?.ok) {
+        setFeedback({ message: dictionary.invalidCredentials, tone: "error" });
         return;
       }
+
+      setFeedback({ message: dictionary.sessionActive, tone: "success" });
+      router.refresh();
+    } catch {
+      setFeedback({ message: dictionary.databaseUnavailable, tone: "error" });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false
-    });
-
-    setMessage(result?.ok ? "Session active." : "Access failed.");
   }
 
   if (status === "authenticated") {
     return (
       <div className="hp-ledger rounded-sm p-5">
-        <p className="hp-kicker">session active</p>
+        <p className="hp-kicker">{dictionary.sessionActive}</p>
         <p className="hp-wrap mt-1 text-lg font-semibold text-white">{session.user?.email}</p>
         <button
           className="focus-ring mt-5 inline-flex items-center gap-2 rounded-sm border border-white/10 bg-white/[0.07] px-4 py-3 text-sm font-black text-white transition hover:border-steel/40 hover:bg-white/10"
@@ -73,22 +111,28 @@ function AuthForms({ dictionary }: AuthPanelProps) {
 
   return (
     <div className="hp-ledger rounded-sm p-5">
-      <div className="flex flex-wrap gap-2">
+      <div aria-label={dictionary.localAuth} className="grid grid-cols-2 gap-2" role="tablist">
         <button
+          aria-selected={mode === "signin"}
           className={`focus-ring inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-black ${
             mode === "signin" ? "bg-mint text-ink" : "bg-white/[0.08] text-white"
           }`}
-          onClick={() => setMode("signin")}
+          disabled={isSubmitting}
+          onClick={() => changeMode("signin")}
+          role="tab"
           type="button"
         >
           <LogIn aria-hidden className="h-4 w-4" />
           {dictionary.signin}
         </button>
         <button
+          aria-selected={mode === "register"}
           className={`focus-ring inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-black ${
             mode === "register" ? "bg-amber text-ink" : "bg-white/[0.08] text-white"
           }`}
-          onClick={() => setMode("register")}
+          disabled={isSubmitting}
+          onClick={() => changeMode("register")}
+          role="tab"
           type="button"
         >
           <UserPlus aria-hidden className="h-4 w-4" />
@@ -96,7 +140,12 @@ function AuthForms({ dictionary }: AuthPanelProps) {
         </button>
       </div>
 
-      <form action={handleSubmit} className="mt-5 grid gap-4">
+      <div className="mt-5 border-b border-white/10 pb-4">
+        <h2 className="hp-wrap text-xl font-black text-white">{mode === "signin" ? dictionary.signinTitle : dictionary.registerTitle}</h2>
+        <p className="hp-wrap mt-2 text-sm leading-6 text-slate-300">{mode === "signin" ? dictionary.signinBody : dictionary.registerBody}</p>
+      </div>
+
+      <form action={handleSubmit} className="mt-4 grid gap-4">
         {mode === "register" ? (
           <label className="grid gap-2 text-sm font-semibold text-slate-200">
             {dictionary.name}
@@ -127,10 +176,19 @@ function AuthForms({ dictionary }: AuthPanelProps) {
             type="password"
           />
         </label>
-        <button className="hp-button-primary justify-center" type="submit">
-          {mode === "signin" ? dictionary.signin : dictionary.register}
+        <button className="hp-button-primary justify-center disabled:cursor-wait disabled:opacity-60" disabled={isSubmitting} type="submit">
+          {isSubmitting ? dictionary.submitting : mode === "signin" ? dictionary.signin : dictionary.register}
         </button>
-        {message ? <p className="hp-wrap text-sm font-semibold text-amber">{message}</p> : null}
+        {feedback ? (
+          <p
+            aria-live="polite"
+            className={`hp-wrap rounded-sm border p-3 text-sm font-semibold ${
+              feedback.tone === "success" ? "border-mint/30 bg-mint/[0.08] text-mint" : "border-amber/30 bg-amber/[0.08] text-amber"
+            }`}
+          >
+            {feedback.message}
+          </p>
+        ) : null}
       </form>
     </div>
   );

@@ -47,7 +47,17 @@
     "signin": "Sign in",
     "register": "Create account",
     "signout": "Sign out",
-    "localAuth": "Learner access"
+    "localAuth": "Learner access",
+    "signinTitle": "Sign in to your path",
+    "signinBody": "Resume your progress, validations, and badges.",
+    "registerTitle": "Create your learner account",
+    "registerBody": "Choose a username, then enter your email and a password of at least 8 characters.",
+    "submitting": "Checking...",
+    "sessionActive": "Session active",
+    "databaseUnavailable": "The database is unavailable. Start Docker Desktop and PostgreSQL, then try again.",
+    "invalidCredentials": "Unable to sign in. Check your credentials and make sure PostgreSQL is running.",
+    "accountExists": "An account already uses this email address.",
+    "genericError": "The request could not be completed. Check the fields and try again."
   },
   "ethics": {
     "title": "HardenPath rules of engagement",
