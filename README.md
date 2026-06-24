@@ -33,7 +33,7 @@ Privacy behavior and operator responsibilities are documented in [`PRIVACY.md`](
 
 ### Requirements
 
-- Node.js 22 or newer
+- Node.js 22.13 or newer (or Node.js 24+)
 - npm
 - Docker Desktop or another Docker Compose compatible runtime
 - Git
@@ -74,8 +74,12 @@ Required variables:
 - `POSTGRES_DB`: database name created by Docker Compose.
 - `POSTGRES_USER`: PostgreSQL user created by Docker Compose.
 - `POSTGRES_PASSWORD`: PostgreSQL password. Change it for production.
+- `POSTGRES_PORT`: host port used for local PostgreSQL access (defaults to `5433`).
 - `NEXTAUTH_URL`: public URL of the app, usually `http://localhost:3000` locally.
 - `NEXTAUTH_SECRET`: random secret used by NextAuth. Generate a strong one before real use.
+
+When accessing the development server through another network interface, set
+`ALLOWED_DEV_ORIGINS` to a comma-separated list of hostnames or IP addresses.
 
 ### Daily Development
 
@@ -165,7 +169,7 @@ npm run test:e2e
 
 Integration tests require a migrated and seeded PostgreSQL database. End-to-end tests install Chromium once with `npx playwright install chromium`.
 
-The app service in `docker-compose.yml` connects to PostgreSQL through the internal Docker hostname `db`. Local Prisma commands connect to `localhost:5432` through `DATABASE_URL`.
+The app service in `docker-compose.yml` connects to PostgreSQL through the internal Docker hostname `db`. Local Prisma commands connect to `localhost:5433` by default through `DATABASE_URL`; change both `POSTGRES_PORT` and `DATABASE_URL` together if you need another host port.
 
 ## Content Model
 
